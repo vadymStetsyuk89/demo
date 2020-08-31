@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<viewBase:ContentPageBase
+    x:Class="PeakMVP.Views.Authorization.CreateProfileView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:converters="clr-namespace:PeakMVP.Converters"
+    xmlns:extensions="clr-namespace:PeakMVP.Extensions"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:viewBase="clr-namespace:PeakMVP.Views.Base"
+    xmlns:viewModelBase="clr-namespace:PeakMVP.ViewModels.Base"
+    viewModelBase:ViewModelLocator.AutoWireViewModel="True"
+    NavigationPage.HasNavigationBar="False">
+
+    <viewBase:ContentPageBase.Resources>
+        <ResourceDictionary>
+            <converters:BoolToGenericObjectConverter
+                x:Key="boolToColorConverter"
+                x:TypeArguments="Color"
+                FalseObject="{StaticResource LightBlueColor}"
+                TrueObject="{StaticResource BlueColor}" />
+        </ResourceDictionary>
+    </viewBase:ContentPageBase.Resources>
+
+    <!--  MAIN CONTENT  -->
+    <viewBase:ContentPageBase.MainContent>
+
+        <controls:ExtendedScrollView BackgroundColor="{StaticResource MainBackgroundColor}" RequestToScrollToEndCommand="{Binding Path=RequestToScrollToEndCommand}">
+            <StackLayout
+                Padding="20"
+                BackgroundColor="{StaticResource MainBackgroundColor}"
+                VerticalOptions="Start">
+
+                <!--  Back button command  -->
+                <ffimageloading:CachedImage
+                    CacheType="All"
+                    HeightRequest="25"
+                    HorizontalOptions="Start"
+                    Scale="1.2"
+                    Source="{extensions:ImageResource PeakMVP.Images.ic_back_button_dark.png}"
+                    VerticalOptions="Start"
+                    WidthRequest="25">
+                    <ffimageloading:CachedImage.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding BackCommand}" />
+                    </ffimageloading:CachedImage.GestureRecognizers>
+                </ffimageloading:CachedImage>
+
+                <StackLayout Padding="0,40">
+                    <!--  LOGO  -->
+                    <Grid
+                        Margin="0,0,0,40"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Center">
+                        <ffimageloading:CachedImage
+                            CacheType="All"
+                            DownsampleToViewSize="true"
+                            HeightRequest="60"
+                            HorizontalOptions="Center"
+                            Source="{extensions:ImageResource PeakMVP.Images.ic_logo-colored_2x.png}"
+                            WidthRequest="80" />
+                        <StackLayout
+                            Margin="0,-7,0,0"
+                            HorizontalOptions="End"
+                            Spacing="0"
+                            VerticalOptions="Center">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Path=LoginCommand}" />
+                            </StackLayout.GestureRecognizers>
+                            <Label
+                                FontSize="{StaticResource MediumSize}"
+                                HorizontalOptions="Center"
+                                Text="Login"
+                                TextColor="{StaticResource BlueColor}"
+                                VerticalOptions="Center" />
+                            <BoxView HeightRequest="1" Color="{StaticResource BlueColor}" />
+                        </StackLayout>
+                    </Grid>
+
+                    <Label
+                        Margin="0,5"
+                        FontFamily="{StaticResource MontserratBold}"
+                        FontSize="{StaticResource LargerSize}"
+                        HorizontalOptions="Center"
+                        Text="Create Profile"
+                        TextColor="{StaticResource BlackColor}" />
+
+                    <Label
+                        Margin="0,5"
+                        FontSize="{StaticResource MediumSize}"
+                        HorizontalOptions="Center"
+                        Text="Who are you?"
+                        TextColor="{StaticResource BlackColor}" />
+
+                    <Label
+                        Margin="0,5"
+                        FontSize="{StaticResource MediumSize}"
+                        HorizontalOptions="Center"
+                        Text="Choose from the choices below"
+                        TextColor="{StaticResource GrayColor}" />
+                </StackLayout>
+
+                <!--  PROFILE ITEMS  -->
+                <controls:WrapLayout
+                    Margin="0,30"
+                    ItemsSource="{Binding ProfileTypeItems, Mode=OneWay}"
+                    SelectedItem="{Binding SelectedItem, Mode=TwoWay}" />
+
+                <Label
+                    Margin="0,15"
+                    FontSize="{StaticResource MediumSize}"
+                    HorizontalOptions="Center"
+                    HorizontalTextAlignment="Center"
+                    Text="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid culpa ipsam maiores modi totam. Alias doloremque laboriosam mollitia nulla velit."
+                    TextColor="{StaticResource GrayColor}" />
+
+                <!--  BUTTON  -->
+                <controls:ExtendedContentView
+                    Margin="15"
+                    BackgroundColor="{Binding AllowedContinue, Converter={StaticResource boolToColorConverter}}"
+                    BorderThickness="2"
+                    CornerRadius="5"
+                    HeightRequest="60"
+                    IsEnabled="{Binding AllowedContinue}"
+                    WidthRequest="80">
+                    <controls:ExtendedContentView.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ContinueCommand}" NumberOfTapsRequired="1" />
+                    </controls:ExtendedContentView.GestureRecognizers>
+                    <Label
+                        FontFamily="{StaticResource MontserratBold}"
+                        FontSize="{StaticResource MediumSize}"
+                        HorizontalOptions="Center"
+                        Text="CONTINUE"
+                        TextColor="{StaticResource WhiteColor}"
+                        VerticalOptions="Center" />
+                </controls:ExtendedContentView>
+            </StackLayout>
+        </controls:ExtendedScrollView>
+    </viewBase:ContentPageBase.MainContent>
+</viewBase:ContentPageBase>

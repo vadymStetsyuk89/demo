@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.Character.CharacterView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:local="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent.Character"
+    xmlns:profileContentlocal="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent.ProfileContent"
+    xmlns:todo="clr-namespace:PeakMVP.ViewModels.MainContent.ProfileContent">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <Style x:Key="add_button_wraper_style" TargetType="ContentView">
+                <Setter Property="Padding" Value="5" />
+                <Setter Property="BackgroundColor" Value="LightSkyBlue" />
+            </Style>
+            <Style x:Key="add_button_image_style" TargetType="Image">
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="BackgroundColor" Value="Black" />
+                <Setter Property="WidthRequest" Value="25" />
+                <Setter Property="HeightRequest" Value="25" />
+            </Style>
+            <Style x:Key="small_common_button_wraper_style" TargetType="ContentView">
+                <Setter Property="Padding" Value="0" />
+            </Style>
+            <Style x:Key="small_common_button_image_style" TargetType="Image">
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="HeightRequest" Value="20" />
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <controls:PullToRefreshLayout
+        IsPullToRefreshEnabled="{Binding Path=IsNestedPullToRefreshEnabled}"
+        IsRefreshing="{Binding Path=IsNestedRefreshing, Mode=TwoWay}"
+        RefreshCommand="{Binding Path=NestedRefreshCommand}">
+
+        <controls:ListViewExtended
+            BackgroundColor="Transparent"
+            HasUnevenRows="True"
+            Header="{Binding}"
+            ItemsSource="{Binding Path=Posts}"
+            SelectionMode="None"
+            SeparatorVisibility="None">
+            <x:Arguments>
+                <ListViewCachingStrategy>RecycleElement</ListViewCachingStrategy>
+            </x:Arguments>
+            <controls:ListViewExtended.HeaderTemplate>
+                <DataTemplate x:DataType="todo:PostContentViewModel">
+                    <StackLayout Margin="0,40,0,0">
+
+                        <!--  Scope feed header  -->
+                        <Label
+                            Margin="20,0"
+                            Style="{StaticResource Title_text_label_style}"
+                            Text="Feed"
+                            VerticalOptions="Center" />
+
+                        <local:CreateFeedPostFormView />
+                    </StackLayout>
+                </DataTemplate>
+            </controls:ListViewExtended.HeaderTemplate>
+            <controls:ListViewExtended.ItemTemplate>
+                <DataTemplate>
+                    <profileContentlocal:PostContentView />
+                </DataTemplate>
+            </controls:ListViewExtended.ItemTemplate>
+        </controls:ListViewExtended>
+    </controls:PullToRefreshLayout>
+</ContentView>

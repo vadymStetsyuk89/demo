@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<dropdownSelectorBase:DropdownSelectorBase
+    x:Class="PeakMVP.Controls.SuggestInput.SuggestInput"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:dropdownSelectorBase="clr-namespace:PeakMVP.Controls.DropdownSelectors.Base"
+    xmlns:extensions="clr-namespace:PeakMVP.Extensions"
+    x:Name="_root_ContentView">
+
+    <controls:ExtendedContentView
+        x:Name="_contentWraper_ExtendedContentView"
+        Padding="6,0,0,0"
+        BackgroundColor="{StaticResource Key=WhiteColor}"
+        BorderColor="{StaticResource Key=GrayBorderColor}"
+        BorderThickness="1"
+        CornerRadius="3">
+        <Grid ColumnSpacing="0" RowSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <controls:EntryEx
+                x:Name="_input_EntryEx"
+                Grid.Column="0"
+                Focused="OnEntryFocus"
+                FontFamily="{StaticResource Key=MontserratRegular}"
+                FontSize="{StaticResource Key=MidMediumSize}"
+                Placeholder="{Binding Source={Reference Name=_root_ContentView}, Path=Placeholder, Mode=TwoWay}"
+                PlaceholderColor="{StaticResource Key=GrayColor}"
+                Text="{Binding Source={Reference Name=_root_ContentView}, Path=Text, Mode=TwoWay}"
+                TextColor="{StaticResource Key=BlackColor}" />
+
+            <ActivityIndicator
+                Grid.Column="0"
+                HorizontalOptions="End"
+                IsRunning="{Binding Path=IsBusy, Source={Reference Name=_root_ContentView}}"
+                Scale=".5"
+                VerticalOptions="Center"
+                Color="#33000000" />
+
+            <ContentView
+                x:Name="_suggestButton_ContentView"
+                Grid.Column="1"
+                BackgroundColor="{StaticResource Key=BlueColor}"
+                HeightRequest="40"
+                WidthRequest="40">
+                <ContentView.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnStartSUggestionsTapped" />
+                </ContentView.GestureRecognizers>
+                <Image
+                    HeightRequest="20"
+                    HorizontalOptions="Center"
+                    Source="{extensions:ImageResource PeakMVP.Images.ic_search.png}"
+                    VerticalOptions="Center"
+                    WidthRequest="20" />
+            </ContentView>
+        </Grid>
+    </controls:ExtendedContentView>
+</dropdownSelectorBase:DropdownSelectorBase>

@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="PeakMVP.Controls.Switcher.ContentSwitcher"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:PeakMVP.Controls.Switcher">
+
+    <Grid ColumnSpacing="0" RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!--  Tassels spot  -->
+        <Grid
+            x:Name="_tasseslSpot_Grid"
+            Grid.Row="0"
+            BackgroundColor="{StaticResource Key=BlueColor}"
+            ColumnSpacing="0"
+            HeightRequest="48"
+            RowSpacing="0">
+            <local:SelectionRunner
+                x:Name="_selectionRunner_ContentView"
+                Grid.Column="0"
+                BackgroundColor="{StaticResource Key=LightBlueColor}" />
+        </Grid>
+
+        <!--  Main content  -->
+        <Grid
+            x:Name="_mainContentSpot_Grid"
+            Grid.Row="1"
+            ColumnSpacing="0"
+            RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+        </Grid>
+    </Grid>
+</ContentView>

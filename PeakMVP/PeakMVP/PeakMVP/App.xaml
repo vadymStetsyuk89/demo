@@ -1,0 +1,232 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application
+    x:Class="PeakMVP.App"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:converters="clr-namespace:PeakMVP.Converters"
+    xmlns:dataTemplateSelectors="clr-namespace:PeakMVP.Models.DataTemplateSelectors"
+    xmlns:mediaConverters="clr-namespace:PeakMVP.Converters.Media">
+    <!--  android:Application.WindowSoftInputModeAdjust="Resize"  -->
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <!--  COLORS  -->
+            <Color x:Key="WhiteColor">#ffffff</Color>
+            <Color x:Key="BlackColor">#000000</Color>
+            <Color x:Key="PopUpBlackColor">#1e2432</Color>
+            <Color x:Key="BlueColor">#0CA8F4</Color>
+            <Color x:Key="ExtraLightBlueColor">#ceeefd</Color>
+            <Color x:Key="ErrorColor">#ff5252</Color>
+            <Color x:Key="GrayColor">#868E96</Color>
+            <Color x:Key="SemiLightGrayColor">#E0E0E0</Color>
+            <Color x:Key="GrayButtonColor">#DDDDDD</Color>
+            <Color x:Key="LightGrayColor">#798897</Color>
+            <Color x:Key="BorderGrayColor">#E5E7E9</Color>
+            <Color x:Key="ExtraLightGrayColor">#F9FAFC</Color>
+            <Color x:Key="GrayBorderColor">#DADCE1</Color>
+            <Color x:Key="MainBackgroundColor">#F3F5FA</Color>
+            <Color x:Key="SemiTransparentMainBackgroundColor">#AAF3F5FA</Color>
+            <Color x:Key="MainBlackColor">#001D2C</Color>
+            <Color x:Key="LightBlueColor">#5EC3F6</Color>
+            <Color x:Key="LightRedColor">#EB867D</Color>
+            <Color x:Key="LightGrayWhiteColor">#F9FAFC</Color>
+            <Color x:Key="RedColor">#DC3545</Color>
+            <Color x:Key="RedDeepColor">#FD0000</Color>
+            <Color x:Key="GreenSuccessColor">#37BF72</Color>
+
+            <!--  FONTS  -->
+            <OnPlatform
+                x:Key="MontserratRegular"
+                x:TypeArguments="x:String"
+                Android="Montserrat-Regular.ttf#Montserrat"
+                iOS="Montserrat-Regular" />
+
+            <OnPlatform
+                x:Key="MontserratBold"
+                x:TypeArguments="x:String"
+                Android="Montserrat-Bold.ttf#Montserrat"
+                iOS="Montserrat-Bold" />
+
+            <OnPlatform
+                x:Key="MontserratExtraBold"
+                x:TypeArguments="x:String"
+                Android="Montserrat-ExtraBold.ttf#Montserrat"
+                iOS="Montserrat-ExtraBold" />
+
+            <OnPlatform
+                x:Key="Icons"
+                x:TypeArguments="x:String"
+                Android="icomoon.ttf#Icomoon"
+                iOS="icomoon" />
+
+            <!--  SIZES  -->
+            <OnPlatform
+                x:Key="BaseButtonFontSize"
+                x:TypeArguments="x:Double"
+                Android="16"
+                iOS="16" />
+
+            <OnPlatform
+                x:Key="BaseFontSize"
+                x:TypeArguments="x:Double"
+                Android="15"
+                iOS="15" />
+
+            <OnPlatform
+                x:Key="ExtraSmallSize"
+                x:TypeArguments="x:Double"
+                Android="9"
+                iOS="9" />
+
+            <OnPlatform
+                x:Key="LittleSize"
+                x:TypeArguments="x:Double"
+                Android="11"
+                iOS="11" />
+
+            <OnPlatform
+                x:Key="MidMediumSize"
+                x:TypeArguments="x:Double"
+                Android="13"
+                iOS="13" />
+
+            <OnPlatform
+                x:Key="SemiMediumSize"
+                x:TypeArguments="x:Double"
+                Android="14"
+                iOS="14" />
+
+            <OnPlatform
+                x:Key="MediumSize"
+                x:TypeArguments="x:Double"
+                Android="16"
+                iOS="16" />
+
+            <OnPlatform
+                x:Key="LargeSize"
+                x:TypeArguments="x:Double"
+                Android="18"
+                iOS="18" />
+
+            <OnPlatform
+                x:Key="LargerSize"
+                x:TypeArguments="x:Double"
+                Android="20"
+                iOS="20" />
+
+            <OnPlatform
+                x:Key="BigSize"
+                x:TypeArguments="x:Double"
+                Android="24"
+                iOS="24" />
+
+            <OnPlatform
+                x:Key="ExtraBigSize"
+                x:TypeArguments="x:Double"
+                Android="32"
+                iOS="32" />
+
+            <OnPlatform
+                x:Key="HugeSize"
+                x:TypeArguments="x:Double"
+                Android="48"
+                iOS="48" />
+
+            <!--  DATATEMPLATE SELECTORS  -->
+            <dataTemplateSelectors:MessageTemplateSelector x:Key="MessageTemplateSelector" />
+
+            <!--  CONVERTERS  -->
+            <converters:FirstValidationErrorConverter x:Key="FirstValidationErrorConverter" />
+            <converters:StringToImageSourceConverter x:Key="StringToImageSourceConverter" />
+            <converters:StringToURLImageSourceConverter x:Key="StringToURLImageSourceConverter" />
+            <converters:BoolToGenericObjectConverter
+                x:Key="Reverce_bool_converter"
+                x:TypeArguments="x:Boolean"
+                FalseObject="True"
+                TrueObject="False" />
+            <converters:StringEmptinessToBoolConverter x:Key="StringEmptinessToBoolConverter" />
+            <converters:LengthILisToBoolConverter x:Key="iList_has_elements_to_bool_converter" IsAny="True" />
+            <converters:LengthILisToBoolConverter x:Key="iList_no_elements_to_bool_converter" IsAny="False" />
+            <converters:Base64ToImageSourceConverter x:Key="Base64_string_to_image_source" />
+            <converters:ProfileAvatarsToImageSourceConverter x:Key="Profile_avatars_to_image_source_converter" />
+            <converters:UserAvatarConverter x:Key="User_avatar_converter" />
+            <converters:PublishDateTimeConverter x:Key="Publish_date_time_converter" />
+            <converters:StringToUpperLoverCaseConverter x:Key="String_to_upper_case_converter" ToUpperCase="True" />
+            <converters:IsNullToBoolConverter x:Key="Is_null_converter" WhenIsNull="True" />
+            <converters:IsNullToBoolConverter x:Key="Is_not_null_converter" WhenIsNull="False" />
+            <converters:IntWithLimitValueConverter x:Key="Ninety_nine_limited_int_converter" LimitValue="99" />
+            <converters:TimeEngTwentyHourConverter x:Key="Time_eng_twenty_hour_converter" />
+            <converters:StringConditionConverter x:Key="Default_string_condition_converter" />
+            <mediaConverters:MediafileTypeToImageSourceConverter x:Key="Media_file_type_to_image_source_converter" />
+
+            <!--  EXPLICIT STYLES  -->
+            <Style x:Key="Title_text_label_style" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource Key=MainBlackColor}" />
+                <Setter Property="FontSize" Value="{StaticResource Key=LargeSize}" />
+                <Setter Property="FontFamily" Value="{StaticResource Key=MontserratBold}" />
+            </Style>
+
+            <Style x:Key="Subtitle_text_label_style" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource Key=MainBlackColor}" />
+                <Setter Property="FontSize" Value="{StaticResource Key=MediumSize}" />
+                <Setter Property="FontFamily" Value="{StaticResource Key=MontserratBold}" />
+            </Style>
+
+            <Style x:Key="Plain_text_label_style" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource Key=MainBlackColor}" />
+                <Setter Property="FontSize" Value="{StaticResource Key=MidMediumSize}" />
+                <Setter Property="FontFamily" Value="{StaticResource Key=MontserratRegular}" />
+            </Style>
+
+            <Style x:Key="Input_group_title_label" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource Key=MainBlackColor}" />
+                <Setter Property="FontSize" Value="{StaticResource Key=MidMediumSize}" />
+            </Style>
+
+            <Style x:Key="Input_group_entry_wraper" TargetType="controls:ExtendedContentView">
+                <Setter Property="Padding" Value="15,0" />
+                <Setter Property="BorderColor" Value="{StaticResource Key=GrayBorderColor}" />
+                <Setter Property="BackgroundColor" Value="{StaticResource Key=WhiteColor}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="CornerRadius" Value="3" />
+                <Setter Property="HeightRequest" Value="40" />
+            </Style>
+
+            <Style x:Key="Input_group_entry" TargetType="controls:EntryEx">
+                <Setter Property="FontFamily" Value="{StaticResource Key=MontserratRegular}" />
+                <Setter Property="FontSize" Value="{StaticResource Key=MidMediumSize}" />
+                <Setter Property="PlaceholderColor" Value="{StaticResource Key=GrayColor}" />
+                <Setter Property="TextColor" Value="{StaticResource Key=BlackColor}" />
+            </Style>
+
+            <Style x:Key="ValidationErrorLabelStyle" TargetType="{x:Type Label}">
+                <Setter Property="TextColor" Value="{StaticResource ErrorColor}" />
+                <Setter Property="FontSize" Value="{StaticResource LittleSize}" />
+            </Style>
+
+            <converters:BoolToGenericObjectConverter
+                x:Key="Bool_to_entry_wraper_error_border_color_converter"
+                x:TypeArguments="Color"
+                FalseObject="{StaticResource Key=ErrorColor}"
+                TrueObject="{StaticResource Key=GrayBorderColor}" />
+
+            <!--  IMPLICIT STYLES  -->
+            <Style
+                ApplyToDerivedTypes="True"
+                CanCascade="True"
+                TargetType="Label">
+                <Setter Property="FontSize" Value="{StaticResource BaseFontSize}" />
+                <Setter Property="FontFamily" Value="{StaticResource MontserratRegular}" />
+            </Style>
+
+            <Style
+                ApplyToDerivedTypes="True"
+                CanCascade="True"
+                TargetType="controls:PullToRefreshLayout">
+                <Setter Property="RefreshColor" Value="{StaticResource BlueColor}" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

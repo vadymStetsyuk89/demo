@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<menusBase:MenuBase
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.AccountMenu"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:PeakMVP.Converters"
+    xmlns:menusBase="clr-namespace:PeakMVP.Controls.Menus.Base"
+    xmlns:stackList="clr-namespace:PeakMVP.Controls.Stacklist"
+    x:Name="_root_MenuBase"
+    BackgroundColor="{StaticResource Key=WhiteColor}">
+    <menusBase:MenuBase.Resources>
+        <ResourceDictionary>
+            <converters:BoolToGenericObjectConverter
+                x:Key="is_selected_to_black_or_gray_color_converter"
+                x:TypeArguments="Color"
+                FalseObject="{StaticResource Key=GrayColor}"
+                TrueObject="{StaticResource Key=MainBlackColor}" />
+        </ResourceDictionary>
+    </menusBase:MenuBase.Resources>
+
+    <stackList:StackList ItemsSource="{Binding Source={Reference Name=_root_MenuBase}, Path=MenuOptions}" SelectedItem="{Binding Source={Reference Name=_root_MenuBase}, Path=SelectedItem, Mode=TwoWay}">
+        <stackList:StackList.ItemTemplate>
+            <DataTemplate>
+                <stackList:CommonStackListItem
+                    HorizontalOptions="CenterAndExpand"
+                    IsOnSelectionVisualChangesEnabled="False"
+                    IsSelectable="True"
+                    VerticalOptions="CenterAndExpand">
+                    <Label
+                        FontSize="{StaticResource Key=MediumSize}"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="{Binding Path=Title}"
+                        TextColor="{Binding Path=IsSelected, Converter={StaticResource Key=is_selected_to_black_or_gray_color_converter}}"
+                        VerticalOptions="CenterAndExpand" />
+                </stackList:CommonStackListItem>
+            </DataTemplate>
+        </stackList:StackList.ItemTemplate>
+    </stackList:StackList>
+</menusBase:MenuBase>

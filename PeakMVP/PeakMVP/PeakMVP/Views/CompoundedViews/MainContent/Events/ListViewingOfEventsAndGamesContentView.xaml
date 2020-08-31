@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.Events.ListViewingOfEventsAndGamesContentView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent.Events">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <Style x:Key="grid_header" TargetType="Label">
+                <Setter Property="Margin" Value="10,0,0,0" />
+                <Setter Property="FontFamily" Value="{StaticResource Key=MontserratRegular}" />
+                <Setter Property="FontSize" Value="{StaticResource Key=LargeSize}" />
+                <Setter Property="TextColor" Value="{StaticResource Key=MainBlackColor}" />
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <StackLayout Spacing="12">
+        <!--  Repeatable events scope  -->
+        <Grid RowSpacing="9">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Label
+                Grid.Row="0"
+                Style="{StaticResource grid_header}"
+                Text="ACTIVE REPEATABLE EVENTS" />
+
+            <local:EventsAndGamesGridContentView
+                Grid.Row="1"
+                IsManagementAvailable="{Binding IsEventsManagementAvailable}"
+                ItemsSource="{Binding ActiveRepetableEvents, Mode=OneWay}" />
+            <!--<ScrollView Grid.Row="1" Orientation="Horizontal">
+            </ScrollView>-->
+        </Grid>
+
+        <!--  Events and games scope  -->
+        <Grid RowSpacing="9">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Label
+                Grid.Row="0"
+                Style="{StaticResource grid_header}"
+                Text="EVENTS AND GAMES" />
+
+            <local:EventsAndGamesGridContentView
+                Grid.Row="1"
+                IsManagementAvailable="{Binding IsEventsManagementAvailable}"
+                ItemsSource="{Binding GamesAndEvents, Mode=OneWay}" />
+            <!--<ScrollView Orientation="Horizontal">
+            </ScrollView>-->
+        </Grid>
+    </StackLayout>
+</ContentView>

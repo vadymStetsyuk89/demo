@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<actionBarBase:ActionBarBase
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.ModeActionBar"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:actionBarBase="clr-namespace:PeakMVP.Controls.ActionBars.Base"
+    xmlns:behaviors="clr-namespace:PeakMVP.Behaviors"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+    xmlns:mainContentCompoundedViews="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent"
+    xmlns:suggestInput="clr-namespace:PeakMVP.Controls.SuggestInput">
+
+    <actionBarBase:ActionBarBase.Resources>
+        <ResourceDictionary>
+            <Style x:Key="action_bar_button_box_style" TargetType="ContentView">
+                <Setter Property="WidthRequest" Value="40" />
+                <Setter Property="WidthRequest" Value="52" />
+            </Style>
+            <Style x:Key="action_bar_button_image_style" TargetType="ffimageloading:CachedImage">
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="VerticalOptions" Value="Center" />
+            </Style>
+        </ResourceDictionary>
+    </actionBarBase:ActionBarBase.Resources>
+
+    <Grid
+        Padding="0,3"
+        BackgroundColor="{StaticResource Key=WhiteColor}"
+        ColumnSpacing="0"
+        HeightRequest="43">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!--  Back button  -->
+        <ContentView
+            Grid.Column="0"
+            IsVisible="{Binding Path=HasBackButton}"
+            Style="{StaticResource Key=action_bar_button_box_style}">
+            <ContentView.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding Path=BackCommand}" />
+            </ContentView.GestureRecognizers>
+            <ffimageloadingsvg:SvgCachedImage
+                CacheType="All"
+                Scale="1"
+                Source="resource://PeakMVP.Images.Svg.ic_arrow_left.svg"
+                Style="{StaticResource Key=action_bar_button_image_style}">
+                <ffimageloadingsvg:SvgCachedImage.Behaviors>
+                    <behaviors:FFColorScaleBehavior Brightness=".5" TargetColor="Gray" />
+                </ffimageloadingsvg:SvgCachedImage.Behaviors>
+            </ffimageloadingsvg:SvgCachedImage>
+        </ContentView>
+
+        <!--  Main action bar content  -->
+        <Grid Grid.Column="1" ColumnSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <!--  Toggle mode button  -->
+            <ContentView
+                Grid.Column="0"
+                IsVisible="{Binding Path=IsModesAvailable}"
+                Style="{StaticResource Key=action_bar_button_box_style}">
+                <ContentView.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=ToggleModeCommand}" />
+                </ContentView.GestureRecognizers>
+
+                <ffimageloadingsvg:SvgCachedImage
+                    CacheType="All"
+                    Scale="1"
+                    Source="{Binding Path=SelectedMode.ModeIconPath}"
+                    Style="{StaticResource Key=action_bar_button_image_style}"
+                    TranslationY="1" />
+            </ContentView>
+
+            <suggestInput:SuggestInput
+                Grid.Column="1"
+                BindingContext="{Binding Path=SearchViewModel, Mode=OneWay}"
+                BorderColor="{StaticResource Key=GrayBorderColor}"
+                HintText="{Binding Path=SuggestInputHintText, Mode=TwoWay}"
+                IsBusy="{Binding Path=IsSearchBusy, Mode=OneWay}"
+                IsHintEnabled="True"
+                IsSuggestButtonVisible="False"
+                ItemSource="{Binding Path=FoundUsersGroups}"
+                Placeholder="Search Players, Coaches, &amp; Teams"
+                PopoverLayouting="LeftBottom"
+                SelectedItem="{Binding Path=SelectedUsersGroup, Mode=TwoWay}"
+                Text="{Binding Path=SearchValue, Mode=TwoWay}">
+                <suggestInput:SuggestInput.Popover>
+                    <mainContentCompoundedViews:SearchPopover IsHaveSameWidth="True" />
+                </suggestInput:SuggestInput.Popover>
+            </suggestInput:SuggestInput>
+
+            <!--  Camera action button  -->
+            <ContentView Grid.Column="2" Style="{StaticResource Key=action_bar_button_box_style}">
+                <ContentView.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=MediaActionCommand}" />
+                </ContentView.GestureRecognizers>
+                <ffimageloadingsvg:SvgCachedImage
+                    CacheType="All"
+                    Scale="1.7"
+                    Source="resource://PeakMVP.Images.Svg.ic_camera.svg"
+                    Style="{StaticResource Key=action_bar_button_image_style}" />
+            </ContentView>
+        </Grid>
+    </Grid>
+</actionBarBase:ActionBarBase>

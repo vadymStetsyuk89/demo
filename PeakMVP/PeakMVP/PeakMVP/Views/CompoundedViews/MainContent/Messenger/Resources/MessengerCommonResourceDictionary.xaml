@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.Messenger.Resources.MessengerCommonResourceDictionary"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:PeakMVP.Converters"
+    xmlns:messengerTabsViewModels="clr-namespace:PeakMVP.ViewModels.MainContent.Messenger.MessengerTabs"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <converters:GenericTypeToBoolConverter x:Key="is_messaging_cluster_tab" x:TypeArguments="messengerTabsViewModels:MessagingClusterTabBaseViewModel" />
+    <converters:GenericTypeToBoolConverter x:Key="is_conversation_tab" x:TypeArguments="messengerTabsViewModels:ConversationTabViewModel" />
+    <converters:BoolToGenericObjectConverter
+        x:Key="bool_to_delivery_string_converter"
+        x:TypeArguments="system:String"
+        FalseObject="Delivered"
+        TrueObject="Seen" />
+    <converters:IntegerValueComparingToBoolConverter
+        x:Key="is_bigger_than_zero_Integer_value_comparing_to_bool_converter"
+        IsLessThan="False"
+        LimitValue="0" />
+
+</ResourceDictionary>

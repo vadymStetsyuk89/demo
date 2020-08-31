@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.ProfileSettings.Resources.ProfileSettingsCommonResourceDictionary"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:converters="clr-namespace:PeakMVP.Converters"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:profileSettingsConverters="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent.ProfileSettings.Resources.Converters">
+
+    <Style x:Key="add_button_wraper_style" TargetType="ContentView">
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="BackgroundColor" Value="LightSkyBlue" />
+    </Style>
+
+    <Style x:Key="add_button_ffimage_style" TargetType="ffimageloading:CachedImage">
+        <Setter Property="WidthRequest" Value="25" />
+        <Setter Property="HeightRequest" Value="25" />
+    </Style>
+
+    <Style x:Key="input_group_editor" TargetType="controls:ExtendedEditor">
+        <Setter Property="FontFamily" Value="{StaticResource Key=MontserratRegular}" />
+        <Setter Property="FontSize" Value="{StaticResource Key=MidMediumSize}" />
+        <Setter Property="TextColor" Value="{StaticResource Key=BlackColor}" />
+    </Style>
+
+    <converters:MediaFileToStringNameConverter x:Key="media_file_to_string_name_converter" StumbValue="No file choosen" />
+    <converters:PickedMediaToStringValueConverter x:Key="picked_media_to_string_value_converter" StubValue="No file choosen" />
+    <profileSettingsConverters:ResolvedSelfInformationToAppropriateViewConverter x:Key="resolved_self_information_view_model_to_appropriate_view_converter" />
+</ResourceDictionary>

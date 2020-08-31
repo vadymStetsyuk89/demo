@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<popups:SinglePopup
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.ProfileContent.Popups.AddPicturesPopup"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:converters="clr-namespace:PeakMVP.Converters"
+    xmlns:extensions="clr-namespace:PeakMVP.Extensions"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:mainContentCompoundedViews="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent"
+    xmlns:popups="clr-namespace:PeakMVP.Controls.Popups"
+    xmlns:stackList="clr-namespace:PeakMVP.Controls.Stacklist"
+    VerticalOptions="Start">
+
+    <popups:SinglePopup.Content>
+        <mainContentCompoundedViews:PopupContentWrapper
+            x:Name="_picturesPopupWraper_PopupContentWrapper"
+            CancelButtonColor="{StaticResource Key=BlueColor}"
+            CancelButtonText="CLOSE"
+            CancelCommand="{Binding Path=ClosePopupCommand}"
+            CloseCommand="{Binding Path=ClosePopupCommand}"
+            IsCancelButtonVisible="True"
+            IsSucceedButtonVisible="False"
+            TitleText="Add picture"
+            VerticalOptions="Start">
+            <mainContentCompoundedViews:PopupContentWrapper.MainContent>
+                <StackLayout Padding="20,16">
+
+                    <stackList:StackList
+                        IsMultiRowEnabled="True"
+                        ItemsPerRow="2"
+                        ItemsSource="{Binding Path=AddedPictures, Mode=OneWay}"
+                        MultiRowStrategy="Grid"
+                        RowHorizontalLayoutOptions="Start"
+                        Spacing="6">
+                        <stackList:StackList.ItemTemplate>
+                            <DataTemplate>
+                                <stackList:CommonStackListItem IsOnSelectionVisualChangesEnabled="False" IsSelectable="False">
+                                    <AbsoluteLayout
+                                        BackgroundColor="LightSlateGray"
+                                        HeightRequest="90"
+                                        IsClippedToBounds="True">
+                                        <!--  Image  -->
+                                        <ffimageloading:CachedImage
+                                            AbsoluteLayout.LayoutBounds="1,1,1,1"
+                                            AbsoluteLayout.LayoutFlags="All"
+                                            Aspect="AspectFill"
+                                            BackgroundColor="#aa000000"
+                                            CacheType="All"
+                                            Source="{Binding Path=Url}" />
+                                        <!--  Close button  -->
+                                        <ContentView
+                                            Padding="5"
+                                            AbsoluteLayout.LayoutBounds="1,0"
+                                            AbsoluteLayout.LayoutFlags="PositionProportional"
+                                            BackgroundColor="#aa000000">
+                                            <ContentView.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Source={Reference Name=_picturesPopupWraper_PopupContentWrapper}, Path=BindingContext.DeletePictureCommand}" CommandParameter="{Binding}" />
+                                            </ContentView.GestureRecognizers>
+                                            <ffimageloading:CachedImage CacheType="All" Source="{extensions:ImageResource PeakMVP.Images.ic_close.png}" />
+                                        </ContentView>
+                                    </AbsoluteLayout>
+                                </stackList:CommonStackListItem>
+                            </DataTemplate>
+                        </stackList:StackList.ItemTemplate>
+                    </stackList:StackList>
+
+                    <controls:ExtendedContentView
+                        Padding="20"
+                        BackgroundColor="{StaticResource Key=MainBackgroundColor}"
+                        BorderColor="{StaticResource Key=GrayBorderColor}"
+                        BorderThickness="2">
+                        <controls:ExtendedContentView.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Path=AddPictureCommand}" />
+                        </controls:ExtendedContentView.GestureRecognizers>
+                        <Label
+                            FontSize="{StaticResource Key=LargeSize}"
+                            HorizontalOptions="Center"
+                            Text="Tap to upload"
+                            TextColor="{StaticResource Key=GrayColor}"
+                            VerticalOptions="Center" />
+                    </controls:ExtendedContentView>
+                </StackLayout>
+            </mainContentCompoundedViews:PopupContentWrapper.MainContent>
+        </mainContentCompoundedViews:PopupContentWrapper>
+    </popups:SinglePopup.Content>
+</popups:SinglePopup>

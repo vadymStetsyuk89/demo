@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<stackListItem:SourceItemBase
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.ProfileContent.CommentContentView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:stackListItem="clr-namespace:PeakMVP.Controls.Stacklist.Base">
+
+    <Grid
+        Padding="0,5"
+        HorizontalOptions="Fill"
+        RowSpacing="0"
+        VerticalOptions="Fill">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!--  AVATAR  -->
+        <ffimageloading:CachedImage
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="0,5,0,0"
+            Aspect="AspectFill"
+            CacheType="All"
+            HeightRequest="35"
+            Source="{Binding Avatar, Converter={StaticResource StringToURLImageSourceConverter}}"
+            VerticalOptions="Start"
+            WidthRequest="35">
+            <ffimageloading:CachedImage.Transformations>
+                <fftransformations:CircleTransformation />
+            </ffimageloading:CachedImage.Transformations>
+        </ffimageloading:CachedImage>
+
+        <Label
+            Grid.Column="1"
+            FormattedText="{Binding FormatedComment}"
+            HorizontalOptions="Start"
+            VerticalOptions="Center" />
+    </Grid>
+</stackListItem:SourceItemBase>

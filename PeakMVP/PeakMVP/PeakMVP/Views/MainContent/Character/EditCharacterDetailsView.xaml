@@ -1,0 +1,606 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<viewBase:ContentPageBase
+    x:Class="PeakMVP.Views.MainContent.Character.EditCharacterDetailsView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:PeakMVP.Behaviors"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:converters="clr-namespace:PeakMVP.Converters"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:stackList="clr-namespace:PeakMVP.Controls.Stacklist"
+    xmlns:viewBase="clr-namespace:PeakMVP.Views.Base"
+    xmlns:viewModelBase="clr-namespace:PeakMVP.ViewModels.Base"
+    viewModelBase:ViewModelLocator.AutoWireViewModel="True">
+
+    <viewBase:ContentPageBase.MainContent>
+        <controls:PullToRefreshLayout
+            IsPullToRefreshEnabled="False"
+            IsRefreshing="{Binding Path=IsRefreshing, Mode=TwoWay}"
+            RefreshCommand="{Binding Path=RefreshCommand}">
+
+            <Grid Padding="0,0,0,20" RowSpacing="18">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <!--  Header scope  -->
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="40" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="40" />
+                    </Grid.ColumnDefinitions>
+
+                    <!--  Back button  -->
+                    <ffimageloadingsvg:SvgCachedImage
+                        Grid.Column="0"
+                        CacheType="All"
+                        HeightRequest="32"
+                        HorizontalOptions="Center"
+                        Scale="1"
+                        Source="resource://PeakMVP.Images.Svg.ic_arrow_left.svg"
+                        VerticalOptions="Center"
+                        WidthRequest="32">
+                        <ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Path=BackCommand}" />
+                        </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                    </ffimageloadingsvg:SvgCachedImage>
+
+                    <!--  Edit button  -->
+                    <ffimageloadingsvg:SvgCachedImage
+                        Grid.Column="2"
+                        CacheType="All"
+                        HeightRequest="22"
+                        HorizontalOptions="Center"
+                        Scale="1"
+                        Source="resource://PeakMVP.Images.Svg.ic_pencil.svg"
+                        VerticalOptions="Center"
+                        WidthRequest="22">
+                        <ffimageloadingsvg:SvgCachedImage.Behaviors>
+                            <behaviors:FFColorScaleBehavior Brightness=".5" TargetColor="Gray" />
+                        </ffimageloadingsvg:SvgCachedImage.Behaviors>
+                        <ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Path=EditCharacterCommand}" />
+                        </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                    </ffimageloadingsvg:SvgCachedImage>
+                </Grid>
+
+                <!--  Profile info scope  -->
+                <Grid Grid.Row="1" Padding="10,0,20,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!--  Avatar  -->
+                    <ffimageloading:CachedImage
+                        Grid.Column="0"
+                        CacheType="All"
+                        HeightRequest="90"
+                        HorizontalOptions="Center"
+                        Source="{Binding Path=AvatarURL, Converter={StaticResource Key=User_avatar_converter}}"
+                        VerticalOptions="Start"
+                        WidthRequest="90">
+                        <ffimageloading:CachedImage.Transformations>
+                            <fftransformations:CircleTransformation />
+                        </ffimageloading:CachedImage.Transformations>
+                    </ffimageloading:CachedImage>
+
+                    <!--  Profile datail info  -->
+                    <Grid Grid.Column="1" RowSpacing="9">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="70" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <!--  MVP name  -->
+                        <Grid
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            RowSpacing="3">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Label
+                                Grid.Row="0"
+                                FontSize="{StaticResource Key=LittleSize}"
+                                Style="{StaticResource Key=Input_group_title_label}"
+                                Text="MVP First Name"
+                                TextColor="{StaticResource Key=GrayColor}" />
+
+                            <Label
+                                Grid.Row="1"
+                                FontFamily="{StaticResource Key=MontserratRegular}"
+                                FontSize="{StaticResource Key=MidMediumSize}"
+                                LineBreakMode="WordWrap"
+                                Text="{Binding Path=TargetMember.FirstName}"
+                                TextColor="{StaticResource Key=BlackColor}" />
+
+                            <BoxView
+                                Grid.RowSpan="2"
+                                BackgroundColor="{StaticResource Key=GrayBorderColor}"
+                                HeightRequest="1"
+                                VerticalOptions="End" />
+                        </Grid>
+
+                        <!--  MVP id  -->
+                        <Grid
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            RowSpacing="3">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Label
+                                Grid.Row="0"
+                                FontSize="{StaticResource Key=LittleSize}"
+                                Style="{StaticResource Key=Input_group_title_label}"
+                                Text="MVP # / id"
+                                TextColor="{StaticResource Key=GrayColor}" />
+
+                            <Label
+                                Grid.Row="1"
+                                FontFamily="{StaticResource Key=MontserratRegular}"
+                                FontSize="{StaticResource Key=MidMediumSize}"
+                                LineBreakMode="WordWrap"
+                                Text="{Binding Path=TargetMember.Id}"
+                                TextColor="{StaticResource Key=BlackColor}" />
+
+                            <BoxView
+                                Grid.RowSpan="2"
+                                BackgroundColor="{StaticResource Key=GrayBorderColor}"
+                                HeightRequest="1"
+                                VerticalOptions="End" />
+                        </Grid>
+
+                        <!--  MVP name  -->
+                        <Grid
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            RowSpacing="3">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Label
+                                Grid.Row="0"
+                                FontSize="{StaticResource Key=LittleSize}"
+                                Style="{StaticResource Key=Input_group_title_label}"
+                                Text="MVP Last Name"
+                                TextColor="{StaticResource Key=GrayColor}" />
+
+                            <Label
+                                Grid.Row="1"
+                                FontFamily="{StaticResource Key=MontserratRegular}"
+                                FontSize="{StaticResource Key=MidMediumSize}"
+                                LineBreakMode="WordWrap"
+                                Text="{Binding Path=TargetMember.LastName}"
+                                TextColor="{StaticResource Key=BlackColor}" />
+
+                            <BoxView
+                                Grid.RowSpan="2"
+                                BackgroundColor="{StaticResource Key=GrayBorderColor}"
+                                HeightRequest="1"
+                                VerticalOptions="End" />
+                        </Grid>
+
+                        <!--  MVP title  -->
+                        <Grid
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            RowSpacing="3">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Label
+                                Grid.Row="0"
+                                FontSize="{StaticResource Key=LittleSize}"
+                                Style="{StaticResource Key=Input_group_title_label}"
+                                Text="MVP Title"
+                                TextColor="{StaticResource Key=GrayColor}" />
+
+                            <Label
+                                Grid.Row="1"
+                                FontFamily="{StaticResource Key=MontserratRegular}"
+                                FontSize="{StaticResource Key=MidMediumSize}"
+                                LineBreakMode="WordWrap"
+                                Text="{Binding Path=TargetMember.Type}"
+                                TextColor="{StaticResource Key=BlackColor}" />
+
+                            <BoxView
+                                Grid.RowSpan="2"
+                                BackgroundColor="{StaticResource Key=GrayBorderColor}"
+                                HeightRequest="1"
+                                VerticalOptions="End" />
+                        </Grid>
+                    </Grid>
+                </Grid>
+
+                <!--  Add contact button  -->
+                <Grid
+                    Grid.Row="2"
+                    Margin="20,0"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Start">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="26" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=AddPhoneCommand}" />
+                    </Grid.GestureRecognizers>
+
+                    <controls:ExtendedContentView
+                        Grid.Column="0"
+                        BackgroundColor="{StaticResource Key=GreenSuccessColor}"
+                        HeightRequest="24"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        WidthRequest="24">
+                        <controls:ExtendedContentView.CornerRadius>
+                            <OnPlatform
+                                x:TypeArguments="x:Int32"
+                                Android="24"
+                                iOS="8" />
+                        </controls:ExtendedContentView.CornerRadius>
+                        <ffimageloadingsvg:SvgCachedImage
+                            CacheType="All"
+                            FadeAnimationEnabled="False"
+                            HeightRequest="24"
+                            HorizontalOptions="Center"
+                            Source="resource://PeakMVP.Images.Svg.ic_plus.svg"
+                            VerticalOptions="Center"
+                            WidthRequest="24">
+                            <ffimageloadingsvg:SvgCachedImage.Behaviors>
+                                <behaviors:FFColorScaleBehavior Brightness="1" TargetColor="White" />
+                            </ffimageloadingsvg:SvgCachedImage.Behaviors>
+                        </ffimageloadingsvg:SvgCachedImage>
+                    </controls:ExtendedContentView>
+
+                    <Label
+                        Grid.Column="1"
+                        FontFamily="{StaticResource Key=MontserratRegular}"
+                        FontSize="{StaticResource Key=MidMediumSize}"
+                        HorizontalOptions="Start"
+                        Text="Add phone"
+                        TextColor="{StaticResource Key=GrayColor}"
+                        VerticalOptions="Center" />
+                </Grid>
+
+                <!--  Info contacts list  -->
+                <ScrollView Grid.Row="3">
+                    <stackList:StackList
+                        x:Name="_contactInfos_StackList"
+                        Margin="20,0"
+                        ItemsSource="{Binding Path=ContactInfos, Mode=OneWay}"
+                        Spacing="24">
+                        <stackList:StackList.ItemTemplate>
+                            <DataTemplate>
+                                <stackList:CommonStackListItem IsOnSelectionVisualChangesEnabled="False" IsSelectable="False">
+                                    <!--  Profile datail info  -->
+                                    <Grid Grid.Column="1" RowSpacing="9">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+
+                                        <!--  Guardian title  -->
+                                        <Grid
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            RowSpacing="3">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Label
+                                                Grid.Row="0"
+                                                FontSize="{StaticResource Key=LittleSize}"
+                                                Style="{StaticResource Key=Input_group_title_label}"
+                                                Text="Guardian Title"
+                                                TextColor="{StaticResource Key=GrayColor}" />
+
+                                            <Label
+                                                Grid.Row="1"
+                                                FontFamily="{StaticResource Key=MontserratRegular}"
+                                                FontSize="{StaticResource Key=MidMediumSize}"
+                                                LineBreakMode="WordWrap"
+                                                Text="{Binding Path=GuardianType}"
+                                                TextColor="{StaticResource Key=BlackColor}" />
+
+                                            <BoxView
+                                                Grid.RowSpan="2"
+                                                BackgroundColor="{StaticResource Key=GrayBorderColor}"
+                                                HeightRequest="1"
+                                                VerticalOptions="End" />
+                                        </Grid>
+
+                                        <ffimageloadingsvg:SvgCachedImage
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            CacheType="All"
+                                            HeightRequest="18"
+                                            HorizontalOptions="End"
+                                            Source="resource://PeakMVP.Images.Svg.ic_close.svg"
+                                            WidthRequest="18">
+                                            <ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Path=BindingContext.RemoveContactInfoCommand, Source={Reference Name=_contactInfos_StackList}}" CommandParameter="{Binding}" />
+                                            </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                                        </ffimageloadingsvg:SvgCachedImage>
+
+                                        <!--  First name  -->
+                                        <Grid
+                                            Grid.Row="1"
+                                            Grid.Column="0"
+                                            RowSpacing="3">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Label
+                                                Grid.Row="0"
+                                                FontSize="{StaticResource Key=LittleSize}"
+                                                Style="{StaticResource Key=Input_group_title_label}"
+                                                Text="My First Name"
+                                                TextColor="{StaticResource Key=GrayColor}" />
+
+                                            <Label
+                                                Grid.Row="1"
+                                                FontFamily="{StaticResource Key=MontserratRegular}"
+                                                FontSize="{StaticResource Key=MidMediumSize}"
+                                                LineBreakMode="WordWrap"
+                                                Text="{Binding Path=FirstName}"
+                                                TextColor="{StaticResource Key=BlackColor}" />
+
+                                            <BoxView
+                                                Grid.RowSpan="2"
+                                                BackgroundColor="{StaticResource Key=GrayBorderColor}"
+                                                HeightRequest="1"
+                                                VerticalOptions="End" />
+                                        </Grid>
+
+                                        <!--  Last name  -->
+                                        <Grid
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            RowSpacing="3">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Label
+                                                Grid.Row="0"
+                                                FontSize="{StaticResource Key=LittleSize}"
+                                                Style="{StaticResource Key=Input_group_title_label}"
+                                                Text="My Last Name"
+                                                TextColor="{StaticResource Key=GrayColor}" />
+
+                                            <Label
+                                                Grid.Row="1"
+                                                FontFamily="{StaticResource Key=MontserratRegular}"
+                                                FontSize="{StaticResource Key=MidMediumSize}"
+                                                LineBreakMode="WordWrap"
+                                                Text="{Binding Path=LastName}"
+                                                TextColor="{StaticResource Key=BlackColor}" />
+
+                                            <BoxView
+                                                Grid.RowSpan="2"
+                                                BackgroundColor="{StaticResource Key=GrayBorderColor}"
+                                                HeightRequest="1"
+                                                VerticalOptions="End" />
+                                        </Grid>
+
+                                        <!--  Street name  -->
+                                        <Grid
+                                            Grid.Row="2"
+                                            Grid.Column="0"
+                                            RowSpacing="3">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Label
+                                                Grid.Row="0"
+                                                FontSize="{StaticResource Key=LittleSize}"
+                                                Style="{StaticResource Key=Input_group_title_label}"
+                                                Text="My Street"
+                                                TextColor="{StaticResource Key=GrayColor}" />
+
+                                            <Label
+                                                Grid.Row="1"
+                                                FontFamily="{StaticResource Key=MontserratRegular}"
+                                                FontSize="{StaticResource Key=MidMediumSize}"
+                                                LineBreakMode="WordWrap"
+                                                Text="{Binding Path=Street}"
+                                                TextColor="{StaticResource Key=BlackColor}" />
+
+                                            <BoxView
+                                                Grid.RowSpan="2"
+                                                BackgroundColor="{StaticResource Key=GrayBorderColor}"
+                                                HeightRequest="1"
+                                                VerticalOptions="End" />
+                                        </Grid>
+
+                                        <!--  City  -->
+                                        <Grid
+                                            Grid.Row="2"
+                                            Grid.Column="1"
+                                            RowSpacing="3">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Label
+                                                Grid.Row="0"
+                                                FontSize="{StaticResource Key=LittleSize}"
+                                                Style="{StaticResource Key=Input_group_title_label}"
+                                                Text="My City"
+                                                TextColor="{StaticResource Key=GrayColor}" />
+
+                                            <Label
+                                                Grid.Row="1"
+                                                FontFamily="{StaticResource Key=MontserratRegular}"
+                                                FontSize="{StaticResource Key=MidMediumSize}"
+                                                LineBreakMode="WordWrap"
+                                                Text="{Binding Path=City}"
+                                                TextColor="{StaticResource Key=BlackColor}" />
+
+                                            <BoxView
+                                                Grid.RowSpan="2"
+                                                BackgroundColor="{StaticResource Key=GrayBorderColor}"
+                                                HeightRequest="1"
+                                                VerticalOptions="End" />
+                                        </Grid>
+
+                                        <!--  State  -->
+                                        <Grid
+                                            Grid.Row="3"
+                                            Grid.Column="0"
+                                            RowSpacing="3">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Label
+                                                Grid.Row="0"
+                                                FontSize="{StaticResource Key=LittleSize}"
+                                                Style="{StaticResource Key=Input_group_title_label}"
+                                                Text="My State"
+                                                TextColor="{StaticResource Key=GrayColor}" />
+
+                                            <Label
+                                                Grid.Row="1"
+                                                FontFamily="{StaticResource Key=MontserratRegular}"
+                                                FontSize="{StaticResource Key=MidMediumSize}"
+                                                LineBreakMode="WordWrap"
+                                                Text="{Binding Path=State}"
+                                                TextColor="{StaticResource Key=BlackColor}" />
+
+                                            <BoxView
+                                                Grid.RowSpan="2"
+                                                BackgroundColor="{StaticResource Key=GrayBorderColor}"
+                                                HeightRequest="1"
+                                                VerticalOptions="End" />
+                                        </Grid>
+
+                                        <!--  Zip  -->
+                                        <Grid
+                                            Grid.Row="3"
+                                            Grid.Column="1"
+                                            RowSpacing="3">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Label
+                                                Grid.Row="0"
+                                                FontSize="{StaticResource Key=LittleSize}"
+                                                Style="{StaticResource Key=Input_group_title_label}"
+                                                Text="My State"
+                                                TextColor="{StaticResource Key=GrayColor}" />
+
+                                            <Label
+                                                Grid.Row="1"
+                                                FontFamily="{StaticResource Key=MontserratRegular}"
+                                                FontSize="{StaticResource Key=MidMediumSize}"
+                                                LineBreakMode="WordWrap"
+                                                Text="{Binding Path=ZipCode}"
+                                                TextColor="{StaticResource Key=BlackColor}" />
+
+                                            <BoxView
+                                                Grid.RowSpan="2"
+                                                BackgroundColor="{StaticResource Key=GrayBorderColor}"
+                                                HeightRequest="1"
+                                                VerticalOptions="End" />
+                                        </Grid>
+
+                                        <!--  Phone  -->
+                                        <Grid
+                                            Grid.Row="4"
+                                            Grid.Column="0"
+                                            RowSpacing="3">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Label
+                                                Grid.Row="0"
+                                                FontSize="{StaticResource Key=LittleSize}"
+                                                Style="{StaticResource Key=Input_group_title_label}"
+                                                Text="My Phone"
+                                                TextColor="{StaticResource Key=GrayColor}" />
+
+                                            <Label
+                                                Grid.Row="1"
+                                                FontFamily="{StaticResource Key=MontserratRegular}"
+                                                FontSize="{StaticResource Key=MidMediumSize}"
+                                                LineBreakMode="WordWrap"
+                                                Text="{Binding Path=FirstPhoneNumber}"
+                                                TextColor="{StaticResource Key=BlackColor}" />
+
+                                            <BoxView
+                                                Grid.RowSpan="2"
+                                                BackgroundColor="{StaticResource Key=GrayBorderColor}"
+                                                HeightRequest="1"
+                                                VerticalOptions="End" />
+                                        </Grid>
+
+                                        <!--  Email  -->
+                                        <Grid
+                                            Grid.Row="4"
+                                            Grid.Column="1"
+                                            RowSpacing="3">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Label
+                                                Grid.Row="0"
+                                                FontSize="{StaticResource Key=LittleSize}"
+                                                Style="{StaticResource Key=Input_group_title_label}"
+                                                Text="My Email"
+                                                TextColor="{StaticResource Key=GrayColor}" />
+
+                                            <Label
+                                                Grid.Row="1"
+                                                FontFamily="{StaticResource Key=MontserratRegular}"
+                                                FontSize="{StaticResource Key=MidMediumSize}"
+                                                LineBreakMode="WordWrap"
+                                                Text="{Binding Path=Email}"
+                                                TextColor="{StaticResource Key=BlackColor}" />
+
+                                            <BoxView
+                                                Grid.RowSpan="2"
+                                                BackgroundColor="{StaticResource Key=GrayBorderColor}"
+                                                HeightRequest="1"
+                                                VerticalOptions="End" />
+                                        </Grid>
+                                    </Grid>
+                                </stackList:CommonStackListItem>
+                            </DataTemplate>
+                        </stackList:StackList.ItemTemplate>
+                    </stackList:StackList>
+                </ScrollView>
+            </Grid>
+        </controls:PullToRefreshLayout>
+    </viewBase:ContentPageBase.MainContent>
+</viewBase:ContentPageBase>

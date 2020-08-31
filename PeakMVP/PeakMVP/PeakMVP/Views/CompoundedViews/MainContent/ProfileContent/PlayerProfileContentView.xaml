@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.ProfileContent.PlayerProfileContentView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:itemView="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent.ProfileContent"
+    xmlns:profileContentResources="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent.ProfileContent.Resources"
+    xmlns:stackList="clr-namespace:PeakMVP.Controls.Stacklist">
+
+    <ContentView.Resources>
+        <profileContentResources:ProfileContentCommonResourceDictionary />
+    </ContentView.Resources>
+
+    <StackLayout>
+
+        <!--  Scope teams table header  -->
+        <StackLayout Margin="20,0" Orientation="Horizontal">
+            <Label
+                Style="{StaticResource Key=Title_text_label_style}"
+                Text="{Binding ProfileContentViewModel.UserTypeSpecificViewModel.DisplayName, StringFormat='{0} Peak Teams'}"
+                VerticalOptions="Center" />
+        </StackLayout>
+
+        <!--  Player teams table  -->
+        <!--<ScrollView Orientation="Horizontal">-->
+        <controls:ExtendedContentView BackgroundColor="{StaticResource Key=WhiteColor}" CornerRadius="3">
+            <Grid ColumnSpacing="0" RowSpacing="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="1" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!--  Grid headers  -->
+                <Grid Grid.Row="0" Padding="10,7">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="1.5*" />
+                        <ColumnDefinition Width="1.5*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Column="0"
+                        LineBreakMode="CharacterWrap"
+                        Style="{StaticResource Key=Subtitle_text_label_style}"
+                        Text="Sport"
+                        VerticalTextAlignment="Center" />
+                    <Label
+                        Grid.Column="1"
+                        LineBreakMode="CharacterWrap"
+                        Style="{StaticResource Key=Subtitle_text_label_style}"
+                        Text="Owner"
+                        VerticalTextAlignment="Center" />
+                    <Label
+                        Grid.Column="2"
+                        LineBreakMode="CharacterWrap"
+                        Style="{StaticResource Key=Subtitle_text_label_style}"
+                        Text="Team"
+                        VerticalTextAlignment="Center" />
+                    <Label
+                        Grid.Column="3"
+                        LineBreakMode="CharacterWrap"
+                        Style="{StaticResource Key=Subtitle_text_label_style}"
+                        Text="Joined"
+                        VerticalTextAlignment="Center" />
+                </Grid>
+
+                <!--  Separator  -->
+                <BoxView Grid.Row="1" BackgroundColor="{StaticResource Key=GrayBorderColor}" />
+
+                <Grid Grid.Row="2" Padding="0,7">
+                    <!--  No elements hint  -->
+                    <Label
+                        FontFamily="{StaticResource Key=MontserratRegular}"
+                        HorizontalOptions="Center"
+                        IsVisible="{Binding ProfileContentViewModel.UserTypeSpecificViewModel.PickedTeams, Converter={StaticResource Key=iList_no_elements_to_bool_converter}}"
+                        Style="{StaticResource Key=Subtitle_text_label_style}"
+                        Text="No teams"
+                        VerticalOptions="Center" />
+
+                    <!--  Grid values  -->
+                    <stackList:StackList ItemsSource="{Binding ProfileContentViewModel.UserTypeSpecificViewModel.PickedTeams, Mode=OneWay}">
+                        <stackList:StackList.ItemTemplate>
+                            <DataTemplate>
+                                <!--<itemView:OrganizationTeamMemberView IsOnSelectionVisualChangesEnabled="False" IsSelectable="False" />-->
+                                <stackList:CommonStackListItem>
+                                    <Grid Padding="10,7">
+                                        <Grid.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Path=TeamOverviewCommand, Mode=OneWay}" />
+                                        </Grid.GestureRecognizers>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="1.5*" />
+                                            <ColumnDefinition Width="1.5*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label
+                                            Grid.Column="0"
+                                            LineBreakMode="CharacterWrap"
+                                            Style="{StaticResource Plain_text_label_style}"
+                                            Text="{Binding Sport}"
+                                            VerticalTextAlignment="Center" />
+                                        <Label
+                                            Grid.Column="1"
+                                            LineBreakMode="CharacterWrap"
+                                            Style="{StaticResource Plain_text_label_style}"
+                                            Text="{Binding Owner}"
+                                            VerticalTextAlignment="Center" />
+                                        <Label
+                                            Grid.Column="2"
+                                            LineBreakMode="CharacterWrap"
+                                            Style="{StaticResource Plain_text_label_style}"
+                                            Text="{Binding Team}"
+                                            VerticalTextAlignment="Center" />
+                                        <Label
+                                            Grid.Column="3"
+                                            LineBreakMode="CharacterWrap"
+                                            Style="{StaticResource Plain_text_label_style}"
+                                            Text="{Binding Path=Joined, StringFormat=' {0:M/d/yy}'}"
+                                            VerticalTextAlignment="Center" />
+                                    </Grid>
+                                </stackList:CommonStackListItem>
+                            </DataTemplate>
+                        </stackList:StackList.ItemTemplate>
+                    </stackList:StackList>
+                </Grid>
+            </Grid>
+        </controls:ExtendedContentView>
+        <!--</ScrollView>-->
+    </StackLayout>
+</ContentView>

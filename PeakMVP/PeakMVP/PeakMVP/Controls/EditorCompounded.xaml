@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="PeakMVP.Controls.EditorCompounded"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls">
+    <AbsoluteLayout>
+        <controls:ExtendedEditor
+            x:Name="_input_Editor"
+            AbsoluteLayout.LayoutBounds="1,1,1,1"
+            AbsoluteLayout.LayoutFlags="All"
+            Focused="OnInputEditorFocused"
+            FontFamily="{StaticResource Key=MontserratRegular}"
+            FontSize="{StaticResource Key=MidMediumSize}"
+            Unfocused="OnInputEditorUnfocused" />
+        <Label
+            x:Name="_placeholder_Label"
+            AbsoluteLayout.LayoutBounds="1,1,1,1"
+            AbsoluteLayout.LayoutFlags="All"
+            FontFamily="{StaticResource Key=MontserratRegular}"
+            FontSize="{StaticResource Key=MidMediumSize}"
+            InputTransparent="True"
+            TextColor="{StaticResource LightGrayColor}"
+            TranslationX="6">
+            <Label.TranslationY>
+                <OnPlatform
+                    x:TypeArguments="x:Double"
+                    Android="6"
+                    iOS="8" />
+            </Label.TranslationY>
+        </Label>
+    </AbsoluteLayout>
+</ContentView>

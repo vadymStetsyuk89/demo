@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<viewBase:ContentPageBase
+    x:Class="PeakMVP.Views.MainContent.MainAppView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:mainContentCompoundedViews="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent"
+    xmlns:viewBase="clr-namespace:PeakMVP.Views.Base"
+    xmlns:viewModelBase="clr-namespace:PeakMVP.ViewModels.Base"
+    viewModelBase:ViewModelLocator.AutoWireViewModel="True">
+
+    <viewBase:ContentPageBase.ActionBar>
+        <mainContentCompoundedViews:ModeActionBar />
+    </viewBase:ContentPageBase.ActionBar>
+</viewBase:ContentPageBase>

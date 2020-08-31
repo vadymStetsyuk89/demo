@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<carouselButtonsBase:CarouselButtonBase
+    x:Class="PeakMVP.Controls.Carousels.CompoundedCarousel.Buttons.SquareButton"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:carouselButtonsBase="clr-namespace:PeakMVP.Controls.Carousels.CompoundedCarousel.Base"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms">
+
+    <controls:ExtendedContentView
+        BackgroundColor="{StaticResource BlueColor}"
+        BorderColor="{StaticResource BlueColor}"
+        BorderThickness="1"
+        CornerRadius="3"
+        HeightRequest="55"
+        WidthRequest="40">
+        <ffimageloading:CachedImage
+            x:Name="_buttonImage_CachedImage"
+            CacheType="All"
+            HorizontalOptions="Center"
+            WidthRequest="15" />
+    </controls:ExtendedContentView>
+</carouselButtonsBase:CarouselButtonBase>

@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.ProfileContent.InvitesContentView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:PeakMVP.Behaviors"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:extensions="clr-namespace:PeakMVP.Extensions"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:invites="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent.Invites"
+    xmlns:profileContentResources="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent.ProfileContent.Resources"
+    xmlns:stackList="clr-namespace:PeakMVP.Controls.Stacklist">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <profileContentResources:ProfileContentCommonResourceDictionary />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="invite_type_header" TargetType="Label">
+                <!--<Setter Property="" Value="" />-->
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <Grid RowSpacing="6">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!--  Scope invites table header  -->
+        <StackLayout
+            Grid.Row="0"
+            Margin="20,0"
+            Orientation="Horizontal">
+            <Label
+                Style="{StaticResource Key=Title_text_label_style}"
+                Text="Invites"
+                VerticalOptions="Center" />
+
+            <!--  Invites button  -->
+            <controls:ExtendedContentView
+                BorderColor="#798897"
+                BorderThickness=".2"
+                CornerRadius="50"
+                HeightRequest="25"
+                WidthRequest="25">
+                <ffimageloading:CachedImage
+                    CacheType="All"
+                    Scale=".6"
+                    Source="{extensions:ImageResource PeakMVP.Images.BottomBar.ic_user.png}">
+                    <ffimageloading:CachedImage.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=ProfileContentViewModel.InvitesContentViewModel.ViewInvitesCommand}" />
+                    </ffimageloading:CachedImage.GestureRecognizers>
+                    <ffimageloading:CachedImage.Behaviors>
+                        <behaviors:FFColorScaleBehavior Brightness=".5" TargetColor="Gray" />
+                    </ffimageloading:CachedImage.Behaviors>
+                </ffimageloading:CachedImage>
+            </controls:ExtendedContentView>
+        </StackLayout>
+
+        <StackLayout
+            Grid.Row="1"
+            Padding="0,6"
+            BackgroundColor="{StaticResource Key=WhiteColor}"
+            IsVisible="{Binding Path=ProfileContentViewModel.InvitesContentViewModel.IsAnyInvites}">
+            <!--  Children requests  -->
+            <StackLayout Grid.Row="1" IsVisible="{Binding Path=ProfileContentViewModel.InvitesContentViewModel.ChildInvites, Converter={StaticResource Key=iList_has_elements_to_bool_converter}}">
+                <stackList:StackList
+                    IsGrouped="True"
+                    ItemsSource="{Binding Path=ProfileContentViewModel.InvitesContentViewModel.ChildInvites}"
+                    Spacing="5">
+                    <stackList:StackList.GroupHeaderTemplate>
+                        <DataTemplate>
+                            <Label
+                                Margin="0,0,0,6"
+                                FontSize="{StaticResource Key=MediumSize}"
+                                Style="{StaticResource Key=invite_type_header}"
+                                Text="{Binding Path=GroupHeader}"
+                                TextColor="{StaticResource Key=LightGrayColor}" />
+                        </DataTemplate>
+                    </stackList:StackList.GroupHeaderTemplate>
+                    <stackList:StackList.ItemTemplate>
+                        <DataTemplate>
+                            <invites:ChildInviteItemView IsOnSelectionVisualChangesEnabled="False" IsSelectable="False" />
+                        </DataTemplate>
+                    </stackList:StackList.ItemTemplate>
+                </stackList:StackList>
+            </StackLayout>
+
+            <!--  Friendship requests  -->
+            <StackLayout Grid.Row="2" IsVisible="{Binding Path=ProfileContentViewModel.InvitesContentViewModel.FriendshipRequests, Converter={StaticResource Key=iList_has_elements_to_bool_converter}}">
+                <Label
+                    Margin="20,0"
+                    FontSize="{StaticResource Key=MediumSize}"
+                    Style="{StaticResource Key=invite_type_header}"
+                    Text="Friend requests:"
+                    TextColor="{StaticResource Key=LightGrayColor}" />
+
+                <stackList:StackList ItemsSource="{Binding Path=ProfileContentViewModel.InvitesContentViewModel.FriendshipRequests}" Spacing="5">
+                    <stackList:StackList.ItemTemplate>
+                        <DataTemplate>
+                            <invites:FriendshipInviteItemView IsOnSelectionVisualChangesEnabled="False" IsSelectable="True" />
+                        </DataTemplate>
+                    </stackList:StackList.ItemTemplate>
+                </stackList:StackList>
+            </StackLayout>
+
+            <!--  Teams requests  -->
+            <StackLayout Grid.Row="3" IsVisible="{Binding Path=ProfileContentViewModel.InvitesContentViewModel.TeamRequests, Converter={StaticResource Key=iList_has_elements_to_bool_converter}}">
+                <Label
+                    Margin="20,0"
+                    FontSize="{StaticResource Key=MediumSize}"
+                    Style="{StaticResource Key=invite_type_header}"
+                    Text="Invites to team:"
+                    TextColor="{StaticResource Key=LightGrayColor}" />
+
+                <stackList:StackList ItemsSource="{Binding Path=ProfileContentViewModel.InvitesContentViewModel.TeamRequests}" Spacing="5">
+                    <stackList:StackList.ItemTemplate>
+                        <DataTemplate>
+                            <invites:TeamInviteItemView IsOnSelectionVisualChangesEnabled="False" IsSelectable="True" />
+                        </DataTemplate>
+                    </stackList:StackList.ItemTemplate>
+                </stackList:StackList>
+            </StackLayout>
+
+            <!--  Groups requests  -->
+            <StackLayout Grid.Row="4" IsVisible="{Binding Path=ProfileContentViewModel.InvitesContentViewModel.GroupsRequests, Converter={StaticResource Key=iList_has_elements_to_bool_converter}}">
+                <Label
+                    Margin="20,0"
+                    FontSize="{StaticResource Key=MediumSize}"
+                    Style="{StaticResource Key=invite_type_header}"
+                    Text="Group requests:"
+                    TextColor="{StaticResource Key=LightGrayColor}" />
+
+                <stackList:StackList ItemsSource="{Binding Path=ProfileContentViewModel.InvitesContentViewModel.GroupsRequests}" Spacing="5">
+                    <stackList:StackList.ItemTemplate>
+                        <DataTemplate>
+                            <invites:GroupInviteItemView IsOnSelectionVisualChangesEnabled="False" IsSelectable="True" />
+                        </DataTemplate>
+                    </stackList:StackList.ItemTemplate>
+                </stackList:StackList>
+            </StackLayout>
+        </StackLayout>
+    </Grid>
+</ContentView>

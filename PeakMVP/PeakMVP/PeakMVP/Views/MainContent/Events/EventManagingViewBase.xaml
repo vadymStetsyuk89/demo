@@ -1,0 +1,524 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<viewBase:ContentPageBase
+    x:Class="PeakMVP.Views.MainContent.Events.EventManagingViewBase"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:PeakMVP.Behaviors"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:converters="clr-namespace:PeakMVP.Converters"
+    xmlns:dropDowns="clr-namespace:PeakMVP.Controls.DropdownSelectors"
+    xmlns:local="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent.Events"
+    xmlns:mainContentCompoundedViews="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent"
+    xmlns:popovers="clr-namespace:PeakMVP.Controls.Popovers"
+    xmlns:stackList="clr-namespace:PeakMVP.Controls.Stacklist"
+    xmlns:viewBase="clr-namespace:PeakMVP.Views.Base">
+
+    <viewBase:ContentPageBase.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="action_scope_wraper_style" TargetType="controls:ExtendedContentView">
+                <Setter Property="Padding" Value="20" />
+                <Setter Property="BackgroundColor" Value="{StaticResource Key=WhiteColor}" />
+                <Setter Property="CornerRadius" Value="3" />
+            </Style>
+
+            <Style
+                x:Key="action_scope_header_style"
+                BasedOn="{StaticResource Key=Title_text_label_style}"
+                TargetType="Label">
+                <Setter Property="FontFamily" Value="{StaticResource Key=MontserratRegular}" />
+            </Style>
+
+            <Style x:Key="input_group_editor" TargetType="controls:ExtendedEditor">
+                <Setter Property="FontFamily" Value="{StaticResource Key=MontserratRegular}" />
+                <Setter Property="FontSize" Value="{StaticResource Key=MidMediumSize}" />
+                <Setter Property="TextColor" Value="{StaticResource Key=BlackColor}" />
+            </Style>
+
+            <converters:IntegerValueComparingToBoolConverter
+                x:Key="int_bigger_than_zero_to_bool_converter"
+                IsLessThan="False"
+                LimitValue="0" />
+
+        </ResourceDictionary>
+    </viewBase:ContentPageBase.Resources>
+
+    <viewBase:ContentPageBase.ActionBar>
+        <mainContentCompoundedViews:ModeActionBar />
+    </viewBase:ContentPageBase.ActionBar>
+
+    <viewBase:ContentPageBase.MainContent>
+        <ScrollView>
+            <StackLayout Padding="20,40" Spacing="21">
+
+                <!--  Header title  -->
+                <Label
+                    HorizontalOptions="Center"
+                    Style="{StaticResource Key=Title_text_label_style}"
+                    Text="{Binding Path=GameManagingHeader}" />
+
+                <!--  Game details scope  -->
+                <controls:ExtendedContentView Style="{StaticResource Key=action_scope_wraper_style}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="1" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Row="0" Text="Event Details" />
+
+                        <BoxView Grid.Row="1" BackgroundColor="{StaticResource Key=GrayBorderColor}" />
+
+                        <!--  Inputs scope  -->
+                        <StackLayout Grid.Row="2" Spacing="16">
+                            <!--  Event name input group  -->
+                            <StackLayout Spacing="3">
+                                <Label Style="{StaticResource Key=Input_group_title_label}" Text="Name of event" />
+                                <controls:ExtendedContentView BorderColor="{Binding Path=NameOfEvent.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}" Style="{StaticResource Key=Input_group_entry_wraper}">
+                                    <controls:EntryEx
+                                        Placeholder="e.g. BBQ at Matt's House"
+                                        Style="{StaticResource Key=Input_group_entry}"
+                                        Text="{Binding Path=NameOfEvent.Value, Mode=TwoWay}" />
+                                </controls:ExtendedContentView>
+                                <Label
+                                    IsVisible="{Binding Path=NameOfEvent.IsValid, Converter={StaticResource Key=Reverce_bool_converter}}"
+                                    Style="{StaticResource Key=ValidationErrorLabelStyle}"
+                                    Text="{Binding Path=NameOfEvent.Errors, Converter={StaticResource Key=FirstValidationErrorConverter}}" />
+                            </StackLayout>
+
+                            <!--  Event short label input group  -->
+                            <StackLayout Spacing="3">
+                                <Label Style="{StaticResource Key=Input_group_title_label}" Text="Short label" />
+                                <controls:ExtendedContentView BorderColor="{Binding Path=ShortLabel.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}" Style="{StaticResource Key=Input_group_entry_wraper}">
+                                    <controls:EntryEx
+                                        Placeholder="e.g. Practice, BBQ, Meeting, etc."
+                                        Style="{StaticResource Key=Input_group_entry}"
+                                        Text="{Binding Path=ShortLabel.Value, Mode=TwoWay}" />
+                                </controls:ExtendedContentView>
+                                <Label
+                                    IsVisible="{Binding Path=ShortLabel.IsValid, Converter={StaticResource Key=Reverce_bool_converter}}"
+                                    Style="{StaticResource Key=ValidationErrorLabelStyle}"
+                                    Text="{Binding Path=ShortLabel.Errors, Converter={StaticResource Key=FirstValidationErrorConverter}}" />
+                            </StackLayout>
+
+                            <!--  Date input group  -->
+                            <StackLayout Spacing="3">
+                                <Label Style="{StaticResource Key=Input_group_title_label}" Text="Date" />
+                                <controls:ExtendedContentView BorderColor="{Binding Path=Date.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}" Style="{StaticResource Key=Input_group_entry_wraper}">
+                                    <controls:ExtendedDatePicker Date="{Binding Path=Date.Value, Mode=TwoWay}" />
+                                </controls:ExtendedContentView>
+                                <Label
+                                    IsVisible="{Binding Path=Date.IsValid, Converter={StaticResource Key=Reverce_bool_converter}}"
+                                    Style="{StaticResource Key=ValidationErrorLabelStyle}"
+                                    Text="{Binding Path=Date.Errors, Converter={StaticResource Key=FirstValidationErrorConverter}}" />
+                            </StackLayout>
+
+                            <!--  Time TBD input group  -->
+                            <StackLayout Orientation="Horizontal" Spacing="3">
+                                <Label
+                                    Style="{StaticResource Key=Input_group_title_label}"
+                                    Text="Time TBD"
+                                    VerticalOptions="Center" />
+                                <Switch IsToggled="{Binding Path=TimeTBD, Mode=TwoWay}" VerticalOptions="Center" />
+                            </StackLayout>
+
+                            <!--  Time input group  -->
+                            <StackLayout IsVisible="{Binding Path=TimeTBD, Converter={StaticResource Key=Reverce_bool_converter}}" Spacing="3">
+                                <Label Style="{StaticResource Key=Input_group_title_label}" Text="Time" />
+                                <controls:ExtendedContentView BorderColor="{Binding Path=Time.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}" Style="{StaticResource Key=Input_group_entry_wraper}">
+                                    <controls:TimePickerExtended Time="{Binding Path=Time.Value, Mode=TwoWay}" />
+                                </controls:ExtendedContentView>
+                                <Label
+                                    IsVisible="{Binding Path=Time.IsValid, Converter={StaticResource Key=Reverce_bool_converter}}"
+                                    Style="{StaticResource Key=ValidationErrorLabelStyle}"
+                                    Text="{Binding Path=Time.Errors, Converter={StaticResource Key=FirstValidationErrorConverter}}" />
+                            </StackLayout>
+
+                            <!--  Duration input group  -->
+                            <StackLayout Spacing="3">
+                                <Label Style="{StaticResource Key=Input_group_title_label}" Text="Duration" />
+                                <controls:ExtendedContentView BorderColor="{Binding Path=Duration.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}" Style="{StaticResource Key=Input_group_entry_wraper}">
+                                    <controls:EntryEx
+                                        Keyboard="Numeric"
+                                        Placeholder="In minutes"
+                                        Style="{StaticResource Key=Input_group_entry}"
+                                        Text="{Binding Path=Duration.Value, Mode=TwoWay}">
+                                        <controls:EntryEx.Behaviors>
+                                            <behaviors:NumericInputBehavior />
+                                        </controls:EntryEx.Behaviors>
+                                    </controls:EntryEx>
+                                </controls:ExtendedContentView>
+                                <Label
+                                    IsVisible="{Binding Path=Duration.IsValid, Converter={StaticResource Key=Reverce_bool_converter}}"
+                                    Style="{StaticResource Key=ValidationErrorLabelStyle}"
+                                    Text="{Binding Path=Duration.Errors, Converter={StaticResource Key=FirstValidationErrorConverter}}" />
+                            </StackLayout>
+
+                            <!--  Repeatings input group  -->
+                            <StackLayout Spacing="3">
+                                <Label Style="{StaticResource Key=Input_group_title_label}" Text="Repeats" />
+
+                                <dropDowns:DropSelect
+                                    BackgroundColor="{StaticResource Key=WhiteColor}"
+                                    BorderColor="{Binding Path=SelectedRepeating.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}"
+                                    HeightRequest="40"
+                                    IsHintEnabled="True"
+                                    ItemSource="{Binding Path=Repeatings}"
+                                    PopoverLayouting="LeftBottom"
+                                    SelectedItem="{Binding Path=SelectedRepeating.Value, Mode=TwoWay}"
+                                    VerticalOptions="Start">
+                                    <dropDowns:DropSelect.HintViewTemplate>
+                                        <DataTemplate>
+                                            <Label
+                                                Margin="20,0"
+                                                FontFamily="{StaticResource Key=MontserratRegular}"
+                                                FontSize="{StaticResource Key=MidMediumSize}"
+                                                Text="Select"
+                                                TextColor="{StaticResource Key=GrayColor}"
+                                                VerticalOptions="Center" />
+                                        </DataTemplate>
+                                    </dropDowns:DropSelect.HintViewTemplate>
+                                    <dropDowns:DropSelect.SelectedItemFiguring>
+                                        <!--  Don't use StackLayout in that case - sometimes it throws own calculation-related exception  -->
+                                        <Grid Padding="20,0,25,0">
+                                            <Label
+                                                FontSize="{StaticResource Key=MidMediumSize}"
+                                                HorizontalTextAlignment="Start"
+                                                LineBreakMode="TailTruncation"
+                                                Text="{Binding Path=Header}"
+                                                VerticalTextAlignment="Center" />
+                                        </Grid>
+                                    </dropDowns:DropSelect.SelectedItemFiguring>
+                                    <dropDowns:DropSelect.Popover>
+                                        <popovers:ListedPopover
+                                            HorizontalOptions="Start"
+                                            IsHaveSameWidth="True"
+                                            ListPadding="20,7">
+                                            <popovers:ListedPopover.ItemTemplate>
+                                                <DataTemplate>
+                                                    <stackList:CommonStackListItem IsOnSelectionVisualChangesEnabled="False" IsSelectable="True">
+                                                        <!--  Don't use StackLayout in that case - sometimes it throws own calculation-related exception  -->
+                                                        <Grid HorizontalOptions="Start">
+                                                            <Label
+                                                                FontSize="{StaticResource Key=MidMediumSize}"
+                                                                HorizontalTextAlignment="Start"
+                                                                Text="{Binding Path=Header}"
+                                                                VerticalTextAlignment="Start" />
+                                                        </Grid>
+                                                    </stackList:CommonStackListItem>
+                                                </DataTemplate>
+                                            </popovers:ListedPopover.ItemTemplate>
+                                        </popovers:ListedPopover>
+                                    </dropDowns:DropSelect.Popover>
+                                </dropDowns:DropSelect>
+                                <Label
+                                    IsVisible="{Binding Path=SelectedRepeating.IsValid, Converter={StaticResource Key=Reverce_bool_converter}}"
+                                    Style="{StaticResource Key=ValidationErrorLabelStyle}"
+                                    Text="{Binding Path=SelectedRepeating.Errors, Converter={StaticResource Key=FirstValidationErrorConverter}}" />
+                            </StackLayout>
+
+                            <!--  Repeat until input group  -->
+                            <StackLayout IsVisible="{Binding Path=IsRepeatUntilAvailable}" Spacing="3">
+                                <Label Style="{StaticResource Key=Input_group_title_label}" Text="Repeat until" />
+                                <controls:ExtendedContentView BorderColor="{Binding Path=RepeatUntil.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}" Style="{StaticResource Key=Input_group_entry_wraper}">
+                                    <controls:ExtendedDatePicker Date="{Binding Path=RepeatUntil.Value, Mode=TwoWay}" />
+                                </controls:ExtendedContentView>
+                                <Label
+                                    IsVisible="{Binding Path=RepeatUntil.IsValid, Converter={StaticResource Key=Reverce_bool_converter}}"
+                                    Style="{StaticResource Key=ValidationErrorLabelStyle}"
+                                    Text="{Binding Path=RepeatUntil.Errors, Converter={StaticResource Key=FirstValidationErrorConverter}}" />
+                            </StackLayout>
+
+                            <!--  Location details input group  -->
+                            <StackLayout Spacing="3">
+                                <Label Style="{StaticResource Key=Input_group_title_label}" Text="Location details" />
+                                <controls:ExtendedContentView BorderColor="{Binding Path=LocationDetails.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}" Style="{StaticResource Key=Input_group_entry_wraper}">
+                                    <controls:EntryEx
+                                        Placeholder="e.g. Field #1, Large gym etc."
+                                        Style="{StaticResource Key=Input_group_entry}"
+                                        Text="{Binding Path=LocationDetails.Value, Mode=TwoWay}" />
+                                </controls:ExtendedContentView>
+                                <Label
+                                    IsVisible="{Binding Path=LocationDetails.IsValid, Converter={StaticResource Key=Reverce_bool_converter}}"
+                                    Style="{StaticResource Key=ValidationErrorLabelStyle}"
+                                    Text="{Binding Path=LocationDetails.Errors, Converter={StaticResource Key=FirstValidationErrorConverter}}" />
+                            </StackLayout>
+
+                            <!--  Location input group  -->
+                            <StackLayout Spacing="3">
+                                <Label Style="{StaticResource Key=Input_group_title_label}" Text="Location" />
+
+                                <dropDowns:DropSelect
+                                    BackgroundColor="{StaticResource Key=WhiteColor}"
+                                    BorderColor="{Binding Path=SelectedLocation.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}"
+                                    HeightRequest="40"
+                                    IsButtonEnabled="True"
+                                    IsHintEnabled="True"
+                                    ItemSource="{Binding Path=Locations}"
+                                    PopoverLayouting="LeftBottom"
+                                    SelectedItem="{Binding Path=SelectedLocation.Value, Mode=TwoWay}"
+                                    VerticalOptions="Start">
+                                    <dropDowns:DropSelect.HintViewTemplate>
+                                        <DataTemplate>
+                                            <Label
+                                                Margin="20,0"
+                                                FontFamily="{StaticResource Key=MontserratRegular}"
+                                                FontSize="{StaticResource Key=MidMediumSize}"
+                                                Text="Select location"
+                                                TextColor="{StaticResource Key=GrayColor}"
+                                                VerticalOptions="Center" />
+                                        </DataTemplate>
+                                    </dropDowns:DropSelect.HintViewTemplate>
+                                    <dropDowns:DropSelect.SelectedItemFiguring>
+                                        <!--  Don't use StackLayout in that case - sometimes it throws own calculation-related exception  -->
+                                        <Grid Padding="20,0,25,0">
+                                            <Label
+                                                FontSize="{StaticResource Key=MidMediumSize}"
+                                                HorizontalTextAlignment="Start"
+                                                LineBreakMode="TailTruncation"
+                                                Text="{Binding Path=Name}"
+                                                VerticalTextAlignment="Center" />
+                                        </Grid>
+                                    </dropDowns:DropSelect.SelectedItemFiguring>
+                                    <dropDowns:DropSelect.Popover>
+                                        <popovers:ListedPopover
+                                            HorizontalOptions="Start"
+                                            IsHaveSameWidth="True"
+                                            ListPadding="20,7">
+                                            <popovers:ListedPopover.ItemTemplate>
+                                                <DataTemplate>
+                                                    <stackList:CommonStackListItem IsOnSelectionVisualChangesEnabled="False" IsSelectable="True">
+                                                        <!--  Don't use StackLayout in that case - sometimes it throws own calculation-related exception  -->
+                                                        <Grid HorizontalOptions="Start">
+                                                            <Label
+                                                                FontSize="{StaticResource Key=MidMediumSize}"
+                                                                HorizontalTextAlignment="Start"
+                                                                Text="{Binding Path=Name}"
+                                                                VerticalTextAlignment="Start" />
+                                                        </Grid>
+                                                    </stackList:CommonStackListItem>
+                                                </DataTemplate>
+                                            </popovers:ListedPopover.ItemTemplate>
+                                        </popovers:ListedPopover>
+                                    </dropDowns:DropSelect.Popover>
+                                    <dropDowns:DropSelect.ButtonViewTemplate>
+                                        <DataTemplate>
+                                            <controls:ButtonControll
+                                                ButtonBackgroundColor="{StaticResource Key=LightGrayWhiteColor}"
+                                                ButtonCommand="{Binding Path=AddLocationPopupViewModel.ShowPopupCommand}"
+                                                ButtonFontFamily="{StaticResource Key=MontserratBold}"
+                                                ButtonFontSize="{StaticResource Key=LargerSize}"
+                                                ButtonPadding="27,0"
+                                                ButtonText="+"
+                                                ButtonTextColor="{StaticResource Key=MainBlackColor}" />
+                                        </DataTemplate>
+                                    </dropDowns:DropSelect.ButtonViewTemplate>
+                                </dropDowns:DropSelect>
+                                <Label
+                                    IsVisible="{Binding Path=SelectedLocation.IsValid, Converter={StaticResource Key=Reverce_bool_converter}}"
+                                    Style="{StaticResource Key=ValidationErrorLabelStyle}"
+                                    Text="{Binding Path=SelectedLocation.Errors, Converter={StaticResource Key=FirstValidationErrorConverter}}" />
+                            </StackLayout>
+                        </StackLayout>
+                    </Grid>
+                </controls:ExtendedContentView>
+
+                <!--  Optional game info scope  -->
+                <controls:ExtendedContentView Style="{StaticResource Key=action_scope_wraper_style}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="1" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Row="0" Text="Optional game info" />
+
+                        <BoxView Grid.Row="1" BackgroundColor="{StaticResource Key=GrayBorderColor}" />
+
+                        <StackLayout Grid.Row="2" Spacing="16">
+
+                            <!--  Notes input group  -->
+                            <StackLayout Spacing="3">
+                                <Label Style="{StaticResource Key=Input_group_title_label}" Text="Notes" />
+                                <controls:ExtendedContentView
+                                    BorderColor="{Binding Path=Notes.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}"
+                                    HeightRequest="80"
+                                    Style="{StaticResource Key=Input_group_entry_wraper}">
+                                    <!--<controls:ExtendedEditor
+                                        HeightRequest="-1"
+                                        Placeholder="Additional notes"
+                                        Style="{StaticResource Key=input_group_editor}"
+                                        Text="{Binding Path=Notes.Value, Mode=TwoWay}" />-->
+                                    <controls:EditorCompounded InputText="{Binding Path=Notes.Value, Mode=TwoWay}" Placeholder="Additional notes" />
+                                </controls:ExtendedContentView>
+                                <Label
+                                    IsVisible="{Binding Path=Notes.IsValid, Converter={StaticResource Key=Reverce_bool_converter}}"
+                                    Style="{StaticResource Key=ValidationErrorLabelStyle}"
+                                    Text="{Binding Path=Notes.Errors, Converter={StaticResource Key=FirstValidationErrorConverter}}" />
+                            </StackLayout>
+
+                            <!--  Mark as canceled input group  -->
+                            <StackLayout Orientation="Horizontal" Spacing="3">
+                                <Switch IsToggled="{Binding Path=IsCanceled, Mode=TwoWay}" VerticalOptions="Center" />
+                                <Label
+                                    Style="{StaticResource Key=Input_group_title_label}"
+                                    Text="Show this event as canceled on the schedule"
+                                    VerticalOptions="Center" />
+                            </StackLayout>
+                        </StackLayout>
+                    </Grid>
+                </controls:ExtendedContentView>
+
+                <!--  Assignments scope  -->
+                <controls:ExtendedContentView Style="{StaticResource Key=action_scope_wraper_style}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="1" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Row="0" Text="Assignments" />
+
+                        <BoxView Grid.Row="1" BackgroundColor="{StaticResource Key=GrayBorderColor}" />
+
+                        <Grid Grid.Row="2" RowSpacing="22">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <stackList:StackList
+                                x:Name="_assignmentsList_StackList"
+                                Grid.Row="0"
+                                IsVisible="{Binding Path=Assignments.Count, Converter={StaticResource Key=int_bigger_than_zero_to_bool_converter}}"
+                                ItemsSource="{Binding Path=Assignments, Mode=OneWay}"
+                                Spacing="21">
+                                <stackList:StackList.ItemTemplate>
+                                    <DataTemplate>
+                                        <stackList:CommonStackListItem IsOnSelectionVisualChangesEnabled="False" IsSelectable="False">
+                                            <local:AssignmentView />
+                                        </stackList:CommonStackListItem>
+                                    </DataTemplate>
+                                </stackList:StackList.ItemTemplate>
+                            </stackList:StackList>
+
+                            <controls:ButtonControll
+                                Grid.Row="1"
+                                ButtonBackgroundColor="{StaticResource Key=GrayColor}"
+                                ButtonCommand="{Binding Path=AddAssignmentCommand}"
+                                ButtonCornerRadius="3"
+                                ButtonFontFamily="{StaticResource Key=MontserratBold}"
+                                ButtonFontSize="{StaticResource Key=MidMediumSize}"
+                                ButtonText="ADD ANOTHER"
+                                ButtonTextColor="{StaticResource Key=WhiteColor}" />
+                        </Grid>
+                    </Grid>
+                </controls:ExtendedContentView>
+
+                <!--  Notification scope  -->
+                <controls:ExtendedContentView Style="{StaticResource Key=action_scope_wraper_style}">
+                    <!--  To notify your team input group  -->
+                    <StackLayout
+                        HorizontalOptions="Center"
+                        Orientation="Horizontal"
+                        Spacing="3"
+                        VerticalOptions="Center">
+                        <Switch IsToggled="{Binding Path=ToNotifyYourTeam, Mode=TwoWay}" VerticalOptions="Center" />
+                        <Label
+                            Style="{StaticResource Key=Input_group_title_label}"
+                            Text="Notify your team?"
+                            VerticalOptions="Center" />
+                    </StackLayout>
+                </controls:ExtendedContentView>
+
+                <!--  Controls scope  -->
+                <Grid>
+                    <Grid IsVisible="{Binding Path=IsSaveAndCreateAnotherCommandAvalilable}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width=".5*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width=".5*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <controls:ButtonControll
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            ButtonBackgroundColor="{StaticResource Key=GreenSuccessColor}"
+                            ButtonCommand="{Binding Path=SaveCommand}"
+                            ButtonCornerRadius="3"
+                            ButtonFontFamily="{StaticResource Key=MontserratBold}"
+                            ButtonFontSize="{StaticResource Key=MidMediumSize}"
+                            ButtonText="Save"
+                            ButtonTextColor="{StaticResource Key=WhiteColor}" />
+
+                        <controls:ButtonControll
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="3"
+                            ButtonBackgroundColor="{StaticResource Key=GreenSuccessColor}"
+                            ButtonCommand="{Binding Path=SaveAndCreateAnotherCommand}"
+                            ButtonCornerRadius="3"
+                            ButtonFontFamily="{StaticResource Key=MontserratBold}"
+                            ButtonFontSize="{StaticResource Key=MidMediumSize}"
+                            ButtonText="Save and create another"
+                            ButtonTextColor="{StaticResource Key=WhiteColor}" />
+
+                        <controls:ButtonControll
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            ButtonBackgroundColor="{StaticResource Key=RedColor}"
+                            ButtonCommand="{Binding Path=CancelCommand}"
+                            ButtonCornerRadius="3"
+                            ButtonFontFamily="{StaticResource Key=MontserratBold}"
+                            ButtonFontSize="{StaticResource Key=MidMediumSize}"
+                            ButtonText="Cancel"
+                            ButtonTextColor="{StaticResource Key=WhiteColor}" />
+                    </Grid>
+
+                    <Grid IsVisible="{Binding Path=IsSaveAndCreateAnotherCommandAvalilable, Converter={StaticResource Key=Reverce_bool_converter}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width=".2*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width=".2*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <controls:ButtonControll
+                                Grid.Column="0"
+                                ButtonBackgroundColor="{StaticResource Key=GreenSuccessColor}"
+                                ButtonCommand="{Binding Path=SaveCommand}"
+                                ButtonCornerRadius="3"
+                                ButtonFontFamily="{StaticResource Key=MontserratBold}"
+                                ButtonFontSize="{StaticResource Key=MidMediumSize}"
+                                ButtonText="Save"
+                                ButtonTextColor="{StaticResource Key=WhiteColor}" />
+
+                            <controls:ButtonControll
+                                Grid.Column="1"
+                                ButtonBackgroundColor="{StaticResource Key=RedColor}"
+                                ButtonCommand="{Binding Path=CancelCommand}"
+                                ButtonCornerRadius="3"
+                                ButtonFontFamily="{StaticResource Key=MontserratBold}"
+                                ButtonFontSize="{StaticResource Key=MidMediumSize}"
+                                ButtonText="Cancel"
+                                ButtonTextColor="{StaticResource Key=WhiteColor}" />
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </StackLayout>
+        </ScrollView>
+    </viewBase:ContentPageBase.MainContent>
+</viewBase:ContentPageBase>

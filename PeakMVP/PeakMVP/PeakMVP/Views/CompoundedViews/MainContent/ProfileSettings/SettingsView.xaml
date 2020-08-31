@@ -1,0 +1,242 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.ProfileSettings.SettingsView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:extensions="clr-namespace:PeakMVP.Extensions"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:profileSettingsResources="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent.ProfileSettings.Resources">
+
+    <ContentView.Resources>
+        <profileSettingsResources:ProfileSettingsCommonResourceDictionary />
+    </ContentView.Resources>
+
+    <controls:PullToRefreshLayout
+        IsPullToRefreshEnabled="{Binding Path=IsNestedPullToRefreshEnabled}"
+        IsRefreshing="{Binding Path=IsNestedRefreshing, Mode=TwoWay}"
+        RefreshCommand="{Binding Path=NestedRefreshCommand}">
+        <ScrollView>
+            <StackLayout Padding="20,40" Spacing="31">
+
+                <!--  Scope header  -->
+                <StackLayout>
+                    <Label
+                        Style="{StaticResource Key=Title_text_label_style}"
+                        Text="Profile Settings"
+                        VerticalOptions="Center" />
+                </StackLayout>
+
+                <!--  Whole form  -->
+                <controls:ExtendedContentView
+                    Padding="20,20"
+                    BackgroundColor="{StaticResource Key=WhiteColor}"
+                    CornerRadius="3">
+                    <StackLayout Spacing="31">
+
+                        <!--  Avatar scope  -->
+                        <AbsoluteLayout
+                            HeightRequest="120"
+                            HorizontalOptions="Center"
+                            IsClippedToBounds="True"
+                            WidthRequest="120">
+                            <ffimageloading:CachedImage
+                                AbsoluteLayout.LayoutBounds="1,1,1,1"
+                                AbsoluteLayout.LayoutFlags="All"
+                                Aspect="AspectFit"
+                                Source="{Binding Path=Avatar, Converter={StaticResource Key=User_avatar_converter}, Mode=OneWay}">
+                                <ffimageloading:CachedImage.Transformations>
+                                    <fftransformations:CircleTransformation />
+                                </ffimageloading:CachedImage.Transformations>
+                            </ffimageloading:CachedImage>
+
+                            <ffimageloadingsvg:SvgCachedImage
+                                AbsoluteLayout.LayoutBounds="1,1,1,1"
+                                AbsoluteLayout.LayoutFlags="All"
+                                CacheType="All"
+                                Scale="2.4"
+                                Source="resource://PeakMVP.Images.Svg.ic_mask_circle.svg" />
+
+                            <ContentView
+                                Padding="12,12,0,0"
+                                AbsoluteLayout.LayoutBounds="1,1"
+                                AbsoluteLayout.LayoutFlags="PositionProportional">
+                                <ContentView.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=PickAvatarPopupViewModel.ShowPopupCommand}" />
+                                </ContentView.GestureRecognizers>
+                                <controls:ExtendedContentView
+                                    BackgroundColor="#26d38d"
+                                    HeightRequest="40"
+                                    WidthRequest="40">
+                                    <controls:ExtendedContentView.CornerRadius>
+                                        <OnPlatform x:TypeArguments="x:Int32">
+                                            <On Platform="iOS" Value="20" />
+                                            <On Platform="Android" Value="40" />
+                                        </OnPlatform>
+                                    </controls:ExtendedContentView.CornerRadius>
+                                    <ffimageloading:CachedImage
+                                        CacheType="All"
+                                        Scale=".4"
+                                        Source="{extensions:ImageResource Source=PeakMVP.Images.ic_add_white.png}" />
+                                </controls:ExtendedContentView>
+                            </ContentView>
+                        </AbsoluteLayout>
+
+                        <!--  Type specific self information scope  -->
+                        <ContentView Content="{Binding Path=SelfInformationViewModel, Converter={StaticResource Key=resolved_self_information_view_model_to_appropriate_view_converter}}" />
+
+                        <!--  Separator  -->
+                        <BoxView BackgroundColor="{StaticResource Key=GrayBorderColor}" HeightRequest="1" />
+
+                        <!--  Email and password info scope  -->
+                        <StackLayout Spacing="16">
+
+                            <!--  Phone number input group  -->
+                            <StackLayout Spacing="3">
+                                <Label Style="{StaticResource Key=Input_group_title_label}" Text="Phone Number" />
+                                <controls:ExtendedContentView BorderColor="{Binding Path=PhoneNumber.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}" Style="{StaticResource Key=Input_group_entry_wraper}">
+                                    <controls:EntryEx
+                                        Keyboard="Numeric"
+                                        Placeholder="Phone Number"
+                                        Style="{StaticResource Key=Input_group_entry}"
+                                        Text="{Binding Path=PhoneNumber.Value, Mode=TwoWay}" />
+                                </controls:ExtendedContentView>
+                                <Label
+                                    IsVisible="{Binding Path=PhoneNumber.IsValid, Converter={StaticResource Key=Reverce_bool_converter}}"
+                                    Style="{StaticResource Key=ValidationErrorLabelStyle}"
+                                    Text="{Binding Path=PhoneNumber.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+                            </StackLayout>
+
+                            <!--  Email input group  -->
+                            <StackLayout Spacing="3">
+                                <Label Style="{StaticResource Key=Input_group_title_label}" Text="Email Address" />
+                                <controls:ExtendedContentView BorderColor="{Binding Path=EmaiAddress.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}" Style="{StaticResource Key=Input_group_entry_wraper}">
+                                    <controls:EntryEx
+                                        Placeholder="Email Address"
+                                        Style="{StaticResource Key=Input_group_entry}"
+                                        Text="{Binding Path=EmaiAddress.Value, Mode=TwoWay}" />
+                                </controls:ExtendedContentView>
+                                <Label
+                                    IsVisible="{Binding Path=EmaiAddress.IsValid, Converter={StaticResource Key=Reverce_bool_converter}}"
+                                    Style="{StaticResource Key=ValidationErrorLabelStyle}"
+                                    Text="{Binding Path=EmaiAddress.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+                            </StackLayout>
+
+                            <!--  Current password input group  -->
+                            <StackLayout Spacing="3">
+                                <Label Style="{StaticResource Key=Input_group_title_label}" Text="Current Password" />
+                                <controls:ExtendedContentView BorderColor="{Binding Path=CurrentPassword.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}" Style="{StaticResource Key=Input_group_entry_wraper}">
+                                    <controls:EntryEx
+                                        IsPassword="True"
+                                        Placeholder="Password"
+                                        Style="{StaticResource Key=Input_group_entry}"
+                                        Text="{Binding Path=CurrentPassword.Value, Mode=TwoWay}" />
+                                </controls:ExtendedContentView>
+                                <Label
+                                    IsVisible="{Binding Path=CurrentPassword.IsValid, Converter={StaticResource Key=Reverce_bool_converter}}"
+                                    Style="{StaticResource Key=ValidationErrorLabelStyle}"
+                                    Text="{Binding Path=CurrentPassword.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+                            </StackLayout>
+
+                            <!--  New password input group  -->
+                            <StackLayout Spacing="3">
+                                <Label Style="{StaticResource Key=Input_group_title_label}" Text="New Password" />
+                                <controls:ExtendedContentView BorderColor="{Binding Path=NewPassword.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}" Style="{StaticResource Key=Input_group_entry_wraper}">
+                                    <controls:EntryEx
+                                        IsPassword="True"
+                                        Placeholder="Password"
+                                        Style="{StaticResource Key=Input_group_entry}"
+                                        Text="{Binding Path=NewPassword.Value, Mode=TwoWay}" />
+                                </controls:ExtendedContentView>
+                                <Label
+                                    IsVisible="{Binding Path=NewPassword.IsValid, Converter={StaticResource Key=Reverce_bool_converter}}"
+                                    Style="{StaticResource Key=ValidationErrorLabelStyle}"
+                                    Text="{Binding Path=NewPassword.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+                            </StackLayout>
+
+                            <!--  Repeat new password input group  -->
+                            <StackLayout Spacing="3">
+                                <Label Style="{StaticResource Key=Input_group_title_label}" Text="Repeat New Password" />
+                                <controls:ExtendedContentView BorderColor="{Binding Path=RepeatNewPassword.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}" Style="{StaticResource Key=Input_group_entry_wraper}">
+                                    <controls:EntryEx
+                                        IsPassword="True"
+                                        Placeholder="Repeat Password"
+                                        Style="{StaticResource Key=Input_group_entry}"
+                                        Text="{Binding Path=RepeatNewPassword.Value, Mode=TwoWay}" />
+                                </controls:ExtendedContentView>
+                                <Label
+                                    IsVisible="{Binding Path=RepeatNewPassword.IsValid, Converter={StaticResource Key=Reverce_bool_converter}}"
+                                    Style="{StaticResource Key=ValidationErrorLabelStyle}"
+                                    Text="{Binding Path=RepeatNewPassword.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+                            </StackLayout>
+                        </StackLayout>
+
+                        <!--  Separator  -->
+                        <BoxView BackgroundColor="{StaticResource Key=GrayBorderColor}" HeightRequest="1" />
+
+                        <!--  Temporary actions  -->
+                        <StackLayout Spacing="12">
+
+                            <StackLayout
+                                HorizontalOptions="Start"
+                                IsVisible="{Binding Path=IsImpersonateLogBackAvailable, Mode=OneWay}"
+                                Orientation="Horizontal">
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=ImpersonateLogBackCommand}" />
+                                </StackLayout.GestureRecognizers>
+                                <ffimageloading:CachedImage
+                                    CacheType="All"
+                                    HeightRequest="18"
+                                    Source="{extensions:ImageResource Source=PeakMVP.Images.BottomBar.ic_user.png}"
+                                    VerticalOptions="Center"
+                                    WidthRequest="16" />
+
+                                <Label Style="{StaticResource Key=Input_group_title_label}" Text="Log back to parent" />
+                            </StackLayout>
+
+                            <StackLayout HorizontalOptions="Start" Orientation="Horizontal">
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=LogoutCommand}" />
+                                </StackLayout.GestureRecognizers>
+                                <ffimageloading:CachedImage
+                                    CacheType="All"
+                                    HeightRequest="18"
+                                    Source="{extensions:ImageResource Source=PeakMVP.Images.ic_exit.png}"
+                                    VerticalOptions="Center"
+                                    WidthRequest="16" />
+
+                                <Label Style="{StaticResource Key=Input_group_title_label}" Text="Logout" />
+                            </StackLayout>
+                        </StackLayout>
+
+                        <!--  Separator  -->
+                        <BoxView BackgroundColor="{StaticResource Key=GrayBorderColor}" HeightRequest="1" />
+
+                        <!--  Controls spot  -->
+                        <StackLayout>
+                            <!--  Save settings button  -->
+                            <controls:ExtendedContentView
+                                Padding="0,9"
+                                BackgroundColor="{StaticResource Key=BlueColor}"
+                                CornerRadius="3"
+                                HorizontalOptions="Center"
+                                WidthRequest="130">
+                                <controls:ExtendedContentView.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=SaveCommand}" />
+                                </controls:ExtendedContentView.GestureRecognizers>
+                                <Label
+                                    FontFamily="{StaticResource Key=MontserratBold}"
+                                    HorizontalOptions="Center"
+                                    Text="SAVE"
+                                    TextColor="{StaticResource WhiteColor}"
+                                    VerticalOptions="Center" />
+                            </controls:ExtendedContentView>
+                        </StackLayout>
+                    </StackLayout>
+                </controls:ExtendedContentView>
+            </StackLayout>
+        </ScrollView>
+    </controls:PullToRefreshLayout>
+</ContentView>

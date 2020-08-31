@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="PeakMVP.Views.Authorization.Registration.CommonLoginDetails"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:registrationResources="clr-namespace:PeakMVP.Views.Authorization.Registration.Resources">
+
+    <ContentView.Resources>
+        <registrationResources:RegistrationCommonResourceDictionary />
+    </ContentView.Resources>
+
+    <!--  Login details scope  -->
+    <StackLayout Spacing="16">
+        <Label Style="{StaticResource Key=form_title_label}" Text="{Binding Path=TypeSpecificRegistrationInputForm.LoginDetailsTitle}" />
+
+        <!--  User name (nickname) input group  -->
+        <StackLayout Spacing="3">
+            <Label Style="{StaticResource Key=Input_group_title_label}" Text="Username" />
+            <controls:ExtendedContentView BorderColor="{Binding Path=TypeSpecificRegistrationInputForm.UserName.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}" Style="{StaticResource Key=Input_group_entry_wraper}">
+                <controls:EntryEx
+                    Placeholder="Enter user name"
+                    Style="{StaticResource Key=Input_group_entry}"
+                    Text="{Binding Path=TypeSpecificRegistrationInputForm.UserName.Value, Mode=TwoWay}" />
+            </controls:ExtendedContentView>
+            <Label
+                IsVisible="{Binding Path=TypeSpecificRegistrationInputForm.UserName.IsValid, Converter={StaticResource Key=Reverce_bool_converter}}"
+                Style="{StaticResource Key=ValidationErrorLabelStyle}"
+                Text="{Binding Path=TypeSpecificRegistrationInputForm.UserName.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+        </StackLayout>
+
+        <!--  Password input group  -->
+        <StackLayout Spacing="3">
+            <Label Style="{StaticResource Key=Input_group_title_label}" Text="Password" />
+            <controls:ExtendedContentView BorderColor="{Binding Path=TypeSpecificRegistrationInputForm.Password.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}" Style="{StaticResource Key=Input_group_entry_wraper}">
+                <controls:EntryEx
+                    IsPassword="True"
+                    Placeholder="Enter password"
+                    Style="{StaticResource Key=Input_group_entry}"
+                    Text="{Binding Path=TypeSpecificRegistrationInputForm.Password.Value, Mode=TwoWay}" />
+            </controls:ExtendedContentView>
+            <Label
+                IsVisible="{Binding Path=TypeSpecificRegistrationInputForm.Password.IsValid, Converter={StaticResource Key=Reverce_bool_converter}}"
+                Style="{StaticResource Key=ValidationErrorLabelStyle}"
+                Text="{Binding Path=TypeSpecificRegistrationInputForm.Password.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+        </StackLayout>
+
+        <Label
+            FontSize="{StaticResource Key=MidMediumSize}"
+            IsVisible="{Binding Path=IsErrorMessageVisible}"
+            Style="{StaticResource Key=ValidationErrorLabelStyle}"
+            Text="{Binding Path=ErrorMessage}" />
+    </StackLayout>
+</ContentView>

@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PeakMVP.Views.Base.ContentPageBase"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:popovers="clr-namespace:PeakMVP.Controls.Popovers"
+    xmlns:popups="clr-namespace:PeakMVP.Controls.Popups"
+    ios:Page.UseSafeArea="True"
+    NavigationPage.HasNavigationBar="False">
+    <popovers:PopoverKeeper>
+        <Grid
+            AbsoluteLayout.LayoutBounds="1,1,1,1"
+            AbsoluteLayout.LayoutFlags="All"
+            BackgroundColor="{StaticResource Key=MainBackgroundColor}"
+            ColumnSpacing="0"
+            RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="0" />
+            </Grid.RowDefinitions>
+
+            <!--  App background image spot  -->
+            <Grid x:Name="_appBackgroundImageSpot_Grid" Grid.Row="0">
+
+                <!--  Background image  -->
+                <ffimageloading:CachedImage
+                    x:Name="_backgroundImage_CachedImage"
+                    Aspect="AspectFill"
+                    CacheType="All" />
+
+                <!--  Semi transparent backing  -->
+                <BoxView BackgroundColor="{StaticResource Key=SemiTransparentMainBackgroundColor}" />
+            </Grid>
+
+            <!--  Main content with menus  -->
+            <Grid
+                Grid.Row="0"
+                ColumnSpacing="0"
+                RowSpacing="0">
+                <Grid.RowDefinitions>
+                    <!--  Row for hiding  -->
+                    <RowDefinition Height="0" />
+                    <!--  Row for action bar, menu  -->
+                    <RowDefinition Height="Auto" />
+                    <!--  Main content row  -->
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <!--  Main content elements  -->
+                <Grid
+                    Grid.Row="2"
+                    ColumnSpacing="0"
+                    RowSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!--  Main content popover-keeper. Will resolve behavior when `main content popover` overlaps bottom bar  -->
+                    <ContentView Grid.Row="0">
+                        <!--  Main content spot  -->
+                        <controls:PullToRefreshLayout
+                            x:Name="_mainContentSpot_PullToRefreshLayout"
+                            AbsoluteLayout.LayoutBounds="1,1,1,1"
+                            AbsoluteLayout.LayoutFlags="All"
+                            IsPullToRefreshEnabled="False"
+                            RefreshBackgroundColor="{StaticResource Key=WhiteColor}"
+                            RefreshColor="{StaticResource Key=BlueColor}">
+                            <Grid x:Name="_contentBox_Grid" />
+                        </controls:PullToRefreshLayout>
+                    </ContentView>
+
+                    <!--  Bottom bar spot  -->
+                    <Grid
+                        x:Name="_bottomBarSpot_Grid"
+                        Grid.Row="1"
+                        ColumnSpacing="0" />
+                </Grid>
+
+                <!--  Menu  -->
+                <ScrollView x:Name="_menuContentSpot_ScrollView" Grid.Row="0" />
+
+                <!--  Action bar spot  -->
+                <ContentView x:Name="_actionBarSpot_ContentView" Grid.Row="1" />
+            </Grid>
+
+            <!--  Popup spot  -->
+            <ContentView x:Name="_popupSpot_ContentView" Grid.Row="1">
+                <popups:PopupsBlockView x:Name="_popupsKeeper_PopupsBlockView" />
+            </ContentView>
+
+            <controls:Indicator
+                x:Name="_busyIndicator_Indicator"
+                Grid.Row="1"
+                IndicatorColor="White"
+                PadCanvasColor="Black" />
+        </Grid>
+    </popovers:PopoverKeeper>
+</ContentPage>

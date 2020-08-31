@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<stackList:CommonStackListItem
+    x:Class="PeakMVP.Views.Authorization.FooterNavigationItem"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:stackList="clr-namespace:PeakMVP.Controls.Stacklist">
+
+    <ContentView Padding="6,14">
+        <Grid>
+            <Label
+                x:Name="_header_Label"
+                FontSize="{StaticResource MediumSize}"
+                HorizontalOptions="Center"
+                Text="{Binding Path=Title}"
+                VerticalOptions="Center" />
+            <BoxView
+                x:Name="_underline_BoxView"
+                BackgroundColor="Black"
+                HeightRequest=".5"
+                VerticalOptions="End" />
+        </Grid>
+    </ContentView>
+</stackList:CommonStackListItem>

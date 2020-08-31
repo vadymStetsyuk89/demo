@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<popoversBase:PopoverBase
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.Events.GameEventActionsPopover"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:extensions="clr-namespace:PeakMVP.Extensions"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:popoversBase="clr-namespace:PeakMVP.Controls.Popovers.Base"
+    xmlns:stackList="clr-namespace:PeakMVP.Controls.Stacklist"
+    x:Name="_root_PopoverBase">
+
+    <controls:ExtendedContentView
+        BackgroundColor="{StaticResource Key=WhiteColor}"
+        BorderColor="{StaticResource Key=GrayBorderColor}"
+        BorderThickness="1"
+        CornerRadius="3">
+        <stackList:StackList ItemsSource="{Binding Source={Reference Name=_root_PopoverBase}, Path=ItemContext}" SelectedItem="{Binding Source={Reference Name=_root_PopoverBase}, Path=SelectedItem, Mode=TwoWay}">
+            <stackList:StackList.ItemTemplate>
+                <DataTemplate>
+                    <stackList:CommonStackListItem
+                        Padding="7,7,25,7"
+                        IsOnSelectionVisualChangesEnabled="False"
+                        IsSelectable="True">
+
+                        <!--  Don't use StackLayout in that case - sometimes it throws own calculation-related exception  -->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Path=SelectCommand}"
+                                    CommandParameter="{Binding}"
+                                    Tapped="OnTapGestureRecognizerTapped" />
+                            </Grid.GestureRecognizers>
+
+                            <ffimageloading:CachedImage
+                                Grid.Column="0"
+                                CacheType="All"
+                                HeightRequest="18"
+                                Source="{extensions:ImageResource PeakMVP.Images.ic_plus_2.png}"
+                                WidthRequest="18">
+                                <ffimageloading:CachedImage.Transformations>
+                                    <fftransformations:CircleTransformation BorderHexColor="#798897" BorderSize="6" />
+                                </ffimageloading:CachedImage.Transformations>
+                            </ffimageloading:CachedImage>
+
+                            <Label
+                                Grid.Column="1"
+                                FontSize="{StaticResource Key=MidMediumSize}"
+                                HorizontalTextAlignment="Start"
+                                Text="{Binding Path=ActionTitle}"
+                                VerticalTextAlignment="Start" />
+                        </Grid>
+                    </stackList:CommonStackListItem>
+                </DataTemplate>
+            </stackList:StackList.ItemTemplate>
+        </stackList:StackList>
+    </controls:ExtendedContentView>
+</popoversBase:PopoverBase>

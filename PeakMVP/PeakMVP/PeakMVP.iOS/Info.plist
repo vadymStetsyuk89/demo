@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>UIDeviceFamily</key>
+	<array>
+		<integer>1</integer>
+	</array>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>This app needs access to the camera to take photos.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs access to photos.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app needs access to microphone.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>This app needs access to the photo gallery.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Needs Calendar Permission</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Some ad content may access contact use</string>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Some ad content may access media library use</string>
+	<key>NSSiriUsageDescription</key>
+	<string>Some ad content may access siri use</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Your location is used to estimate travel times to events and improve location searches.</string>
+	<key>MinimumOSVersion</key>
+	<string>8.0</string>
+	<key>CFBundleDisplayName</key>
+	<string>PeakMVP</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.peak.mvp</string>
+	<key>CFBundleVersion</key>
+	<string>1.43</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Fonts/Montserrat-ExtraBold.ttf</string>
+		<string>Fonts/Montserrat-Bold.ttf</string>
+		<string>Fonts/Montserrat-Regular.ttf</string>
+		<string>Fonts/icomoon.ttf</string>
+	</array>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>CFBundleName</key>
+	<string>PeakMVP</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.43</string>
+	<key>XSAppIconAssets</key>
+	<string>Media.xcassets/AppIcons.appiconset</string>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+</dict>
+</plist>

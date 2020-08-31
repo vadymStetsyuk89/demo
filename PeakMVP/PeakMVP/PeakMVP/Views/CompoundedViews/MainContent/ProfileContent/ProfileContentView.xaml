@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.ProfileContentView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:PeakMVP.Behaviors"
+    xmlns:characterLocal="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent.Character"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:dropDowns="clr-namespace:PeakMVP.Controls.DropdownSelectors"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:profileContent="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent.ProfileContent"
+    xmlns:profileContentResources="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent.ProfileContent.Resources"
+    xmlns:stackList="clr-namespace:PeakMVP.Controls.Stacklist">
+
+    <ContentView.Resources>
+        <profileContentResources:ProfileContentCommonResourceDictionary />
+    </ContentView.Resources>
+
+    <controls:PullToRefreshLayout
+        IsPullToRefreshEnabled="{Binding Path=ProfileContentViewModel.IsNestedPullToRefreshEnabled}"
+        IsRefreshing="{Binding Path=ProfileContentViewModel.IsNestedRefreshing, Mode=TwoWay}"
+        RefreshCommand="{Binding Path=ProfileContentViewModel.NestedRefreshCommand}">
+        <controls:ListViewExtended
+            BackgroundColor="Transparent"
+            HasUnevenRows="True"
+            Header="{Binding}"
+            ItemsSource="{Binding Path=ProfileContentViewModel.Posts}"
+            SelectionMode="None"
+            SeparatorVisibility="None">
+            <x:Arguments>
+                <ListViewCachingStrategy>RecycleElement</ListViewCachingStrategy>
+            </x:Arguments>
+            <controls:ListViewExtended.HeaderTemplate>
+                <DataTemplate>
+                    <StackLayout Margin="0,40,0,0" Spacing="21">
+                        <!--  Common self info  -->
+                        <StackLayout Spacing="16">
+                            <StackLayout
+                                Margin="20,0"
+                                Orientation="Horizontal"
+                                Spacing="12">
+
+                                <!--  Avatar scope  -->
+                                <ffimageloading:CachedImage
+                                    CacheType="All"
+                                    HeightRequest="70"
+                                    Source="{Binding ProfileContentViewModel.Avatar, Converter={StaticResource StringToURLImageSourceConverter}}"
+                                    WidthRequest="70">
+                                    <ffimageloading:CachedImage.Transformations>
+                                        <fftransformations:CircleTransformation />
+                                    </ffimageloading:CachedImage.Transformations>
+                                </ffimageloading:CachedImage>
+
+                                <StackLayout>
+                                    <Label
+                                        LineBreakMode="TailTruncation"
+                                        Style="{StaticResource Key=Title_text_label_style}"
+                                        Text="{Binding Path=ProfileContentViewModel.FullName}" />
+                                    <Label
+                                        FontSize="{StaticResource MidMediumSize}"
+                                        Text="{Binding ProfileContentViewModel.About}"
+                                        TextColor="{StaticResource BlackColor}" />
+                                </StackLayout>
+                            </StackLayout>
+
+                            <!--  My sports output  -->
+                            <StackLayout Spacing="2">
+                                <Label
+                                    Margin="20,0"
+                                    Style="{StaticResource Key=Title_text_label_style}"
+                                    Text="My Sports" />
+                                <ContentView
+                                    Padding="10"
+                                    BackgroundColor="{StaticResource Key=WhiteColor}"
+                                    IsVisible="{Binding Path=ProfileContentViewModel.MySports, Converter={StaticResource Key=StringEmptinessToBoolConverter}}">
+                                    <Label Style="{StaticResource Key=Plain_text_label_style}" Text="{Binding Path=ProfileContentViewModel.MySports}" />
+                                </ContentView>
+                            </StackLayout>
+                        </StackLayout>
+
+                        <!--  Specific user type team scope  -->
+                        <ContentView Content="{Binding Path=ProfileType, Converter={StaticResource Key=profile_type_to_user_profile_type_spesific_content_converter}}" />
+
+                        <!--  Invites scope  -->
+                        <profileContent:InvitesContentView />
+
+                        <!--  Feed posts label  -->
+                        <Label
+                            Margin="20,0,20,0"
+                            Style="{StaticResource Key=Title_text_label_style}"
+                            Text="{Binding ProfileContentViewModel.FullName, StringFormat='{0}\'s Posts'}"
+                            VerticalOptions="Center" />
+
+                        <characterLocal:CreateFeedPostFormView BindingContext="{Binding Path=ProfileContentViewModel}" />
+                    </StackLayout>
+                </DataTemplate>
+            </controls:ListViewExtended.HeaderTemplate>
+            <controls:ListViewExtended.ItemTemplate>
+                <DataTemplate>
+                    <profileContent:PostContentView />
+                </DataTemplate>
+            </controls:ListViewExtended.ItemTemplate>
+        </controls:ListViewExtended>
+    </controls:PullToRefreshLayout>
+</ContentView>

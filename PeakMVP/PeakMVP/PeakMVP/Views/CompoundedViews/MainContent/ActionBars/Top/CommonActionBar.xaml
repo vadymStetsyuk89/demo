@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<actionBarBase:ActionBarBase
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.CommonActionBar"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:actionBarBase="clr-namespace:PeakMVP.Controls.ActionBars.Base"
+    xmlns:extensions="clr-namespace:PeakMVP.Extensions"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:mainContentCompoundedViews="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent"
+    xmlns:suggestInput="clr-namespace:PeakMVP.Controls.SuggestInput">
+
+    <Grid
+        Grid.Row="0"
+        BackgroundColor="{StaticResource WhiteColor}"
+        ColumnSpacing="0"
+        HeightRequest="60">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!--  Back button command  -->
+        <ContentView Grid.Column="0" IsVisible="{Binding Path=HasBackButton}">
+            <ffimageloading:CachedImage
+                Margin="20,0,0,0"
+                CacheType="All"
+                HeightRequest="25"
+                HorizontalOptions="Center"
+                Source="{extensions:ImageResource PeakMVP.Images.ic_back_button_dark.png}"
+                VerticalOptions="Center"
+                WidthRequest="25">
+                <ffimageloading:CachedImage.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=BackCommand}" />
+                </ffimageloading:CachedImage.GestureRecognizers>
+            </ffimageloading:CachedImage>
+        </ContentView>
+
+        <!--  Logo and controls stack  -->
+        <Grid
+            Grid.Column="1"
+            Padding="10,10,0,10"
+            ColumnSpacing="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="40" />
+            </Grid.ColumnDefinitions>
+
+            <!--  Logo  -->
+            <ContentView Grid.Column="0" Padding="0,0,6,0">
+                <ContentView.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=LogoCommand}" />
+                </ContentView.GestureRecognizers>
+                <ffimageloading:CachedImage
+                    CacheType="All"
+                    HorizontalOptions="Center"
+                    Source="{extensions:ImageResource PeakMVP.Images.ic_logo-colored_2x.png}"
+                    VerticalOptions="Center" />
+            </ContentView>
+
+            <!--  Search input  -->
+            <suggestInput:SuggestInput
+                Grid.Column="1"
+                BindingContext="{Binding Path=CommonActionBarSearchViewModel, Mode=OneWay}"
+                BorderColor="{StaticResource Key=GrayBorderColor}"
+                HintText="{Binding Path=SuggestInputHintText, Mode=TwoWay}"
+                IsHintEnabled="True"
+                IsSuggestButtonVisible="True"
+                ItemSource="{Binding Path=FoundUsersGroups}"
+                Placeholder="Search players, coaches, teams"
+                PopoverLayouting="LeftBottom"
+                SelectedItem="{Binding Path=SelectedUsersGroup, Mode=TwoWay}"
+                StartSuggestionCommand="{Binding Path=StartSuggestionCommand}"
+                Text="{Binding Path=SearchValue, Mode=TwoWay}">
+                <suggestInput:SuggestInput.Popover>
+                    <mainContentCompoundedViews:SearchPopover IsHaveSameWidth="True" />
+                </suggestInput:SuggestInput.Popover>
+            </suggestInput:SuggestInput>
+
+            <!--  Hamburger menu button  -->
+            <ContentView
+                Grid.Column="2"
+                Padding="6,0,10,0"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand">
+                <ContentView.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=ToogleMenuCommand}" />
+                </ContentView.GestureRecognizers>
+                <ffimageloading:CachedImage
+                    CacheType="All"
+                    HeightRequest="20"
+                    HorizontalOptions="Center"
+                    Source="{extensions:ImageResource PeakMVP.Images.ic_menu_black.png}"
+                    VerticalOptions="Center"
+                    WidthRequest="20" />
+            </ContentView>
+        </Grid>
+    </Grid>
+</actionBarBase:ActionBarBase>

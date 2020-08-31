@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<viewBase:ContentPageBase
+    x:Class="PeakMVP.Views.Authorization.RegistrationView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:dropDowns="clr-namespace:PeakMVP.Controls.DropdownSelectors"
+    xmlns:extensions="clr-namespace:PeakMVP.Extensions"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:localRegistration="clr-namespace:PeakMVP.Views.Authorization.Registration"
+    xmlns:popovers="clr-namespace:PeakMVP.Controls.Popovers"
+    xmlns:registrationResources="clr-namespace:PeakMVP.Views.Authorization.Registration.Resources"
+    xmlns:stackList="clr-namespace:PeakMVP.Controls.Stacklist"
+    xmlns:viewBase="clr-namespace:PeakMVP.Views.Base"
+    xmlns:viewModelBase="clr-namespace:PeakMVP.ViewModels.Base"
+    viewModelBase:ViewModelLocator.AutoWireViewModel="True"
+    NavigationPage.HasNavigationBar="False">
+
+    <viewBase:ContentPageBase.Resources>
+        <registrationResources:RegistrationCommonResourceDictionary />
+    </viewBase:ContentPageBase.Resources>
+
+    <!--  MAIN CONTENT  -->
+    <viewBase:ContentPageBase.MainContent>
+
+        <ScrollView>
+            <StackLayout Padding="20">
+
+                <!--  Back button command  -->
+                <ffimageloading:CachedImage
+                    CacheType="All"
+                    HeightRequest="25"
+                    HorizontalOptions="Start"
+                    Scale="1.2"
+                    Source="{extensions:ImageResource PeakMVP.Images.ic_back_button_dark.png}"
+                    VerticalOptions="Start"
+                    WidthRequest="25">
+                    <ffimageloading:CachedImage.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding BackCommand}" />
+                    </ffimageloading:CachedImage.GestureRecognizers>
+                </ffimageloading:CachedImage>
+
+                <StackLayout Spacing="40">
+                    <StackLayout>
+                        <!--  LOGO  -->
+                        <Grid
+                            Margin="0,0,0,40"
+                            HorizontalOptions="Fill"
+                            VerticalOptions="Center">
+                            <ffimageloading:CachedImage
+                                Aspect="AspectFit"
+                                CacheType="All"
+                                HeightRequest="60"
+                                HorizontalOptions="Center"
+                                Source="{extensions:ImageResource PeakMVP.Images.ic_logo-colored_2x.png}"
+                                WidthRequest="80" />
+                            <StackLayout
+                                Margin="0,-7,0,0"
+                                HorizontalOptions="End"
+                                Spacing="0"
+                                VerticalOptions="Center">
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=LoginCommand}" />
+                                </StackLayout.GestureRecognizers>
+                                <Label
+                                    FontSize="{StaticResource MediumSize}"
+                                    HorizontalOptions="Center"
+                                    Text="Login"
+                                    TextColor="{StaticResource BlueColor}"
+                                    VerticalOptions="Center" />
+                                <BoxView HeightRequest="1" Color="{StaticResource BlueColor}" />
+                            </StackLayout>
+                        </Grid>
+
+                        <Label
+                            Margin="0,5"
+                            FontFamily="{StaticResource MontserratBold}"
+                            FontSize="{StaticResource LargerSize}"
+                            HorizontalOptions="Center"
+                            Text="Create Profile"
+                            TextColor="{StaticResource BlackColor}" />
+
+                        <Label
+                            Margin="0,5"
+                            FontSize="{StaticResource MediumSize}"
+                            HorizontalOptions="Center"
+                            Text="{Binding Path=SelectedProfileTypeItem.Name}"
+                            TextColor="{StaticResource BlackColor}" />
+
+                        <Label
+                            Margin="0,5"
+                            FontSize="{StaticResource MediumSize}"
+                            HorizontalOptions="Center"
+                            HorizontalTextAlignment="Center"
+                            TextColor="{StaticResource GrayColor}">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <FormattedString.Spans>
+                                        <Span Text="Fill in all of the fields below and hit" />
+                                        <Span
+                                            FontAttributes="Italic"
+                                            FontSize="{StaticResource MediumSize}"
+                                            Text=" 'create'" />
+                                    </FormattedString.Spans>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </StackLayout>
+
+                    <!--  Form scope  -->
+                    <StackLayout Spacing="40">
+
+                        <!--  App role selector scope  -->
+                        <dropDowns:DropSelect
+                            BorderColor="{StaticResource Key=GrayBorderColor}"
+                            HeightRequest="39"
+                            ItemSource="{Binding Path=ProfileTypeItems}"
+                            PopoverLayouting="LeftBottom"
+                            SelectedItem="{Binding Path=SelectedProfileTypeItem, Mode=TwoWay}">
+                            <dropDowns:DropSelect.SelectedItemFiguring>
+                                <StackLayout
+                                    Padding="15,9"
+                                    Orientation="Horizontal"
+                                    Spacing="18">
+                                    <ffimageloading:CachedImage
+                                        CacheType="All"
+                                        HeightRequest="21"
+                                        Source="{Binding Icon, Converter={StaticResource StringToImageSourceConverter}}"
+                                        VerticalOptions="Center"
+                                        WidthRequest="16" />
+                                    <Label
+                                        FontSize="{StaticResource Key=MediumSize}"
+                                        Text="{Binding Path=Name}"
+                                        VerticalTextAlignment="Center" />
+                                </StackLayout>
+                            </dropDowns:DropSelect.SelectedItemFiguring>
+                            <dropDowns:DropSelect.Popover>
+                                <popovers:ListedPopover IsHaveSameWidth="True">
+                                    <popovers:ListedPopover.ItemTemplate>
+                                        <DataTemplate>
+                                            <stackList:CommonStackListItem IsOnSelectionVisualChangesEnabled="True" IsSelectable="True">
+                                                <StackLayout
+                                                    Padding="15,9"
+                                                    Orientation="Horizontal"
+                                                    Spacing="18">
+                                                    <ffimageloading:CachedImage
+                                                        CacheType="All"
+                                                        HeightRequest="21"
+                                                        Source="{Binding Icon, Converter={StaticResource StringToImageSourceConverter}}"
+                                                        VerticalOptions="Center"
+                                                        WidthRequest="16" />
+                                                    <Label Text="{Binding Path=Name}" VerticalTextAlignment="Center" />
+                                                </StackLayout>
+                                            </stackList:CommonStackListItem>
+                                        </DataTemplate>
+                                    </popovers:ListedPopover.ItemTemplate>
+                                </popovers:ListedPopover>
+                            </dropDowns:DropSelect.Popover>
+                        </dropDowns:DropSelect>
+
+                        <!--  Contact details scope  -->
+                        <localRegistration:CommonContactDetails />
+
+                        <!--  User type specific registration input form scope  -->
+                        <ContentView Content="{Binding Path=SelectedProfileTypeItem, Converter={StaticResource Key=specific_registration_input_form_to_view_converter}}" />
+
+                        <!--  Login details scope  -->
+                        <localRegistration:CommonLoginDetails />
+                    </StackLayout>
+
+                    <!--  Create button  -->
+                    <controls:ExtendedContentView
+                        Margin="15,0"
+                        Padding="0,15"
+                        BackgroundColor="{StaticResource Key=BlueColor}"
+                        CornerRadius="3">
+                        <controls:ExtendedContentView.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Path=CreateCommand}" />
+                        </controls:ExtendedContentView.GestureRecognizers>
+                        <Label
+                            FontFamily="{StaticResource Key=MontserratBold}"
+                            HorizontalTextAlignment="Center"
+                            Text="CREATE"
+                            TextColor="{StaticResource WhiteColor}"
+                            VerticalTextAlignment="Center" />
+                    </controls:ExtendedContentView>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </viewBase:ContentPageBase.MainContent>
+</viewBase:ContentPageBase>

@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.ProfileContent.CoachProfileContentView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:PeakMVP.Behaviors"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:item="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent.ProfileContent"
+    xmlns:profileContentResources="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent.ProfileContent.Resources"
+    xmlns:stackList="clr-namespace:PeakMVP.Controls.Stacklist">
+
+    <ContentView.Resources>
+        <profileContentResources:ProfileContentCommonResourceDictionary />
+    </ContentView.Resources>
+
+    <StackLayout>
+        <!--  Scope teams table header  -->
+        <StackLayout Margin="20,0" Orientation="Horizontal">
+            <Label
+                Style="{StaticResource Key=Title_text_label_style}"
+                Text="My Peak Teams"
+                VerticalOptions="Center" />
+            <!--  ADD BUTTON  -->
+            <ffimageloadingsvg:SvgCachedImage
+                CacheType="All"
+                HeightRequest="25"
+                Source="resource://PeakMVP.Images.Svg.ic_plus.svg"
+                WidthRequest="25">
+                <ffimageloadingsvg:SvgCachedImage.Behaviors>
+                    <behaviors:FFColorScaleBehavior Brightness=".5" TargetColor="Gray" />
+                </ffimageloadingsvg:SvgCachedImage.Behaviors>
+                <ffimageloading:CachedImage.Transformations>
+                    <fftransformations:CircleTransformation BorderHexColor="#798897" BorderSize="6" />
+                </ffimageloading:CachedImage.Transformations>
+                <ffimageloading:CachedImage.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=ProfileContentViewModel.UserTypeSpecificViewModel.AddTeamPopupViewModel.ShowPopupCommand}" />
+                </ffimageloading:CachedImage.GestureRecognizers>
+            </ffimageloadingsvg:SvgCachedImage>
+        </StackLayout>
+
+        <!--  Coach teams table  -->
+        <controls:ExtendedContentView BackgroundColor="{StaticResource Key=WhiteColor}" CornerRadius="3">
+            <Grid ColumnSpacing="0" RowSpacing="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="1" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!--  Grid headers  -->
+                <Grid Grid.Row="0" Padding="0,7">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="60" />
+                    </Grid.ColumnDefinitions>
+
+                    <!--  Sport column  -->
+                    <Label
+                        Grid.Column="1"
+                        LineBreakMode="CharacterWrap"
+                        Style="{StaticResource Key=Subtitle_text_label_style}"
+                        Text="Sport"
+                        VerticalTextAlignment="Start" />
+
+                    <!--  Owner column  -->
+                    <Label
+                        Grid.Column="2"
+                        LineBreakMode="CharacterWrap"
+                        Style="{StaticResource Key=Subtitle_text_label_style}"
+                        Text="Owner"
+                        VerticalTextAlignment="Start" />
+
+                    <!--  Team column  -->
+                    <Label
+                        Grid.Column="3"
+                        LineBreakMode="CharacterWrap"
+                        Style="{StaticResource Key=Subtitle_text_label_style}"
+                        Text="Team"
+                        VerticalTextAlignment="Start" />
+
+                    <!--  Role column  -->
+                    <Label
+                        Grid.Column="4"
+                        LineBreakMode="CharacterWrap"
+                        Style="{StaticResource Key=Subtitle_text_label_style}"
+                        Text="Role"
+                        VerticalTextAlignment="Start" />
+
+                    <!--  Joined column  -->
+                    <Label
+                        Grid.Column="5"
+                        LineBreakMode="CharacterWrap"
+                        Style="{StaticResource Key=Subtitle_text_label_style}"
+                        Text="Joined"
+                        VerticalTextAlignment="Start" />
+                </Grid>
+
+                <!--  Separator  -->
+                <BoxView Grid.Row="1" BackgroundColor="{StaticResource Key=GrayBorderColor}" />
+
+                <Grid Grid.Row="2" Padding="0,7">
+                    <!--  No elements hint  -->
+                    <Label
+                        FontFamily="{StaticResource Key=MontserratRegular}"
+                        HorizontalOptions="Center"
+                        IsVisible="{Binding Path=ProfileContentViewModel.UserTypeSpecificViewModel.TeamMemberProviderViewModel.TeamMembers, Converter={StaticResource Key=iList_no_elements_to_bool_converter}}"
+                        Style="{StaticResource Key=Subtitle_text_label_style}"
+                        Text="No sports"
+                        VerticalOptions="Center" />
+
+                    <!--  Grid values  -->
+                    <stackList:StackList ItemsSource="{Binding Path=ProfileContentViewModel.UserTypeSpecificViewModel.TeamMemberProviderViewModel.TeamMembers, Mode=OneWay}">
+                        <stackList:StackList.ItemTemplate>
+                            <DataTemplate>
+                                <!--<item:CoachTeamMemberView IsOnSelectionVisualChangesEnabled="False" IsSelectable="False" />-->
+                                <stackList:CommonStackListItem>
+                                    <Grid Padding="0,7">
+                                        <Grid.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Path=TeamOverviewCommand, Mode=OneWay}" />
+                                        </Grid.GestureRecognizers>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="20" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="60" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <!--  Indicator value column  -->
+                                        <ffimageloading:CachedImage
+                                            Grid.Row="0"
+                                            CacheType="All"
+                                            HeightRequest="16"
+                                            Source="{Binding Path=Icon, Converter={StaticResource StringToImageSourceConverter}}"
+                                            VerticalOptions="Start"
+                                            WidthRequest="16" />
+
+                                        <!--  Sport column  -->
+                                        <Label
+                                            Grid.Column="1"
+                                            LineBreakMode="CharacterWrap"
+                                            Style="{StaticResource Plain_text_label_style}"
+                                            Text="{Binding Path=Sport}"
+                                            VerticalTextAlignment="Start" />
+
+                                        <!--  Owner column  -->
+                                        <Label
+                                            Grid.Column="2"
+                                            LineBreakMode="CharacterWrap"
+                                            Style="{StaticResource Plain_text_label_style}"
+                                            Text="{Binding Path=Owner}"
+                                            VerticalTextAlignment="Start" />
+
+                                        <!--  Team column  -->
+                                        <Label
+                                            Grid.Column="3"
+                                            FontFamily="{StaticResource Key=MontserratBold}"
+                                            LineBreakMode="CharacterWrap"
+                                            Style="{StaticResource Plain_text_label_style}"
+                                            Text="{Binding Path=Team}"
+                                            TextColor="{StaticResource Key=BlueColor}"
+                                            VerticalTextAlignment="Start" />
+
+                                        <!--  Role column  -->
+                                        <Label
+                                            Grid.Column="4"
+                                            LineBreakMode="CharacterWrap"
+                                            Style="{StaticResource Plain_text_label_style}"
+                                            Text="{Binding Path=Role}"
+                                            VerticalTextAlignment="Start" />
+
+                                        <!--  Joined column  -->
+                                        <Label
+                                            Grid.Column="5"
+                                            LineBreakMode="CharacterWrap"
+                                            Style="{StaticResource Plain_text_label_style}"
+                                            Text="{Binding Path=Joined, StringFormat=' {0:M/d/yy}'}"
+                                            VerticalTextAlignment="Start" />
+                                    </Grid>
+                                </stackList:CommonStackListItem>
+                            </DataTemplate>
+                        </stackList:StackList.ItemTemplate>
+                    </stackList:StackList>
+                </Grid>
+            </Grid>
+        </controls:ExtendedContentView>
+    </StackLayout>
+</ContentView>

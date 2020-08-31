@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ViewCell
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.Messenger.OutcomingMessageStackItem"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:messengerCommonResources="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent.Messenger.Resources"
+    xmlns:stackList="clr-namespace:PeakMVP.Controls.Stacklist">
+
+    <ContentView Padding="0,0,0,6" BackgroundColor="{StaticResource Key=WhiteColor}">
+        <ContentView.Resources>
+            <messengerCommonResources:MessengerCommonResourceDictionary />
+        </ContentView.Resources>
+
+        <Grid Padding="0,0,17,0" ColumnSpacing="14">
+            <Grid.Resources>
+                <ResourceDictionary>
+                    <Style TargetType="Label">
+                        <Setter Property="FontSize" Value="{StaticResource Key=MidMediumSize}" />
+                        <Setter Property="FontFamily" Value="{StaticResource Key=MontserratRegular}" />
+                        <Setter Property="VerticalOptions" Value="Center" />
+                    </Style>
+                </ResourceDictionary>
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!--  Companion icon  -->
+            <ffimageloading:CachedImage
+                Grid.Column="0"
+                CacheType="All"
+                HeightRequest="34"
+                HorizontalOptions="Center"
+                Source="{Binding Path=Avatar, Converter={StaticResource Key=User_avatar_converter}}"
+                VerticalOptions="Center"
+                WidthRequest="34">
+                <ffimageloading:CachedImage.Transformations>
+                    <fftransformations:CircleTransformation />
+                </ffimageloading:CachedImage.Transformations>
+            </ffimageloading:CachedImage>
+
+            <controls:ExtendedContentView
+                Grid.Column="1"
+                Padding="14,7"
+                BackgroundColor="{StaticResource Key=MainBackgroundColor}"
+                CornerRadius="3">
+                <StackLayout>
+                    <Label Text="{Binding Path=Data.Text}" TextColor="{StaticResource Key=BlackColor}" />
+                    <Label Text="{Binding Path=Data.Time, Converter={StaticResource Key=Publish_date_time_converter}}" TextColor="{StaticResource Key=GrayColor}" />
+                </StackLayout>
+            </controls:ExtendedContentView>
+        </Grid>
+    </ContentView>
+</ViewCell>

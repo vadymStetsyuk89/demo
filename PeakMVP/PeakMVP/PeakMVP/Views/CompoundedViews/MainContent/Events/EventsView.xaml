@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.Events.EventsView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:PeakMVP.Behaviors"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:converters="clr-namespace:PeakMVP.Converters"
+    xmlns:dropDowns="clr-namespace:PeakMVP.Controls.DropdownSelectors"
+    xmlns:extensions="clr-namespace:PeakMVP.Extensions"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:local="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent.Events"
+    xmlns:popovers="clr-namespace:PeakMVP.Controls.Popovers">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <converters:BoolToGenericObjectConverter
+                x:Key="bool_to_popover_layouting_strategy"
+                x:TypeArguments="popovers:PopoverLayoutingStrategy"
+                FalseObject="RightBottom"
+                TrueObject="LeftBottom" />
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <controls:PullToRefreshLayout
+        IsPullToRefreshEnabled="{Binding Path=IsNestedPullToRefreshEnabled}"
+        IsRefreshing="{Binding Path=IsNestedRefreshing, Mode=TwoWay}"
+        RefreshCommand="{Binding Path=NestedRefreshCommand}">
+        <ScrollView>
+            <StackLayout Padding="0,40" Spacing="21">
+
+                <!--  View switcher scope  -->
+                <StackLayout>
+                    <StackLayout.Resources>
+                        <ResourceDictionary>
+                            <Style x:Key="switch_button_content_box" TargetType="controls:ExtendedContentView">
+                                <Setter Property="Padding" Value="16,11" />
+                                <Setter Property="BackgroundColor" Value="{StaticResource Key=LightGrayColor}" />
+                                <Setter Property="BorderThickness" Value="3" />
+                            </Style>
+
+                            <Style x:Key="switch_button_icon" TargetType="ffimageloading:CachedImage">
+                                <Setter Property="HorizontalOptions" Value="Center" />
+                                <Setter Property="VerticalOptions" Value="Center" />
+                                <Setter Property="Scale" Value=".8" />
+                            </Style>
+
+                            <Style x:Key="switch_button_text" TargetType="Label">
+                                <Setter Property="FontFamily" Value="{StaticResource Key=MontserratBold}" />
+                                <Setter Property="FontSize" Value="{StaticResource Key=MidMediumSize}" />
+                                <Setter Property="TextColor" Value="{StaticResource Key=WhiteColor}" />
+                            </Style>
+                        </ResourceDictionary>
+                    </StackLayout.Resources>
+
+                    <Label
+                        Margin="10,0,0,0"
+                        Style="{StaticResource Key=Title_text_label_style}"
+                        Text="Schedule" />
+
+                    <!--  Switch buttons  -->
+                    <Grid ColumnSpacing="10" HorizontalOptions="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <!--  List view switch button  -->
+                        <controls:ExtendedContentView
+                            x:Name="_listViewButton_ExtendedContentView"
+                            Grid.Column="0"
+                            Style="{StaticResource Key=switch_button_content_box}">
+                            <controls:ExtendedContentView.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Path=ToggleEventsVisualizationCommand}"
+                                    CommandParameter="0"
+                                    Tapped="TODO_TemporaryImplementation_OnTapGestureRecognizerTapped" />
+                            </controls:ExtendedContentView.GestureRecognizers>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <ffimageloading:CachedImage
+                                    Grid.Column="0"
+                                    CacheType="All"
+                                    Source="{extensions:ImageResource Source=PeakMVP.Images.ic_menu.png}"
+                                    Style="{StaticResource Key=switch_button_icon}">
+                                    <ffimageloading:CachedImage.TranslationY>
+                                        <OnPlatform
+                                            x:TypeArguments="x:Double"
+                                            Android="1.0"
+                                            iOS="0.0" />
+                                    </ffimageloading:CachedImage.TranslationY>
+                                    <ffimageloading:CachedImage.HeightRequest>
+                                        <OnPlatform
+                                            x:TypeArguments="x:Double"
+                                            Android="24.0"
+                                            iOS="24.0" />
+                                    </ffimageloading:CachedImage.HeightRequest>
+                                    <ffimageloading:CachedImage.WidthRequest>
+                                        <OnPlatform
+                                            x:TypeArguments="x:Double"
+                                            Android="24.0"
+                                            iOS="24.0" />
+                                    </ffimageloading:CachedImage.WidthRequest>
+                                    <ffimageloading:CachedImage.Behaviors>
+                                        <behaviors:FFColorScaleBehavior Brightness="1.0" TargetColor="White" />
+                                    </ffimageloading:CachedImage.Behaviors>
+                                </ffimageloading:CachedImage>
+                                <Label
+                                    Grid.Column="1"
+                                    Style="{StaticResource Key=switch_button_text}"
+                                    Text="LIST VIEW"
+                                    VerticalOptions="Center" />
+                            </Grid>
+                        </controls:ExtendedContentView>
+
+                        <!--  Calendar view switch button  -->
+                        <controls:ExtendedContentView
+                            x:Name="_calendarViewButton_ExtendedContentView"
+                            Grid.Column="1"
+                            Style="{StaticResource Key=switch_button_content_box}"
+                            TranslationX="-3">
+                            <controls:ExtendedContentView.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Path=ToggleEventsVisualizationCommand}"
+                                    CommandParameter="1"
+                                    Tapped="TODO_TemporaryImplementation_OnTapGestureRecognizerTapped" />
+                            </controls:ExtendedContentView.GestureRecognizers>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <ffimageloading:CachedImage
+                                    Grid.Column="0"
+                                    CacheType="All"
+                                    Source="{extensions:ImageResource Source=PeakMVP.Images.BottomBar.ic_calendar.png}"
+                                    Style="{StaticResource Key=switch_button_icon}">
+                                    <ffimageloading:CachedImage.HeightRequest>
+                                        <OnPlatform
+                                            x:TypeArguments="x:Double"
+                                            Android="24.0"
+                                            iOS="24.0" />
+                                    </ffimageloading:CachedImage.HeightRequest>
+                                    <ffimageloading:CachedImage.WidthRequest>
+                                        <OnPlatform
+                                            x:TypeArguments="x:Double"
+                                            Android="24.0"
+                                            iOS="24.0" />
+                                    </ffimageloading:CachedImage.WidthRequest>
+                                    <ffimageloading:CachedImage.Behaviors>
+                                        <behaviors:FFColorScaleBehavior Brightness="1.0" TargetColor="White" />
+                                    </ffimageloading:CachedImage.Behaviors>
+                                </ffimageloading:CachedImage>
+                                <Label
+                                    Grid.Column="1"
+                                    Style="{StaticResource Key=switch_button_text}"
+                                    Text="CALENDAR VIEW"
+                                    VerticalOptions="Center" />
+                            </Grid>
+                        </controls:ExtendedContentView>
+                    </Grid>
+                </StackLayout>
+
+                <!--  Managing scope  -->
+                <controls:ExtendedContentView
+                    Padding="10,5"
+                    BackgroundColor="{StaticResource Key=WhiteColor}"
+                    CornerRadius="3">
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Grid.Column="0"
+                            Style="{StaticResource Key=Title_text_label_style}"
+                            Text="Manage team:"
+                            VerticalOptions="Center" />
+
+                        <Grid Grid.Column="1" ColumnSpacing="3">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <!--  Teams selector  -->
+                            <dropDowns:DropSelect
+                                Grid.Column="0"
+                                BorderColor="Transparent"
+                                HeightRequest="40"
+                                IsHintEnabled="True"
+                                ItemSource="{Binding Path=Teams}"
+                                PopoverLayouting="{Binding Path=IsEventsManagementAvailable, Converter={StaticResource Key=bool_to_popover_layouting_strategy}}"
+                                SelectedItem="{Binding Path=SelectedTeam, Mode=TwoWay}"
+                                VerticalOptions="Start">
+                                <dropDowns:DropSelect.HintViewTemplate>
+                                    <DataTemplate>
+                                        <Label
+                                            Margin="20,0,32,0"
+                                            FontFamily="{StaticResource Key=MontserratRegular}"
+                                            FontSize="{StaticResource Key=MidMediumSize}"
+                                            HorizontalOptions="Start"
+                                            Text="Choose team"
+                                            TextColor="{StaticResource Key=GrayColor}"
+                                            VerticalOptions="Center" />
+                                    </DataTemplate>
+                                </dropDowns:DropSelect.HintViewTemplate>
+                                <dropDowns:DropSelect.SelectedItemFiguring>
+                                    <!--  Don't use StackLayout in that case - sometimes it throws own calculation-related exception  -->
+                                    <Grid Padding="7,7,25,7" WidthRequest="50">
+                                        <Label
+                                            FontSize="{StaticResource Key=MidMediumSize}"
+                                            HorizontalTextAlignment="Start"
+                                            LineBreakMode="TailTruncation"
+                                            Text="{Binding Path=Team.Name}"
+                                            VerticalTextAlignment="Center" />
+                                    </Grid>
+                                </dropDowns:DropSelect.SelectedItemFiguring>
+                                <dropDowns:DropSelect.Popover>
+                                    <local:TeamSelectorPopover IsHaveSameWidth="False" WidthRequest="120" />
+                                </dropDowns:DropSelect.Popover>
+                            </dropDowns:DropSelect>
+
+                            <!--  Game/event actions selector  -->
+                            <dropDowns:DropSelect
+                                Grid.Column="1"
+                                BorderColor="Transparent"
+                                FirstElementAsDefault="True"
+                                HeightRequest="40"
+                                IsVisible="{Binding Path=IsEventsManagementAvailable}"
+                                ItemSource="{Binding Path=GameEventActions}"
+                                PopoverLayouting="RightBottom"
+                                VerticalOptions="Start">
+                                <dropDowns:DropSelect.SelectedItemFiguring>
+                                    <!--  Don't use StackLayout in that case - sometimes it throws own calculation-related exception  -->
+                                    <Grid Padding="7,7,25,7" WidthRequest="30">
+                                        <Label
+                                            FontSize="{StaticResource Key=MidMediumSize}"
+                                            HorizontalTextAlignment="Start"
+                                            Text="New"
+                                            VerticalTextAlignment="Center" />
+                                    </Grid>
+                                </dropDowns:DropSelect.SelectedItemFiguring>
+                                <dropDowns:DropSelect.Popover>
+                                    <local:GameEventActionsPopover IsHaveSameWidth="False" WidthRequest="140" />
+                                </dropDowns:DropSelect.Popover>
+                            </dropDowns:DropSelect>
+                        </Grid>
+                    </Grid>
+                </controls:ExtendedContentView>
+
+                <controls:ExtendedContentView
+                    Padding="0,5"
+                    BackgroundColor="{StaticResource WhiteColor}"
+                    CornerRadius="3">
+                    <!--  Content  -->
+                    <controls:ContentSwitcher ContentItemSource="{Binding Path=PossibleVisualizations}" SelectedContentItemIndex="{Binding Path=SelectedPossibleVisualizationIndex, Mode=TwoWay}" />
+                </controls:ExtendedContentView>
+            </StackLayout>
+        </ScrollView>
+    </controls:PullToRefreshLayout>
+</ContentView>

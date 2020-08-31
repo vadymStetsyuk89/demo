@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<dropdownSelectorBase:DropdownSelectorBase
+    x:Class="PeakMVP.Controls.DropdownSelectors.DropSelect"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:PeakMVP.Behaviors"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:dropdownSelectorBase="clr-namespace:PeakMVP.Controls.DropdownSelectors.Base"
+    xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms">
+
+    <controls:ExtendedContentView
+        x:Name="_contentWraper_ExtendedContentView"
+        BorderColor="{StaticResource Key=GrayBorderColor}"
+        BorderThickness="1"
+        CornerRadius="3">
+        <Grid ColumnSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <AbsoluteLayout x:Name="_mainContentSpot_AbsoluteLayout" Grid.Column="0">
+                <AbsoluteLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnMainContentSpotTap" />
+                </AbsoluteLayout.GestureRecognizers>
+
+                <!--  Hint scope  -->
+                <ContentView
+                    x:Name="_hintScope_ContentView"
+                    AbsoluteLayout.LayoutBounds="1,1,1,1"
+                    AbsoluteLayout.LayoutFlags="All" />
+
+                <!--  Chevron image  -->
+                <ffimageloadingsvg:SvgCachedImage
+                    x:Name="_chevronDrop_SvgCachedImage"
+                    AbsoluteLayout.LayoutBounds=".9,.5"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    CacheType="All"
+                    Source="resource://PeakMVP.Images.Svg.ic_cheveron_down.svg">
+                    <ffimageloadingsvg:SvgCachedImage.Scale>
+                        <OnPlatform
+                            x:TypeArguments="x:Double"
+                            Android=".7"
+                            iOS=".4" />
+                    </ffimageloadingsvg:SvgCachedImage.Scale>
+                    <ffimageloadingsvg:SvgCachedImage.TranslationX>
+                        <OnPlatform
+                            x:TypeArguments="x:Double"
+                            Android="0"
+                            iOS="9" />
+                    </ffimageloadingsvg:SvgCachedImage.TranslationX>
+                    <ffimageloadingsvg:SvgCachedImage.Behaviors>
+                        <behaviors:FFColorScaleBehavior Brightness=".5" TargetColor="Gray" />
+                    </ffimageloadingsvg:SvgCachedImage.Behaviors>
+                </ffimageloadingsvg:SvgCachedImage>
+            </AbsoluteLayout>
+
+            <ContentView x:Name="_buttonSpot_ContentView" Grid.Column="1" />
+        </Grid>
+    </controls:ExtendedContentView>
+</dropdownSelectorBase:DropdownSelectorBase>

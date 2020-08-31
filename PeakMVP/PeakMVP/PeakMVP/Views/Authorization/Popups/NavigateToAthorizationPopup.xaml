@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<popups:SinglePopup
+    x:Class="PeakMVP.Views.Authorization.Popups.NavigateToAthorizationPopup"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:extensions="clr-namespace:PeakMVP.Extensions"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:popups="clr-namespace:PeakMVP.Controls.Popups">
+
+    <popups:SinglePopup.Content>
+        <AbsoluteLayout>
+            <AbsoluteLayout.GestureRecognizers>
+                <TapGestureRecognizer />
+            </AbsoluteLayout.GestureRecognizers>
+            <BoxView AbsoluteLayout.LayoutBounds="1,1,1,1" AbsoluteLayout.LayoutFlags="All" />
+
+            <AbsoluteLayout
+                Padding="20,8"
+                AbsoluteLayout.LayoutBounds="0,1,1,-1"
+                AbsoluteLayout.LayoutFlags="WidthProportional"
+                HeightRequest="41">
+
+                <!--  Close button  -->
+                <ContentView
+                    Padding="12,0,0,9"
+                    AbsoluteLayout.LayoutBounds="1,.5"
+                    AbsoluteLayout.LayoutFlags="PositionProportional">
+                    <ContentView.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=ClosePopupCommand}" />
+                    </ContentView.GestureRecognizers>
+                    <ffimageloading:CachedImage CacheType="All" Source="{extensions:ImageResource PeakMVP.Images.ic_close.png}" />
+                </ContentView>
+            </AbsoluteLayout>
+
+            <StackLayout AbsoluteLayout.LayoutBounds=".5,.5" AbsoluteLayout.LayoutFlags="PositionProportional">
+                <controls:ExtendedContentView
+                    Padding="0,8"
+                    BackgroundColor="Transparent"
+                    HorizontalOptions="Center">
+                    <controls:ExtendedContentView.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=LoginCommand}" />
+                    </controls:ExtendedContentView.GestureRecognizers>
+                    <Label
+                        FontFamily="{StaticResource Key=MontserratRegular}"
+                        FontSize="{StaticResource Key=LargeSize}"
+                        Text="Login"
+                        TextColor="{StaticResource WhiteColor}" />
+                </controls:ExtendedContentView>
+
+                <controls:ExtendedContentView
+                    Padding="49,15"
+                    BackgroundColor="{StaticResource Key=BlueColor}"
+                    CornerRadius="3"
+                    VerticalOptions="Center">
+                    <controls:ExtendedContentView.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=RegisterCommand}" />
+                    </controls:ExtendedContentView.GestureRecognizers>
+                    <Label
+                        FontFamily="{StaticResource Key=MontserratBold}"
+                        Text="REGISTER"
+                        TextColor="{StaticResource WhiteColor}" />
+                </controls:ExtendedContentView>
+            </StackLayout>
+        </AbsoluteLayout>
+    </popups:SinglePopup.Content>
+</popups:SinglePopup>

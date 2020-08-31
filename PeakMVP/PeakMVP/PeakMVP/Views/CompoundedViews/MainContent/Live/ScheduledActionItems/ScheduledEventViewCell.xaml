@@ -1,0 +1,217 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ViewCell
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.Live.ScheduledActionItems.ScheduledEventViewCell"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:converters="clr-namespace:PeakMVP.Converters"
+    xmlns:liveModels="clr-namespace:PeakMVP.ViewModels.MainContent.Live"
+    x:Name="_root_ViewCell">
+
+    <ViewCell.View>
+        <controls:ExtendedContentView
+            Margin="0,0,0,6"
+            BackgroundColor="{StaticResource Key=WhiteColor}"
+            CornerRadius="3">
+            <controls:ExtendedContentView.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding Path=Parent.Parent.BindingContext.SelectedScheduledEventCommand, Source={Reference Name=_root_ViewCell}}" CommandParameter="{Binding}" />
+            </controls:ExtendedContentView.GestureRecognizers>
+
+            <controls:ExtendedContentView.Resources>
+                <ResourceDictionary>
+                    <converters:IsTodaysDayConverter
+                        x:Key="is_todays_day_converter"
+                        StringFormat="MMMM dd"
+                        TodaysReplacement="TODAY" />
+
+                    <converters:GenericValueComparerToGenericResultConverter
+                        x:Key="is_interedted_background_color_converter"
+                        x:TypeArguments="liveModels:Interest,Color"
+                        FalseResult="Transparent"
+                        TargetValue="Interested"
+                        TrueResult="LightGreen" />
+
+                    <converters:GenericValueComparerToGenericResultConverter
+                        x:Key="is_perhaps_background_color_converter"
+                        x:TypeArguments="liveModels:Interest,Color"
+                        FalseResult="Transparent"
+                        TargetValue="Perhaps"
+                        TrueResult="LightBlue" />
+
+                    <converters:GenericValueComparerToGenericResultConverter
+                        x:Key="is_not_interested_background_color_converter"
+                        x:TypeArguments="liveModels:Interest,Color"
+                        FalseResult="Transparent"
+                        TargetValue="NotInterested"
+                        TrueResult="LightCoral" />
+
+                    <converters:GenericValueComparerToGenericResultConverter
+                        x:Key="is_interedted_text_color_converter"
+                        x:TypeArguments="liveModels:Interest,Color"
+                        FalseResult="#868E96"
+                        TargetValue="Interested"
+                        TrueResult="#ffffff" />
+
+                    <converters:GenericValueComparerToGenericResultConverter
+                        x:Key="is_perhaps_text_color_converter"
+                        x:TypeArguments="liveModels:Interest,Color"
+                        FalseResult="#868E96"
+                        TargetValue="Perhaps"
+                        TrueResult="#ffffff" />
+
+                    <converters:GenericValueComparerToGenericResultConverter
+                        x:Key="is_not_interested_text_color_converter"
+                        x:TypeArguments="liveModels:Interest,Color"
+                        FalseResult="#868E96"
+                        TargetValue="NotInterested"
+                        TrueResult="#ffffff" />
+                </ResourceDictionary>
+            </controls:ExtendedContentView.Resources>
+
+            <Grid RowSpacing="18">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="45" />
+                </Grid.RowDefinitions>
+
+                <!--  Date scope  -->
+                <AbsoluteLayout Grid.Row="0" Padding="20,20,20,0">
+                    <Grid
+                        AbsoluteLayout.LayoutBounds="1,1,1,1"
+                        AbsoluteLayout.LayoutFlags="All"
+                        RowSpacing="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <!--  Day stack  -->
+                        <StackLayout Orientation="Horizontal" Spacing="12">
+                            <!--  Day of year  -->
+                            <Label
+                                FontFamily="{StaticResource Key=MontserratBold}"
+                                FontSize="{StaticResource Key=LargeSize}"
+                                Text="{Binding Path=Date, Converter={StaticResource Key=is_todays_day_converter}}"
+                                TextColor="{StaticResource Key=BlackColor}" />
+
+                            <!--  Live indicator  -->
+                            <controls:ExtendedContentView
+                                Padding="9,3"
+                                BackgroundColor="{StaticResource Key=ErrorColor}"
+                                CornerRadius="6"
+                                IsVisible="{Binding Path=IsLive}"
+                                VerticalOptions="Center">
+                                <Label
+                                    FontFamily="{StaticResource Key=MontserratRegular}"
+                                    FontSize="{StaticResource Key=LittleSize}"
+                                    Text="Live"
+                                    TextColor="{StaticResource WhiteColor}" />
+                            </controls:ExtendedContentView>
+                        </StackLayout>
+
+                        <!--  Time  -->
+                        <Label
+                            Grid.Row="1"
+                            FontFamily="{StaticResource Key=MontserratBold}"
+                            FontSize="{StaticResource Key=LargeSize}"
+                            Text="{Binding Path=Date, StringFormat='{0:hh:mm tt} GMT{0:zzz}'}"
+                            TextColor="{StaticResource Key=BlackColor}" />
+                    </Grid>
+
+                    <!--  Event indicator  -->
+                    <controls:ExtendedContentView
+                        AbsoluteLayout.LayoutBounds="1,0"
+                        AbsoluteLayout.LayoutFlags="PositionProportional"
+                        BackgroundColor="{StaticResource Key=BlueColor}"
+                        HeightRequest="15"
+                        HorizontalOptions="End"
+                        VerticalOptions="Start"
+                        WidthRequest="15">
+                        <controls:ExtendedContentView.CornerRadius>
+                            <OnPlatform
+                                x:TypeArguments="x:Int32"
+                                Android="24"
+                                iOS="8" />
+                        </controls:ExtendedContentView.CornerRadius>
+                    </controls:ExtendedContentView>
+                </AbsoluteLayout>
+
+                <!--  Game info stack  -->
+                <StackLayout Grid.Row="1" Padding="20,0">
+                    <Label
+                        FontFamily="{StaticResource Key=MontserratRegular}"
+                        FontSize="{StaticResource Key=MidMediumSize}"
+                        Text="{Binding Path=EventName}"
+                        TextColor="{StaticResource Key=BlackColor}" />
+                    <Label
+                        FontFamily="{StaticResource Key=MontserratRegular}"
+                        FontSize="{StaticResource Key=MidMediumSize}"
+                        Text="{Binding Path=Location}"
+                        TextColor="{StaticResource Key=BlackColor}" />
+                </StackLayout>
+
+                <!--  Bottom controls scope  -->
+                <AbsoluteLayout Grid.Row="2">
+                    <!--  Interests  -->
+                    <Grid
+                        AbsoluteLayout.LayoutBounds="1,1,1,1"
+                        AbsoluteLayout.LayoutFlags="All"
+                        BackgroundColor="{StaticResource Key=WhiteColor}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <AbsoluteLayout Grid.Column="0" BackgroundColor="{Binding Path=Interest, Converter={StaticResource Key=is_interedted_background_color_converter}}">
+                            <AbsoluteLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Path=Parent.Parent.BindingContext.DetermineAsInterestedCommand, Source={Reference Name=_root_ViewCell}}" CommandParameter="{Binding}" />
+                            </AbsoluteLayout.GestureRecognizers>
+
+                            <Label
+                                AbsoluteLayout.LayoutBounds=".5,.5"
+                                AbsoluteLayout.LayoutFlags="PositionProportional"
+                                FontSize="{StaticResource Key=MediumSize}"
+                                Text="GOING"
+                                TextColor="{Binding Path=Interest, Converter={StaticResource Key=is_interedted_text_color_converter}}" />
+                        </AbsoluteLayout>
+
+                        <AbsoluteLayout Grid.Column="1" BackgroundColor="{Binding Path=Interest, Converter={StaticResource Key=is_perhaps_background_color_converter}}">
+                            <AbsoluteLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Path=Parent.Parent.BindingContext.DetermineAsPerhapsCommand, Source={Reference Name=_root_ViewCell}}" CommandParameter="{Binding}" />
+                            </AbsoluteLayout.GestureRecognizers>
+
+                            <Label
+                                AbsoluteLayout.LayoutBounds=".5,.5"
+                                AbsoluteLayout.LayoutFlags="PositionProportional"
+                                FontSize="{StaticResource Key=MediumSize}"
+                                Text="MAYBE"
+                                TextColor="{Binding Path=Interest, Converter={StaticResource Key=is_perhaps_text_color_converter}}" />
+                        </AbsoluteLayout>
+
+                        <AbsoluteLayout Grid.Column="2" BackgroundColor="{Binding Path=Interest, Converter={StaticResource Key=is_not_interested_background_color_converter}}">
+                            <AbsoluteLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Path=Parent.Parent.BindingContext.DetermineAsNotInterestedCommand, Source={Reference Name=_root_ViewCell}}" CommandParameter="{Binding}" />
+                            </AbsoluteLayout.GestureRecognizers>
+
+                            <Label
+                                AbsoluteLayout.LayoutBounds=".5,.5"
+                                AbsoluteLayout.LayoutFlags="PositionProportional"
+                                FontSize="{StaticResource Key=MediumSize}"
+                                Text="NO"
+                                TextColor="{Binding Path=Interest, Converter={StaticResource Key=is_not_interested_text_color_converter}}" />
+                        </AbsoluteLayout>
+                    </Grid>
+                </AbsoluteLayout>
+
+                <!--  Separator  -->
+                <BoxView
+                    Grid.Row="2"
+                    BackgroundColor="{StaticResource Key=GrayBorderColor}"
+                    HeightRequest="1"
+                    VerticalOptions="Start" />
+            </Grid>
+        </controls:ExtendedContentView>
+    </ViewCell.View>
+</ViewCell>

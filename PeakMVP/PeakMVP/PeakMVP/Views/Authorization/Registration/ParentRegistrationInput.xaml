@@ -1,0 +1,214 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="PeakMVP.Views.Authorization.Registration.ParentRegistrationInput"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:PeakMVP.Behaviors"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:extensions="clr-namespace:PeakMVP.Extensions"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:registrationResources="clr-namespace:PeakMVP.Views.Authorization.Registration.Resources"
+    xmlns:stackList="clr-namespace:PeakMVP.Controls.Stacklist"
+    xmlns:system="clr-namespace:System;assembly=netstandard">
+
+    <ContentView.Resources>
+        <registrationResources:RegistrationCommonResourceDictionary />
+    </ContentView.Resources>
+
+    <!--  Add child scope  -->
+    <StackLayout Spacing="21">
+        <StackLayout Orientation="Horizontal">
+
+            <!--  Section header  -->
+            <Label
+                Style="{StaticResource Key=form_title_label}"
+                Text="Add Child"
+                VerticalOptions="Center" />
+
+            <!--  ADD BUTTON  -->
+            <ffimageloading:CachedImage
+                CacheType="All"
+                HeightRequest="25"
+                HorizontalOptions="Center"
+                Source="{extensions:ImageResource PeakMVP.Images.ic_plus_2.png}"
+                VerticalOptions="Center"
+                WidthRequest="25">
+                <ffimageloading:CachedImage.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=TypeSpecificRegistrationInputForm.AddChildCommand}" />
+                </ffimageloading:CachedImage.GestureRecognizers>
+                <ffimageloading:CachedImage.Transformations>
+                    <fftransformations:CircleTransformation BorderHexColor="#868E96" BorderSize="6" />
+                </ffimageloading:CachedImage.Transformations>
+            </ffimageloading:CachedImage>
+        </StackLayout>
+
+        <!--  Children list  -->
+        <stackList:StackList
+            x:Name="_childernList_StackList"
+            IsVisible="{Binding Path=TypeSpecificRegistrationInputForm.Children.Count, Converter={StaticResource Key=int_bigger_than_zero_to_bool_converter}}"
+            ItemsSource="{Binding Path=TypeSpecificRegistrationInputForm.Children, Mode=OneWay}"
+            Spacing="21">
+            <stackList:StackList.ItemTemplate>
+                <DataTemplate>
+                    <stackList:CommonStackListItem IsOnSelectionVisualChangesEnabled="False" IsSelectable="False">
+                        <StackLayout Spacing="16">
+
+                            <!--  Child header and remove button  -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="24" />
+                                </Grid.ColumnDefinitions>
+
+                                <Label
+                                    Grid.Column="0"
+                                    FontSize="{StaticResource Key=MediumSize}"
+                                    HorizontalOptions="Start"
+                                    Style="{StaticResource Key=form_title_label}"
+                                    Text="{Binding Path=ChildFullName}" />
+
+                                <!--  Remove child button  -->
+                                <controls:ExtendedContentView
+                                    Grid.Column="1"
+                                    BackgroundColor="{StaticResource LightRedColor}"
+                                    BorderColor="{StaticResource LightGrayColor}"
+                                    BorderThickness="1"
+                                    CornerRadius="20"
+                                    HeightRequest="24"
+                                    VerticalOptions="Start"
+                                    WidthRequest="24">
+                                    <controls:ExtendedContentView.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.TypeSpecificRegistrationInputForm.RemoveChildCommand, Source={x:Reference _childernList_StackList}}" CommandParameter="{Binding}" />
+                                    </controls:ExtendedContentView.GestureRecognizers>
+
+                                    <ffimageloading:CachedImage
+                                        CacheType="All"
+                                        HeightRequest="15"
+                                        HorizontalOptions="Center"
+                                        Source="{extensions:ImageResource PeakMVP.Images.ic_minus.png}"
+                                        VerticalOptions="Center"
+                                        WidthRequest="15">
+                                        <ffimageloading:CachedImage.Transformations>
+                                            <fftransformations:CircleTransformation BorderHexColor="#868E96" BorderSize="6" />
+                                        </ffimageloading:CachedImage.Transformations>
+                                    </ffimageloading:CachedImage>
+
+                                </controls:ExtendedContentView>
+                            </Grid>
+
+                            <!--  Child first name input group  -->
+                            <StackLayout Spacing="3">
+                                <Label Style="{StaticResource Key=Input_group_title_label}" Text="First Name" />
+                                <controls:ExtendedContentView BorderColor="{Binding Path=FirstName.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}" Style="{StaticResource Key=Input_group_entry_wraper}">
+                                    <controls:EntryEx
+                                        Placeholder="Enter first name"
+                                        Style="{StaticResource Key=Input_group_entry}"
+                                        Text="{Binding Path=FirstName.Value, Mode=TwoWay}" />
+                                </controls:ExtendedContentView>
+                                <Label
+                                    IsVisible="{Binding Path=FirstName.IsValid, Converter={StaticResource Key=Reverce_bool_converter}}"
+                                    Style="{StaticResource Key=ValidationErrorLabelStyle}"
+                                    Text="{Binding Path=FirstName.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+                            </StackLayout>
+
+                            <!--  Child last name input group  -->
+                            <StackLayout Spacing="3">
+                                <Label Style="{StaticResource Key=Input_group_title_label}" Text="Last Name" />
+                                <controls:ExtendedContentView BorderColor="{Binding Path=LastName.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}" Style="{StaticResource Key=Input_group_entry_wraper}">
+                                    <controls:EntryEx
+                                        Placeholder="Enter last name"
+                                        Style="{StaticResource Key=Input_group_entry}"
+                                        Text="{Binding Path=LastName.Value}" />
+                                </controls:ExtendedContentView>
+                                <Label
+                                    IsVisible="{Binding Path=LastName.IsValid, Converter={StaticResource Key=Reverce_bool_converter}}"
+                                    Style="{StaticResource Key=ValidationErrorLabelStyle}"
+                                    Text="{Binding Path=LastName.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+                            </StackLayout>
+
+                            <!--  Child zip input group  -->
+                            <StackLayout Spacing="3">
+                                <Label Style="{StaticResource Key=Input_group_title_label}" Text="Zip Code" />
+                                <controls:ExtendedContentView BorderColor="{Binding Path=ZipCode.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}" Style="{StaticResource Key=Input_group_entry_wraper}">
+                                    <controls:EntryEx
+                                        MaxLength="8"
+                                        Placeholder="Enter zip"
+                                        Style="{StaticResource Key=Input_group_entry}"
+                                        Text="{Binding Path=ZipCode.Value, Mode=TwoWay}" />
+                                </controls:ExtendedContentView>
+                                <Label
+                                    IsVisible="{Binding Path=ZipCode.IsValid, Converter={StaticResource Key=Reverce_bool_converter}}"
+                                    Style="{StaticResource Key=ValidationErrorLabelStyle}"
+                                    Text="{Binding Path=ZipCode.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+                            </StackLayout>
+
+                            <!--  Child email input group  -->
+                            <StackLayout IsVisible="{Binding Path=IsEmailInputEnabled}" Spacing="3">
+                                <Label Style="{StaticResource Key=Input_group_title_label}" Text="Email" />
+                                <controls:ExtendedContentView BorderColor="{Binding Path=Email.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}" Style="{StaticResource Key=Input_group_entry_wraper}">
+                                    <controls:EntryEx
+                                        Placeholder="Enter email"
+                                        Style="{StaticResource Key=Input_group_entry}"
+                                        Text="{Binding Path=Email.Value, Mode=TwoWay}" />
+                                </controls:ExtendedContentView>
+                                <Label
+                                    IsVisible="{Binding Path=Email.IsValid, Converter={StaticResource Key=Reverce_bool_converter}}"
+                                    Style="{StaticResource Key=ValidationErrorLabelStyle}"
+                                    Text="{Binding Path=Email.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+                            </StackLayout>
+
+                            <!--  Child date of birth input group  -->
+                            <StackLayout Spacing="3">
+                                <Label Style="{StaticResource Key=Input_group_title_label}" Text="Date of Birth" />
+                                <controls:ExtendedContentView BorderColor="{Binding Path=DateOfBirth.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}" Style="{StaticResource Key=Input_group_entry_wraper}">
+                                    <controls:ExtendedDatePicker Date="{Binding Path=DateOfBirth.Value, Mode=TwoWay}" MaximumDate="{x:Static system:DateTime.Today}" />
+                                </controls:ExtendedContentView>
+                                <Label
+                                    IsVisible="{Binding Path=DateOfBirth.IsValid, Converter={StaticResource Key=Reverce_bool_converter}}"
+                                    Style="{StaticResource Key=ValidationErrorLabelStyle}"
+                                    Text="{Binding Path=DateOfBirth.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+                            </StackLayout>
+
+                            <!--  Child user name/password scope  -->
+                            <StackLayout Spacing="16">
+                                <Label Style="{StaticResource Key=form_title_label}" Text="{Binding Path=LoginDetailsTitle}" />
+
+                                <!--  User name (nickname) input group  -->
+                                <StackLayout Spacing="3">
+                                    <Label Style="{StaticResource Key=Input_group_title_label}" Text="Username" />
+                                    <controls:ExtendedContentView BorderColor="{Binding Path=UserName.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}" Style="{StaticResource Key=Input_group_entry_wraper}">
+                                        <controls:EntryEx
+                                            Placeholder="Enter user name"
+                                            Style="{StaticResource Key=Input_group_entry}"
+                                            Text="{Binding Path=UserName.Value, Mode=TwoWay}" />
+                                    </controls:ExtendedContentView>
+                                    <Label
+                                        IsVisible="{Binding Path=UserName.IsValid, Converter={StaticResource Key=Reverce_bool_converter}}"
+                                        Style="{StaticResource Key=ValidationErrorLabelStyle}"
+                                        Text="{Binding Path=UserName.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+                                </StackLayout>
+
+                                <!--  Password input group  -->
+                                <StackLayout Spacing="3">
+                                    <Label Style="{StaticResource Key=Input_group_title_label}" Text="Password" />
+                                    <controls:ExtendedContentView BorderColor="{Binding Path=Password.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}" Style="{StaticResource Key=Input_group_entry_wraper}">
+                                        <controls:EntryEx
+                                            IsPassword="True"
+                                            Placeholder="Enter password"
+                                            Style="{StaticResource Key=Input_group_entry}"
+                                            Text="{Binding Path=Password.Value, Mode=TwoWay}" />
+                                    </controls:ExtendedContentView>
+                                    <Label
+                                        IsVisible="{Binding Path=Password.IsValid, Converter={StaticResource Key=Reverce_bool_converter}}"
+                                        Style="{StaticResource Key=ValidationErrorLabelStyle}"
+                                        Text="{Binding Path=Password.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+                                </StackLayout>
+                            </StackLayout>
+                        </StackLayout>
+                    </stackList:CommonStackListItem>
+                </DataTemplate>
+            </stackList:StackList.ItemTemplate>
+        </stackList:StackList>
+    </StackLayout>
+</ContentView>

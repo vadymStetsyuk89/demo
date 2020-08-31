@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary
+    x:Class="PeakMVP.Views.Authorization.Registration.Resources.RegistrationCommonResourceDictionary"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:converters="clr-namespace:PeakMVP.Converters"
+    xmlns:convertersRegistration="clr-namespace:PeakMVP.Converters.Authorization.Registration">
+
+    <Style x:Key="form_title_label" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource Key=MainBlackColor}" />
+        <Setter Property="FontSize" Value="{StaticResource Key=LargeSize}" />
+        <Setter Property="FontFamily" Value="{StaticResource Key=MontserratBold}" />
+    </Style>
+
+    <converters:GenericValueToBoolConverter x:Key="is_value_null_to_bool_converter" x:TypeArguments="x:Object" />
+
+    <converters:IntegerValueComparingToBoolConverter
+        x:Key="int_bigger_than_zero_to_bool_converter"
+        IsLessThan="False"
+        LimitValue="0" />
+
+    <convertersRegistration:SpecificRegistrationInputFormToViewConverter x:Key="specific_registration_input_form_to_view_converter" />
+</ResourceDictionary>

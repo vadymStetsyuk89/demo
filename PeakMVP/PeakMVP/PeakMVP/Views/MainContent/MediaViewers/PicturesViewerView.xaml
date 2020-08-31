@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<viewBase:ContentPageBase
+    x:Class="PeakMVP.Views.MainContent.MediaViewers.PicturesViewerView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:compoundedCarousel="clr-namespace:PeakMVP.Controls.Carousels.CompoundedCarousel"
+    xmlns:extensions="clr-namespace:PeakMVP.Extensions"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:viewBase="clr-namespace:PeakMVP.Views.Base"
+    xmlns:viewModelBase="clr-namespace:PeakMVP.ViewModels.Base"
+    viewModelBase:ViewModelLocator.AutoWireViewModel="True">
+
+    <viewBase:ContentPageBase.MainContent>
+        <Grid
+            BackgroundColor="{StaticResource Key=MainBlackColor}"
+            ColumnSpacing="0"
+            RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!--  Header scope  -->
+            <Grid
+                Grid.Row="0"
+                ColumnSpacing="0"
+                RowSpacing="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="1" />
+                </Grid.RowDefinitions>
+                <ContentView
+                    Grid.Row="0"
+                    Padding="20,0,0,0"
+                    HorizontalOptions="Start"
+                    VerticalOptions="Center">
+                    <Label
+                        FontSize="{StaticResource Key=LargeSize}"
+                        Text="{Binding Path=ItemsCounterOutput}"
+                        TextColor="{StaticResource Key=GrayColor}" />
+                </ContentView>
+
+                <!--  Close button  -->
+                <ContentView
+                    Grid.Row="0"
+                    Padding="12"
+                    HorizontalOptions="End"
+                    VerticalOptions="Center">
+                    <ContentView.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=BackCommand}" />
+                    </ContentView.GestureRecognizers>
+                    <ffimageloading:CachedImage
+                        CacheType="All"
+                        HorizontalOptions="Center"
+                        Source="{extensions:ImageResource PeakMVP.Images.ic_close.png}"
+                        VerticalOptions="Center" />
+                </ContentView>
+
+                <!--  Separator  -->
+                <BoxView Grid.Row="1" BackgroundColor="{StaticResource Key=GrayBorderColor}" />
+            </Grid>
+
+            <!--  Main content scope  -->
+            <compoundedCarousel:CompoundedCarousel
+                Grid.Row="1"
+                CarouselPosition="{Binding CurrentlyViewingMediaSourceIndex, Mode=TwoWay}"
+                HorizontalOptions="FillAndExpand"
+                IsContentVisible="{Binding IsCarouselContentVisible}"
+                IsNavigationButtonsVisible="False"
+                ItemsSource="{Binding MediaSource}"
+                VerticalOptions="FillAndExpand">
+                <compoundedCarousel:CompoundedCarousel.ItemDataTemplate>
+                    <DataTemplate>
+                        <ffimageloading:CachedImage CacheType="All" Source="{Binding Url}" />
+                    </DataTemplate>
+                </compoundedCarousel:CompoundedCarousel.ItemDataTemplate>
+            </compoundedCarousel:CompoundedCarousel>
+        </Grid>
+    </viewBase:ContentPageBase.MainContent>
+</viewBase:ContentPageBase>

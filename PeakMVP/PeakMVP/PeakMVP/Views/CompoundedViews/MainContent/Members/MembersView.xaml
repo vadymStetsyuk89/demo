@@ -1,0 +1,226 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.Members.MembersView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:convertersTeam="clr-namespace:PeakMVP.Converters.Team"
+    xmlns:dropDowns="clr-namespace:PeakMVP.Controls.DropdownSelectors"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:popovers="clr-namespace:PeakMVP.Controls.Popovers"
+    xmlns:stackList="clr-namespace:PeakMVP.Controls.Stacklist">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <convertersTeam:TeamMemberToMemberStringConverter x:Key="team_member_to_member_string_converter" />
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <controls:PullToRefreshLayout
+        IsPullToRefreshEnabled="{Binding Path=IsNestedPullToRefreshEnabled}"
+        IsRefreshing="{Binding Path=IsNestedRefreshing, Mode=TwoWay}"
+        RefreshCommand="{Binding Path=NestedRefreshCommand}">
+        <ScrollView>
+            <StackLayout Padding="20,40" Spacing="21">
+
+                <!--  Header  -->
+                <Label Style="{StaticResource Key=Title_text_label_style}" Text="Members" />
+
+                <!--  Selection managment scope  -->
+                <Grid BackgroundColor="{StaticResource Key=WhiteColor}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!--  Separator  -->
+                    <BoxView
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        BackgroundColor="{StaticResource Key=GrayBorderColor}" />
+
+                    <!--  Teams selector  -->
+                    <Grid
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        RowSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="1" />
+                        </Grid.RowDefinitions>
+                        <dropDowns:DropSelect
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            BorderColor="Transparent"
+                            HeightRequest="40"
+                            IsHintEnabled="True"
+                            ItemSource="{Binding Path=TeamMemberProviderViewModel.TeamMembers}"
+                            PopoverLayouting="LeftBottom"
+                            SelectedItem="{Binding Path=SelectedTeam, Mode=TwoWay}">
+                            <dropDowns:DropSelect.HintViewTemplate>
+                                <DataTemplate>
+                                    <Label
+                                        Margin="20,0"
+                                        FontFamily="{StaticResource Key=MontserratRegular}"
+                                        FontSize="{StaticResource Key=MidMediumSize}"
+                                        HorizontalOptions="Start"
+                                        Text="Choose team"
+                                        TextColor="{StaticResource Key=GrayColor}"
+                                        VerticalOptions="Center" />
+                                </DataTemplate>
+                            </dropDowns:DropSelect.HintViewTemplate>
+                            <dropDowns:DropSelect.SelectedItemFiguring>
+                                <!--  Don't use StackLayout in that case - sometimes it throws own calculation-related exception  -->
+                                <Grid Padding="20,0,25,0">
+                                    <Label
+                                        FontSize="{StaticResource Key=MidMediumSize}"
+                                        HorizontalOptions="Start"
+                                        LineBreakMode="TailTruncation"
+                                        Text="{Binding Path=Data.Team.Name}"
+                                        TextColor="{StaticResource Key=BlackColor}"
+                                        VerticalOptions="Center" />
+                                </Grid>
+                            </dropDowns:DropSelect.SelectedItemFiguring>
+                            <dropDowns:DropSelect.Popover>
+                                <popovers:ListedPopover
+                                    HorizontalOptions="Start"
+                                    IsHaveSameWidth="True"
+                                    ListPadding="20,7">
+                                    <popovers:ListedPopover.ItemTemplate>
+                                        <DataTemplate>
+                                            <stackList:CommonStackListItem IsOnSelectionVisualChangesEnabled="False" IsSelectable="True">
+                                                <!--  Don't use StackLayout in that case - sometimes it throws own calculation-related exception  -->
+                                                <Grid HorizontalOptions="Start">
+                                                    <Label
+                                                        FontSize="{StaticResource Key=MidMediumSize}"
+                                                        HorizontalTextAlignment="Start"
+                                                        Text="{Binding Path=Data.Team.Name}"
+                                                        VerticalTextAlignment="Start" />
+                                                </Grid>
+                                            </stackList:CommonStackListItem>
+                                        </DataTemplate>
+                                    </popovers:ListedPopover.ItemTemplate>
+                                </popovers:ListedPopover>
+                            </dropDowns:DropSelect.Popover>
+                        </dropDowns:DropSelect>
+
+                        <!--  Separator  -->
+                        <BoxView
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            BackgroundColor="{StaticResource Key=GrayBorderColor}" />
+                    </Grid>
+
+                    <!--  Filter selector  -->
+                    <Grid
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        RowSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="1" />
+                        </Grid.RowDefinitions>
+                        <dropDowns:DropSelect
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            BorderColor="Transparent"
+                            HeightRequest="40"
+                            IsHintEnabled="False"
+                            ItemSource="{Binding Path=Filters}"
+                            PopoverLayouting="LeftBottom"
+                            SelectedItem="{Binding Path=SelectedFilter, Mode=TwoWay}">
+                            <dropDowns:DropSelect.SelectedItemFiguring>
+                                <!--  Don't use StackLayout in that case - sometimes it throws own calculation-related exception  -->
+                                <Grid Padding="20,0,25,0">
+                                    <Label
+                                        FontSize="{StaticResource Key=MidMediumSize}"
+                                        HorizontalOptions="Start"
+                                        Text="{Binding Path=Title}"
+                                        TextColor="{StaticResource Key=BlackColor}"
+                                        VerticalOptions="Center" />
+                                </Grid>
+                            </dropDowns:DropSelect.SelectedItemFiguring>
+                            <dropDowns:DropSelect.Popover>
+                                <popovers:ListedPopover
+                                    HorizontalOptions="Start"
+                                    IsHaveSameWidth="True"
+                                    ListPadding="20,7">
+                                    <popovers:ListedPopover.ItemTemplate>
+                                        <DataTemplate>
+                                            <stackList:CommonStackListItem IsOnSelectionVisualChangesEnabled="False" IsSelectable="True">
+                                                <!--  Don't use StackLayout in that case - sometimes it throws own calculation-related exception  -->
+                                                <Grid HorizontalOptions="Start">
+                                                    <Label
+                                                        FontSize="{StaticResource Key=MidMediumSize}"
+                                                        HorizontalOptions="Start"
+                                                        Text="{Binding Path=Title}"
+                                                        VerticalOptions="Start" />
+                                                </Grid>
+                                            </stackList:CommonStackListItem>
+                                        </DataTemplate>
+                                    </popovers:ListedPopover.ItemTemplate>
+                                </popovers:ListedPopover>
+                            </dropDowns:DropSelect.Popover>
+                        </dropDowns:DropSelect>
+
+                        <!--  Separator  -->
+                        <BoxView
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            BackgroundColor="{StaticResource Key=GrayBorderColor}" />
+                    </Grid>
+                </Grid>
+
+                <stackList:StackList
+                    x:Name="_teamCharacters_StackList"
+                    ItemsSource="{Binding Path=FilteredMembers}"
+                    Spacing="6">
+                    <stackList:StackList.ItemTemplate>
+                        <DataTemplate>
+                            <stackList:CommonStackListItem>
+                                <controls:ExtendedContentView
+                                    BackgroundColor="{StaticResource Key=SemiLightGrayColor}"
+                                    CornerRadius="23"
+                                    HeightRequest="46">
+                                    <controls:ExtendedContentView.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.ViewTeamMemberCharacterInfoCommand, Source={Reference Name=_teamCharacters_StackList}}" CommandParameter="{Binding}" />
+                                    </controls:ExtendedContentView.GestureRecognizers>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="46" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <ffimageloading:CachedImage
+                                            Grid.Column="0"
+                                            CacheType="All"
+                                            HeightRequest="46"
+                                            Source="{Binding Path=Member, Converter={StaticResource Key=User_avatar_converter}}"
+                                            WidthRequest="46">
+                                            <ffimageloading:CachedImage.Transformations>
+                                                <fftransformations:CircleTransformation />
+                                            </ffimageloading:CachedImage.Transformations>
+                                        </ffimageloading:CachedImage>
+
+                                        <Label
+                                            Grid.Column="1"
+                                            LineBreakMode="TailTruncation"
+                                            Style="{StaticResource Key=Plain_text_label_style}"
+                                            Text="{Binding Converter={StaticResource Key=team_member_to_member_string_converter}}"
+                                            VerticalTextAlignment="Center" />
+                                    </Grid>
+                                </controls:ExtendedContentView>
+                            </stackList:CommonStackListItem>
+                        </DataTemplate>
+                    </stackList:StackList.ItemTemplate>
+                </stackList:StackList>
+            </StackLayout>
+        </ScrollView>
+    </controls:PullToRefreshLayout>
+</ContentView>

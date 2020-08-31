@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="PeakMVP.Controls.Indicator"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <Grid>
+        <BoxView
+            x:Name="_padCanvas_BoxView"
+            BackgroundColor="{StaticResource BlackColor}"
+            Opacity=".5" />
+        <ActivityIndicator
+            x:Name="_spinnerIndicator_ActivityIndicator"
+            HeightRequest="60"
+            HorizontalOptions="Center"
+            IsRunning="True"
+            VerticalOptions="Center"
+            WidthRequest="60"
+            Color="White" />
+    </Grid>
+</ContentView>

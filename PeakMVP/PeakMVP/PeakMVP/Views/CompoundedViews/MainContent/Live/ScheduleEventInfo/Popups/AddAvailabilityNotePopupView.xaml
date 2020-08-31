@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<popups:SinglePopup
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.Live.ScheduleEventInfo.Popups.AddAvailabilityNotePopupView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:converters="clr-namespace:PeakMVP.Converters"
+    xmlns:mainContentCompoundedViews="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent"
+    xmlns:popups="clr-namespace:PeakMVP.Controls.Popups"
+    VerticalOptions="Start">
+
+    <popups:SinglePopup.Content>
+        <mainContentCompoundedViews:PopupContentWrapper
+            CancelButtonText="CANCEL"
+            CancelCommand="{Binding Path=ClosePopupCommand}"
+            CloseCommand="{Binding Path=ClosePopupCommand}"
+            IsCancelButtonVisible="True"
+            IsSucceedButtonVisible="True"
+            SucceedButtonText="OK"
+            SucceedCommand="{Binding Path=AddAvailabilityNoteCommand}"
+            TitleText="Add availability note"
+            VerticalOptions="Start">
+
+            <mainContentCompoundedViews:PopupContentWrapper.MainContent>
+                <!--  Inputs scope  -->
+                <StackLayout Padding="20,16">
+
+                    <!--  Availability note  -->
+                    <StackLayout Spacing="3">
+                        <Label Style="{StaticResource Key=Input_group_title_label}" Text="Availability note" />
+
+                        <controls:ExtendedContentView BorderColor="{Binding Path=AvailabilityNote.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}" Style="{StaticResource Key=Input_group_entry_wraper}">
+                            <controls:EntryEx
+                                MaxLength="200"
+                                Placeholder="Write availability note"
+                                Style="{StaticResource Key=Input_group_entry}"
+                                Text="{Binding Path=AvailabilityNote.Value, Mode=TwoWay}" />
+                        </controls:ExtendedContentView>
+                        <Label
+                            IsVisible="{Binding Path=AvailabilityNote.IsValid, Converter={StaticResource Key=Reverce_bool_converter}}"
+                            Style="{StaticResource Key=ValidationErrorLabelStyle}"
+                            Text="{Binding Path=AvailabilityNote.Errors, Converter={StaticResource Key=FirstValidationErrorConverter}}" />
+                    </StackLayout>
+                </StackLayout>
+            </mainContentCompoundedViews:PopupContentWrapper.MainContent>
+        </mainContentCompoundedViews:PopupContentWrapper>
+    </popups:SinglePopup.Content>
+</popups:SinglePopup>

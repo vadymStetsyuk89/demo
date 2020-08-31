@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<base:SourceItemBase
+    x:Class="PeakMVP.Views.CompoundedViews.ProfileTileView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:base="clr-namespace:PeakMVP.Controls.Stacklist.Base"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms">
+
+    <StackLayout Spacing="0">
+        <controls:ExtendedContentView
+            x:Name="_frame_ExtendedContentView"
+            Padding="10"
+            BackgroundColor="Transparent"
+            BorderColor="{StaticResource GrayBorderColor}"
+            BorderThickness="1"
+            CornerRadius="10"
+            HeightRequest="60"
+            HorizontalOptions="Center"
+            WidthRequest="110">
+            <ffimageloading:CachedImage
+                CacheType="All"
+                HeightRequest="40"
+                HorizontalOptions="Center"
+                Source="{Binding Icon, Converter={StaticResource StringToImageSourceConverter}}"
+                VerticalOptions="Center" />
+        </controls:ExtendedContentView>
+        <Label
+            FontSize="{StaticResource MediumSize}"
+            HorizontalOptions="Center"
+            Text="{Binding Name}" />
+    </StackLayout>
+</base:SourceItemBase>

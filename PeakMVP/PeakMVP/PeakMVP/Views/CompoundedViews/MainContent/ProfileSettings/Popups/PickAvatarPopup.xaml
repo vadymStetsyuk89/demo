@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<popups:SinglePopup
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.ProfileSettings.Popups.PickAvatarPopup"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:mainContentCompoundedViews="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent"
+    xmlns:popups="clr-namespace:PeakMVP.Controls.Popups"
+    xmlns:profileSettingsResources="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent.ProfileSettings.Resources"
+    VerticalOptions="Start">
+
+    <popups:SinglePopup.Resources>
+        <profileSettingsResources:ProfileSettingsCommonResourceDictionary />
+    </popups:SinglePopup.Resources>
+
+    <popups:SinglePopup.Content>
+        <mainContentCompoundedViews:PopupContentWrapper
+            x:Name="_pickAvatarPopupWraper_PopupContentWrapper"
+            CancelButtonText="CLOSE"
+            CancelCommand="{Binding Path=ClosePopupCommand}"
+            CloseCommand="{Binding Path=ClosePopupCommand}"
+            IsCancelButtonVisible="True"
+            IsSucceedButtonVisible="True"
+            SucceedButtonText="SAVE"
+            SucceedCommand="{Binding Path=SaveAvatarCommand}"
+            TitleText="Add profile picture"
+            VerticalOptions="Start">
+            <mainContentCompoundedViews:PopupContentWrapper.MainContent>
+                <StackLayout Padding="20,16">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <controls:ExtendedContentView
+                            Grid.Column="0"
+                            Padding="20,10"
+                            BackgroundColor="{StaticResource Key=MainBackgroundColor}"
+                            BorderColor="{StaticResource Key=GrayBorderColor}"
+                            BorderThickness="2"
+                            VerticalOptions="Start">
+                            <controls:ExtendedContentView.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Path=PickAvatarImageCommand, Mode=OneWay}" />
+                            </controls:ExtendedContentView.GestureRecognizers>
+                            <Label
+                                FontSize="{StaticResource Key=MediumSize}"
+                                HorizontalOptions="Center"
+                                Text="Choose file"
+                                TextColor="{StaticResource Key=GrayColor}"
+                                VerticalOptions="Center" />
+                        </controls:ExtendedContentView>
+
+                        <Label
+                            Grid.Column="1"
+                            FontSize="{StaticResource Key=MediumSize}"
+                            Text="{Binding Path=PickedAvatar, Converter={StaticResource Key=picked_media_to_string_value_converter}}"
+                            TextColor="{StaticResource Key=GrayColor}"
+                            VerticalOptions="Center" />
+                    </Grid>
+                </StackLayout>
+            </mainContentCompoundedViews:PopupContentWrapper.MainContent>
+        </mainContentCompoundedViews:PopupContentWrapper>
+    </popups:SinglePopup.Content>
+</popups:SinglePopup>

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.ProfileContent.Resources.ProfileContentCommonResourceDictionary"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:profileContentConverters="clr-namespace:PeakMVP.Converters.ProfileContent">
+    <Style x:Key="add_button_wraper_style" TargetType="ContentView">
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="BackgroundColor" Value="LightSkyBlue" />
+    </Style>
+    <Style x:Key="add_button_image_style" TargetType="Image">
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="WidthRequest" Value="15" />
+        <Setter Property="HeightRequest" Value="15" />
+    </Style>
+    <Style x:Key="small_common_button_wraper_style" TargetType="ContentView">
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="BackgroundColor" Value="LightSkyBlue" />
+    </Style>
+    <Style x:Key="small_common_button_image_style" TargetType="Image">
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="BackgroundColor" Value="Black" />
+        <Setter Property="WidthRequest" Value="15" />
+        <Setter Property="HeightRequest" Value="15" />
+    </Style>
+
+    <profileContentConverters:ProfileTypeToUserProfileTypeSpesificContentConverter x:Key="profile_type_to_user_profile_type_spesific_content_converter" />
+</ResourceDictionary>

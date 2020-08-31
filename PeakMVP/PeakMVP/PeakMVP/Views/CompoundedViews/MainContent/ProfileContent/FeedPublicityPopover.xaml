@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<popoversBase:PopoverBase
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.ProfileContent.FeedPublicityPopover"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:PeakMVP.Behaviors"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+    xmlns:popoversBase="clr-namespace:PeakMVP.Controls.Popovers.Base"
+    xmlns:stackList="clr-namespace:PeakMVP.Controls.Stacklist"
+    x:Name="_root_PopoverBase">
+
+    <controls:ExtendedContentView
+        BackgroundColor="{StaticResource Key=WhiteColor}"
+        BorderColor="{StaticResource Key=GrayBorderColor}"
+        BorderThickness="1"
+        CornerRadius="3">
+        <stackList:StackList ItemsSource="{Binding Source={Reference Name=_root_PopoverBase}, Path=ItemContext}" SelectedItem="{Binding Source={Reference Name=_root_PopoverBase}, Path=SelectedItem, Mode=TwoWay}">
+            <stackList:StackList.ItemTemplate>
+                <DataTemplate>
+                    <stackList:CommonStackListItem
+                        Padding="7,7,25,7"
+                        IsOnSelectionVisualChangesEnabled="True"
+                        IsSelectable="True">
+                        <!--  Don't use StackLayout in that case - sometimes it throws own calculation-related exception  -->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <ffimageloadingsvg:SvgCachedImage
+                                Grid.Column="0"
+                                Margin="0,2,0,0"
+                                CacheType="All"
+                                HeightRequest="15"
+                                Source="resource://PeakMVP.Images.Svg.ic_earth.svg"
+                                VerticalOptions="Start"
+                                WidthRequest="15">
+                                <ffimageloadingsvg:SvgCachedImage.Behaviors>
+                                    <behaviors:FFColorScaleBehavior Brightness=".5" TargetColor="Gray" />
+                                </ffimageloadingsvg:SvgCachedImage.Behaviors>
+                            </ffimageloadingsvg:SvgCachedImage>
+
+                            <Label
+                                Grid.Column="1"
+                                FontSize="{StaticResource Key=MidMediumSize}"
+                                HorizontalTextAlignment="Start"
+                                Text="{Binding Path=Title}"
+                                VerticalTextAlignment="Start" />
+                        </Grid>
+                    </stackList:CommonStackListItem>
+                </DataTemplate>
+            </stackList:StackList.ItemTemplate>
+        </stackList:StackList>
+    </controls:ExtendedContentView>
+</popoversBase:PopoverBase>

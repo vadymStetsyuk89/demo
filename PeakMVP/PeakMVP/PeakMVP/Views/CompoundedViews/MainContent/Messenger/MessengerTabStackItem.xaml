@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<stackList:CommonStackListItem
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.Messenger.MessengerTabStackItem"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:extensions="clr-namespace:PeakMVP.Extensions"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:messengerCommonResources="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent.Messenger.Resources"
+    xmlns:stackList="clr-namespace:PeakMVP.Controls.Stacklist"
+    IsOnSelectionVisualChangesEnabled="True"
+    IsSelectable="True">
+
+    <stackList:CommonStackListItem.Resources>
+        <messengerCommonResources:MessengerCommonResourceDictionary />
+    </stackList:CommonStackListItem.Resources>
+
+    <controls:ExtendedContentView
+        x:Name="_roundedContentBox_ExtendedContentView"
+        Padding="15,7"
+        BackgroundColor="{StaticResource Key=BlueColor}"
+        CornerRadius="3"
+        VerticalOptions="Center">
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackLayout Grid.Column="0" Orientation="Horizontal">
+                <Label
+                    x:Name="_header_Label"
+                    FontFamily="{StaticResource Key=MontserratRegular}"
+                    FontSize="{StaticResource Key=MidMediumSize}"
+                    Text="{Binding Path=Title, Mode=OneWay}"
+                    TextColor="{StaticResource Key=WhiteColor}"
+                    VerticalOptions="Center" />
+
+                <Label
+                    x:Name="_messagesCounter_Label"
+                    FontFamily="{StaticResource Key=MontserratRegular}"
+                    FontSize="{StaticResource Key=MidMediumSize}"
+                    IsVisible="{Binding Path=UnreadMessages, Converter={StaticResource Key=is_bigger_than_zero_Integer_value_comparing_to_bool_converter}}"
+                    Text="{Binding Path=UnreadMessages, StringFormat='({0})', Converter={StaticResource Key=Ninety_nine_limited_int_converter}}"
+                    TextColor="{StaticResource Key=WhiteColor}"
+                    VerticalOptions="Center" />
+            </StackLayout>
+
+            <ContentView
+                x:Name="_closeButtonScope_ContentView"
+                Grid.Column="1"
+                IsVisible="{Binding Path=CanBeClosed}">
+                <ContentView.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=CloseTabCommand}" />
+                </ContentView.GestureRecognizers>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.Resources>
+                        <ResourceDictionary>
+                            <Style TargetType="ffimageloading:CachedImage">
+                                <Setter Property="HeightRequest" Value="16" />
+                                <Setter Property="HorizontalOptions" Value="Center" />
+                                <Setter Property="VerticalOptions" Value="Center" />
+                                <Setter Property="WidthRequest" Value="16" />
+                            </Style>
+                        </ResourceDictionary>
+                    </Grid.Resources>
+
+                    <ffimageloading:CachedImage x:Name="_whiteIcon_CachedImage" Source="{extensions:ImageResource Source=PeakMVP.Images.ic_close.png}" />
+                    <ffimageloading:CachedImage x:Name="_blueIcon_CachedImage" Source="{extensions:ImageResource Source=PeakMVP.Images.ic_close_blue.png}" />
+                </Grid>
+            </ContentView>
+        </Grid>
+    </controls:ExtendedContentView>
+</stackList:CommonStackListItem>

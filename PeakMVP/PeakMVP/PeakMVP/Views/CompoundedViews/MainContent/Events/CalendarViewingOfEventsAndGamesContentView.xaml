@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.Events.CalendarViewingOfEventsAndGamesContentView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:scheduleCalendar="clr-namespace:PeakMVP.Controls.ScheduleCalendar"
+    xmlns:syncfusion="clr-namespace:Syncfusion.SfCalendar.XForms;assembly=Syncfusion.SfCalendar.XForms">
+
+    <scheduleCalendar:ScheduleEventSfCalendar
+        Command="{Binding Path=DayTappedCommand}"
+        EnableSwiping="False"
+        MaximumEventIndicatorCount="1"
+        NavigationArrowThickness="4"
+        ScheduleEventsSource="{Binding Path=CalendarScheduleEvents}"
+        ShowInlineEvents="False"
+        ShowNavigationButtons="True"
+        ShowYearView="False">
+        <scheduleCalendar:ScheduleEventSfCalendar.MonthViewSettings>
+            <syncfusion:MonthViewSettings
+                DateSelectionColor="#EDEDED"
+                SelectedDayTextColor="Black"
+                TodayTextColor="LightGray" />
+        </scheduleCalendar:ScheduleEventSfCalendar.MonthViewSettings>
+    </scheduleCalendar:ScheduleEventSfCalendar>
+</ContentView>

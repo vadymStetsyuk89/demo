@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<popups:SinglePopup
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.ProfileContent.Popups.OrganizationAddNewTeamPopup"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:converters="clr-namespace:PeakMVP.Converters"
+    xmlns:dropDowns="clr-namespace:PeakMVP.Controls.DropdownSelectors"
+    xmlns:mainContentCompoundedViews="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent"
+    xmlns:popovers="clr-namespace:PeakMVP.Controls.Popovers"
+    xmlns:popups="clr-namespace:PeakMVP.Controls.Popups"
+    xmlns:stackList="clr-namespace:PeakMVP.Controls.Stacklist"
+    xmlns:suggestInput="clr-namespace:PeakMVP.Controls.SuggestInput"
+    VerticalOptions="Start">
+
+    <popups:SinglePopup.Content>
+        <mainContentCompoundedViews:PopupContentWrapper
+            CancelButtonText="CANCEL"
+            CancelCommand="{Binding Path=ClosePopupCommand}"
+            CloseCommand="{Binding Path=ClosePopupCommand}"
+            IsCancelButtonVisible="True"
+            IsSucceedButtonVisible="True"
+            SucceedButtonText="SAVE"
+            SucceedCommand="{Binding Path=SaveNewTeamCommand}"
+            TitleText="Add team"
+            VerticalOptions="Start">
+            <mainContentCompoundedViews:PopupContentWrapper.MainContent>
+                <StackLayout Padding="20,16" Spacing="16">
+
+                    <!--  Organization input name  -->
+                    <StackLayout Spacing="3">
+                        <Label Style="{StaticResource Input_group_title_label}" Text="Name" />
+
+                        <suggestInput:SuggestInput
+                            BorderColor="{Binding Path=TeamName.IsValid, Converter={StaticResource Bool_to_entry_wraper_error_border_color_converter}}"
+                            HeightRequest="39"
+                            IsHintEnabled="False"
+                            IsSuggestButtonVisible="False"
+                            Placeholder="Enter team name"
+                            PopoverLayouting="LeftBottom"
+                            Text="{Binding Path=TeamName.Value, Mode=TwoWay}" />
+                        <Label
+                            IsVisible="{Binding Path=TeamName.IsValid, Converter={StaticResource Key=Reverce_bool_converter}}"
+                            Style="{StaticResource Key=ValidationErrorLabelStyle}"
+                            Text="{Binding Path=TeamName.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+                    </StackLayout>
+
+                    <!--  Sports selector group  -->
+                    <StackLayout Spacing="3">
+                        <Label Style="{StaticResource Key=Input_group_title_label}" Text="Sport" />
+                        <dropDowns:DropSelect
+                            BackgroundColor="{StaticResource Key=WhiteColor}"
+                            BorderColor="{StaticResource Key=GrayBorderColor}"
+                            HeightRequest="39"
+                            ItemSource="{Binding Path=SportsItems}"
+                            PopoverLayouting="LeftBottom"
+                            SelectedItem="{Binding Path=SelectedSportsItem, Mode=TwoWay}">
+                            <dropDowns:DropSelect.SelectedItemFiguring>
+                                <ContentView Padding="15,9">
+                                    <Label
+                                        FontFamily="{StaticResource Key=MontserratRegular}"
+                                        FontSize="{StaticResource Key=MidMediumSize}"
+                                        Text="{Binding Path=Name}"
+                                        TextColor="{StaticResource Key=BlackColor}"
+                                        VerticalTextAlignment="Center" />
+                                </ContentView>
+                            </dropDowns:DropSelect.SelectedItemFiguring>
+                            <dropDowns:DropSelect.Popover>
+                                <popovers:ListedPopover IsHaveSameWidth="True">
+                                    <popovers:ListedPopover.ItemTemplate>
+                                        <DataTemplate>
+                                            <stackList:CommonStackListItem
+                                                Padding="15,3"
+                                                IsOnSelectionVisualChangesEnabled="True"
+                                                IsSelectable="True">
+                                                <Label
+                                                    FontSize="{StaticResource Key=MediumSize}"
+                                                    Text="{Binding Path=Name}"
+                                                    VerticalTextAlignment="Center" />
+                                            </stackList:CommonStackListItem>
+                                        </DataTemplate>
+                                    </popovers:ListedPopover.ItemTemplate>
+                                </popovers:ListedPopover>
+                            </dropDowns:DropSelect.Popover>
+                        </dropDowns:DropSelect>
+                    </StackLayout>
+                </StackLayout>
+            </mainContentCompoundedViews:PopupContentWrapper.MainContent>
+        </mainContentCompoundedViews:PopupContentWrapper>
+    </popups:SinglePopup.Content>
+</popups:SinglePopup>

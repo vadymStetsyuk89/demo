@@ -1,0 +1,475 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.Live.ScheduleEventInfo.ScheduleEventDetailsView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:PeakMVP.Behaviors"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:converters="clr-namespace:PeakMVP.Converters"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:liveModels="clr-namespace:PeakMVP.ViewModels.MainContent.Live"
+    xmlns:stackList="clr-namespace:PeakMVP.Controls.Stacklist">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <converters:GenericTypeToBoolConverter x:Key="is_scheduled_game_converter" x:TypeArguments="liveModels:ScheduledGame" />
+
+            <converters:GenericValueComparerToGenericResultConverter
+                x:Key="is_interedted_background_color_converter"
+                x:TypeArguments="liveModels:Interest,Color"
+                FalseResult="Transparent"
+                TargetValue="Interested"
+                TrueResult="LightGreen" />
+
+            <converters:GenericValueComparerToGenericResultConverter
+                x:Key="is_perhaps_background_color_converter"
+                x:TypeArguments="liveModels:Interest,Color"
+                FalseResult="Transparent"
+                TargetValue="Perhaps"
+                TrueResult="LightBlue" />
+
+            <converters:GenericValueComparerToGenericResultConverter
+                x:Key="is_not_interested_background_color_converter"
+                x:TypeArguments="liveModels:Interest,Color"
+                FalseResult="Transparent"
+                TargetValue="NotInterested"
+                TrueResult="LightCoral" />
+
+            <converters:GenericValueComparerToGenericResultConverter
+                x:Key="is_interedted_text_color_converter"
+                x:TypeArguments="liveModels:Interest,Color"
+                FalseResult="#868E96"
+                TargetValue="Interested"
+                TrueResult="#ffffff" />
+
+            <converters:GenericValueComparerToGenericResultConverter
+                x:Key="is_perhaps_text_color_converter"
+                x:TypeArguments="liveModels:Interest,Color"
+                FalseResult="#868E96"
+                TargetValue="Perhaps"
+                TrueResult="#ffffff" />
+
+            <converters:GenericValueComparerToGenericResultConverter
+                x:Key="is_not_interested_text_color_converter"
+                x:TypeArguments="liveModels:Interest,Color"
+                FalseResult="#868E96"
+                TargetValue="NotInterested"
+                TrueResult="#ffffff" />
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <controls:PullToRefreshLayout>
+        <StackLayout Spacing="3">
+
+            <!--  Map and schedule info spot  -->
+            <StackLayout Spacing="0">
+                <!--  Map spot  -->
+                <BoxView BackgroundColor="Black" HeightRequest="125" />
+
+                <!--  Game schedule scope  -->
+                <StackLayout
+                    Padding="20,10"
+                    BackgroundColor="{StaticResource Key=WhiteColor}"
+                    Spacing="18">
+
+                    <!--  Time stack  -->
+                    <StackLayout>
+                        <Label
+                            FontFamily="{StaticResource Key=MontserratRegular}"
+                            FontSize="{StaticResource Key=SemiMediumSize}"
+                            HorizontalOptions="Center"
+                            Text="{Binding Path=TargetScheduledEvent.Date, StringFormat='{0:dddd}, {0:MMMM dd}'}"
+                            TextColor="{StaticResource Key=BlackColor}" />
+                        <Label
+                            FontFamily="{StaticResource Key=MontserratRegular}"
+                            FontSize="{StaticResource Key=SemiMediumSize}"
+                            HorizontalOptions="Center"
+                            Text="{Binding Path=TargetScheduledEvent.Date, StringFormat='{0:hh:mm tt} GMT{0:zzz}'}"
+                            TextColor="{StaticResource Key=BlackColor}" />
+                        <Label
+                            FontFamily="{StaticResource Key=MontserratRegular}"
+                            FontSize="{StaticResource Key=SemiMediumSize}"
+                            HorizontalOptions="Center"
+                            Text="{Binding Path=TargetScheduledEvent.Location}"
+                            TextColor="{StaticResource Key=BlackColor}" />
+                    </StackLayout>
+
+                    <!--  Interests  -->
+                    <controls:ExtendedContentView
+                        Margin="20,0"
+                        BackgroundColor="{StaticResource Key=SemiLightGrayColor}"
+                        CornerRadius="3"
+                        HeightRequest="45">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <AbsoluteLayout Grid.Column="0" BackgroundColor="{Binding Path=TargetScheduledEvent.Interest, Converter={StaticResource Key=is_interedted_background_color_converter}}">
+                                <AbsoluteLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=DetermineAsInterestedCommand}" CommandParameter="{Binding Path=TargetScheduledEvent}" />
+                                </AbsoluteLayout.GestureRecognizers>
+
+                                <Label
+                                    AbsoluteLayout.LayoutBounds=".5,.5"
+                                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                                    FontSize="{StaticResource Key=SemiMediumSize}"
+                                    Text="I'M GOING"
+                                    TextColor="{Binding Path=TargetScheduledEvent.Interest, Converter={StaticResource Key=is_interedted_text_color_converter}}" />
+                            </AbsoluteLayout>
+
+                            <AbsoluteLayout Grid.Column="1" BackgroundColor="{Binding Path=TargetScheduledEvent.Interest, Converter={StaticResource Key=is_perhaps_background_color_converter}}">
+                                <AbsoluteLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=DetermineAsPerhapsCommand}" CommandParameter="{Binding Path=TargetScheduledEvent}" />
+                                </AbsoluteLayout.GestureRecognizers>
+
+                                <Label
+                                    AbsoluteLayout.LayoutBounds=".5,.5"
+                                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                                    FontSize="{StaticResource Key=SemiMediumSize}"
+                                    Text="MAYBE"
+                                    TextColor="{Binding Path=TargetScheduledEvent.Interest, Converter={StaticResource Key=is_perhaps_text_color_converter}}" />
+                            </AbsoluteLayout>
+
+                            <AbsoluteLayout Grid.Column="2" BackgroundColor="{Binding Path=TargetScheduledEvent.Interest, Converter={StaticResource Key=is_not_interested_background_color_converter}}">
+                                <AbsoluteLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=DetermineAsNotInterestedCommand}" CommandParameter="{Binding Path=TargetScheduledEvent}" />
+                                </AbsoluteLayout.GestureRecognizers>
+
+                                <Label
+                                    AbsoluteLayout.LayoutBounds=".5,.5"
+                                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                                    FontSize="{StaticResource Key=SemiMediumSize}"
+                                    Text="NO"
+                                    TextColor="{Binding Path=TargetScheduledEvent.Interest, Converter={StaticResource Key=is_not_interested_text_color_converter}}" />
+                            </AbsoluteLayout>
+                        </Grid>
+                    </controls:ExtendedContentView>
+
+                    <!--  Edit my availability note  -->
+                    <Grid>
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Path=EditAvailabilityNoteCommand}" />
+                        </Grid.GestureRecognizers>
+
+                        <Label
+                            FontFamily="{StaticResource Key=MontserratRegular}"
+                            FontSize="{StaticResource Key=SemiMediumSize}"
+                            HorizontalOptions="Center"
+                            IsVisible="{Binding Path=TargetScheduledEvent.AvailabilityNote, Converter={StaticResource Key=Is_null_converter}}"
+                            Text="+ My Availability Note"
+                            TextColor="{StaticResource Key=BlueColor}"
+                            VerticalOptions="Center" />
+
+                        <Label
+                            FontFamily="{StaticResource Key=MontserratRegular}"
+                            FontSize="{StaticResource Key=SemiMediumSize}"
+                            HorizontalOptions="Center"
+                            IsVisible="{Binding Path=TargetScheduledEvent.AvailabilityNote, Converter={StaticResource Key=Is_not_null_converter}}"
+                            Text="{Binding Path=TargetScheduledEvent.AvailabilityNote}"
+                            TextColor="{StaticResource Key=BlueColor}"
+                            VerticalOptions="Center" />
+                    </Grid>
+                </StackLayout>
+            </StackLayout>
+
+            <!--  Game info scope  -->
+            <StackLayout
+                Padding="0,20"
+                BackgroundColor="{StaticResource Key=WhiteColor}"
+                Spacing="24">
+
+                <!--  Location info  -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="45" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="45" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=ViewLocationInfoCommand}" />
+                    </Grid.GestureRecognizers>
+
+                    <ffimageloadingsvg:SvgCachedImage
+                        Grid.Column="0"
+                        CacheType="All"
+                        HeightRequest="21"
+                        HorizontalOptions="Center"
+                        Source="resource://PeakMVP.Images.Svg.ic_location.svg"
+                        VerticalOptions="Center"
+                        WidthRequest="21">
+                        <ffimageloadingsvg:SvgCachedImage.Transformations>
+                            <fftransformations:TintTransformation EnableSolidColor="true" HexColor="#0CA8F4" />
+                        </ffimageloadingsvg:SvgCachedImage.Transformations>
+                    </ffimageloadingsvg:SvgCachedImage>
+
+                    <StackLayout Grid.Column="1" Spacing="3">
+                        <Label
+                            FontFamily="{StaticResource Key=MontserratRegular}"
+                            FontSize="{StaticResource Key=MidMediumSize}"
+                            Text="{Binding Path=TargetScheduledEvent.Location}"
+                            TextColor="{StaticResource Key=BlackColor}" />
+
+                        <Label
+                            FontFamily="{StaticResource Key=MontserratRegular}"
+                            FontSize="{StaticResource Key=LittleSize}"
+                            Text="Location"
+                            TextColor="{StaticResource Key=GrayColor}" />
+                    </StackLayout>
+
+                    <ffimageloadingsvg:SvgCachedImage
+                        Grid.Column="2"
+                        CacheType="All"
+                        HeightRequest="24"
+                        HorizontalOptions="Center"
+                        Rotation="-90"
+                        Source="resource://PeakMVP.Images.Svg.ic_cheveron_down.svg"
+                        VerticalOptions="Center"
+                        WidthRequest="24">
+                        <ffimageloadingsvg:SvgCachedImage.Transformations>
+                            <fftransformations:TintTransformation EnableSolidColor="true" HexColor="#868E96" />
+                        </ffimageloadingsvg:SvgCachedImage.Transformations>
+                    </ffimageloadingsvg:SvgCachedImage>
+                </Grid>
+
+                <!--  Oponent info  -->
+                <Grid IsVisible="{Binding Path=TargetScheduledEvent, Converter={StaticResource Key=is_scheduled_game_converter}}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="45" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="45" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=ViewOponentInfoCommand}" />
+                    </Grid.GestureRecognizers>
+
+                    <ffimageloadingsvg:SvgCachedImage
+                        Grid.Column="0"
+                        CacheType="All"
+                        HeightRequest="21"
+                        HorizontalOptions="Center"
+                        Source="resource://PeakMVP.Images.Svg.ic_star.svg"
+                        VerticalOptions="Center"
+                        WidthRequest="21">
+                        <ffimageloadingsvg:SvgCachedImage.Transformations>
+                            <fftransformations:TintTransformation EnableSolidColor="true" HexColor="#0CA8F4" />
+                        </ffimageloadingsvg:SvgCachedImage.Transformations>
+                    </ffimageloadingsvg:SvgCachedImage>
+
+                    <StackLayout Grid.Column="1" Spacing="3">
+                        <Label
+                            FontFamily="{StaticResource Key=MontserratRegular}"
+                            FontSize="{StaticResource Key=MidMediumSize}"
+                            Text="{Binding Path=TargetScheduledEvent.OponentName}"
+                            TextColor="{StaticResource Key=BlackColor}" />
+
+                        <Label
+                            FontFamily="{StaticResource Key=MontserratRegular}"
+                            FontSize="{StaticResource Key=LittleSize}"
+                            Text="Oponent"
+                            TextColor="{StaticResource Key=GrayColor}" />
+                    </StackLayout>
+
+                    <ffimageloadingsvg:SvgCachedImage
+                        Grid.Column="2"
+                        CacheType="All"
+                        HeightRequest="24"
+                        HorizontalOptions="Center"
+                        Rotation="-90"
+                        Source="resource://PeakMVP.Images.Svg.ic_cheveron_down.svg"
+                        VerticalOptions="Center"
+                        WidthRequest="24">
+                        <ffimageloadingsvg:SvgCachedImage.Transformations>
+                            <fftransformations:TintTransformation EnableSolidColor="true" HexColor="#868E96" />
+                        </ffimageloadingsvg:SvgCachedImage.Transformations>
+                    </ffimageloadingsvg:SvgCachedImage>
+                </Grid>
+
+                <!--  Flag info  -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="45" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="45" />
+                    </Grid.ColumnDefinitions>
+
+                    <!--  Event indicator  -->
+                    <controls:ExtendedContentView
+                        Grid.Column="0"
+                        BackgroundColor="{StaticResource Key=BlueColor}"
+                        HeightRequest="15"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        WidthRequest="15">
+                        <controls:ExtendedContentView.CornerRadius>
+                            <OnPlatform
+                                x:TypeArguments="x:Int32"
+                                Android="24"
+                                iOS="8" />
+                        </controls:ExtendedContentView.CornerRadius>
+                    </controls:ExtendedContentView>
+
+                    <StackLayout Grid.Column="1" Spacing="3">
+                        <Label
+                            FontFamily="{StaticResource Key=MontserratRegular}"
+                            FontSize="{StaticResource Key=MidMediumSize}"
+                            Text="Default (Blueberry)"
+                            TextColor="{StaticResource Key=BlackColor}" />
+
+                        <Label
+                            FontFamily="{StaticResource Key=MontserratRegular}"
+                            FontSize="{StaticResource Key=LittleSize}"
+                            Text="Flag Color"
+                            TextColor="{StaticResource Key=GrayColor}" />
+                    </StackLayout>
+                </Grid>
+            </StackLayout>
+
+            <!--  Day of event scope  -->
+            <StackLayout BackgroundColor="{StaticResource Key=WhiteColor}">
+                <Grid>
+                    <!--  Separator  -->
+                    <BoxView
+                        BackgroundColor="{StaticResource Key=GrayBorderColor}"
+                        HeightRequest="1"
+                        VerticalOptions="End" />
+
+                    <Label
+                        Margin="20"
+                        FontSize="{StaticResource Key=MediumSize}"
+                        Text="Day of Event"
+                        TextColor="{StaticResource Key=BlueColor}" />
+                </Grid>
+
+                <StackLayout Spacing="24">
+                    <!--  Chat info  -->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="45" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="45" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Path=LiveCommand}" />
+                        </Grid.GestureRecognizers>
+
+                        <ffimageloadingsvg:SvgCachedImage
+                            Grid.Column="0"
+                            CacheType="All"
+                            HeightRequest="21"
+                            HorizontalOptions="Center"
+                            Source="resource://PeakMVP.Images.Svg.ic_directions_run.svg"
+                            VerticalOptions="Center"
+                            WidthRequest="21">
+                            <ffimageloadingsvg:SvgCachedImage.Transformations>
+                                <fftransformations:TintTransformation EnableSolidColor="true" HexColor="#0CA8F4" />
+                            </ffimageloadingsvg:SvgCachedImage.Transformations>
+                        </ffimageloadingsvg:SvgCachedImage>
+
+                        <StackLayout Grid.Column="1" Spacing="3">
+                            <Label
+                                FontFamily="{StaticResource Key=MontserratRegular}"
+                                FontSize="{StaticResource Key=MidMediumSize}"
+                                Text="Chat"
+                                TextColor="{StaticResource Key=BlackColor}" />
+
+                            <Label
+                                FontFamily="{StaticResource Key=MontserratRegular}"
+                                FontSize="{StaticResource Key=LittleSize}"
+                                Text="PeackMVP Live!"
+                                TextColor="{StaticResource Key=GrayColor}" />
+                        </StackLayout>
+                    </Grid>
+
+                    <!--  Lineup info  -->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="45" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="45" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Path=CreateLineUpCommand}" />
+                        </Grid.GestureRecognizers>
+
+                        <ffimageloadingsvg:SvgCachedImage
+                            Grid.Column="0"
+                            CacheType="All"
+                            HeightRequest="21"
+                            HorizontalOptions="Center"
+                            Source="resource://PeakMVP.Images.Svg.ic_list_numbered.svg"
+                            VerticalOptions="Center"
+                            WidthRequest="21">
+                            <ffimageloadingsvg:SvgCachedImage.Transformations>
+                                <fftransformations:TintTransformation EnableSolidColor="true" HexColor="#0CA8F4" />
+                            </ffimageloadingsvg:SvgCachedImage.Transformations>
+                        </ffimageloadingsvg:SvgCachedImage>
+
+                        <StackLayout Grid.Column="1" Spacing="3">
+                            <Label
+                                FontFamily="{StaticResource Key=MontserratRegular}"
+                                FontSize="{StaticResource Key=MidMediumSize}"
+                                Text="Create Lineup"
+                                TextColor="{StaticResource Key=BlackColor}" />
+
+                            <Label
+                                FontFamily="{StaticResource Key=MontserratRegular}"
+                                FontSize="{StaticResource Key=LittleSize}"
+                                Text="Lineup"
+                                TextColor="{StaticResource Key=GrayColor}" />
+                        </StackLayout>
+
+                        <ffimageloadingsvg:SvgCachedImage
+                            Grid.Column="2"
+                            CacheType="All"
+                            HeightRequest="24"
+                            HorizontalOptions="Center"
+                            Rotation="-90"
+                            Source="resource://PeakMVP.Images.Svg.ic_cheveron_down.svg"
+                            VerticalOptions="Center"
+                            WidthRequest="24">
+                            <ffimageloadingsvg:SvgCachedImage.Transformations>
+                                <fftransformations:TintTransformation EnableSolidColor="true" HexColor="#868E96" />
+                            </ffimageloadingsvg:SvgCachedImage.Transformations>
+                        </ffimageloadingsvg:SvgCachedImage>
+                    </Grid>
+                </StackLayout>
+            </StackLayout>
+
+            <StackLayout Margin="0,0,0,20" BackgroundColor="{StaticResource Key=WhiteColor}">
+                <Grid>
+                    <!--  Separator  -->
+                    <BoxView
+                        BackgroundColor="{StaticResource Key=GrayBorderColor}"
+                        HeightRequest="1"
+                        VerticalOptions="End" />
+
+                    <Label
+                        Margin="20"
+                        FontSize="{StaticResource Key=MediumSize}"
+                        Text="Assignments"
+                        TextColor="{StaticResource Key=BlueColor}" />
+
+                    <ffimageloadingsvg:SvgCachedImage
+                        CacheType="All"
+                        HeightRequest="24"
+                        HorizontalOptions="End"
+                        Source="resource://PeakMVP.Images.Svg.ic_plus.svg"
+                        TranslationX="-20"
+                        VerticalOptions="Center"
+                        WidthRequest="24">
+                        <ffimageloadingsvg:SvgCachedImage.Transformations>
+                            <fftransformations:TintTransformation EnableSolidColor="true" HexColor="#0CA8F4" />
+                        </ffimageloadingsvg:SvgCachedImage.Transformations>
+                    </ffimageloadingsvg:SvgCachedImage>
+                </Grid>
+
+                <stackList:StackList />
+            </StackLayout>
+        </StackLayout>
+    </controls:PullToRefreshLayout>
+</ContentView>

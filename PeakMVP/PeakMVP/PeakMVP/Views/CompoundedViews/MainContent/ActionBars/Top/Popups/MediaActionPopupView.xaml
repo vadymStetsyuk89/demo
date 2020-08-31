@@ -1,0 +1,259 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<popups:SinglePopup
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.ActionBars.Top.Popups.MediaActionPopupView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:PeakMVP.Behaviors"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:convertersMedia="clr-namespace:PeakMVP.Converters.Media"
+    xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+    xmlns:mainContentCompoundedViews="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent"
+    xmlns:popups="clr-namespace:PeakMVP.Controls.Popups"
+    VerticalOptions="Start">
+
+    <popups:SinglePopup.Resources>
+        <ResourceDictionary>
+            <convertersMedia:MediaToThumbnailImageSourceConverter x:Key="media_to_thumbnail_image_source_converter" />
+        </ResourceDictionary>
+    </popups:SinglePopup.Resources>
+
+    <popups:SinglePopup.Content>
+        <mainContentCompoundedViews:PopupContentWrapper
+            x:Name="_mediaPopupWraper_PopupContentWrapper"
+            CancelButtonColor="{StaticResource Key=BlueColor}"
+            CancelButtonText="CLOSE"
+            CancelCommand="{Binding Path=ClosePopupCommand}"
+            CloseCommand="{Binding Path=ClosePopupCommand}"
+            IsCancelButtonVisible="True"
+            IsSucceedButtonVisible="False"
+            TitleText="Add media"
+            VerticalOptions="Start">
+            <mainContentCompoundedViews:PopupContentWrapper.MainContent>
+                <Grid Padding="20,16">
+
+                    <!--  Pick/tacke medias controls scope  -->
+                    <Grid ColumnSpacing="30" IsVisible="{Binding Path=PickedMedia, Converter={StaticResource Key=Is_null_converter}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid
+                            Grid.Column="0"
+                            HorizontalOptions="End"
+                            RowSpacing="3"
+                            VerticalOptions="Center">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <controls:ExtendedContentView
+                                Grid.Row="0"
+                                Padding="9"
+                                BackgroundColor="{StaticResource Key=MainBackgroundColor}"
+                                BorderColor="{StaticResource Key=GrayBorderColor}"
+                                BorderThickness="2"
+                                HorizontalOptions="Center">
+                                <controls:ExtendedContentView.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=TakePictureCommand}" />
+                                </controls:ExtendedContentView.GestureRecognizers>
+                                <ffimageloadingsvg:SvgCachedImage
+                                    CacheType="All"
+                                    HeightRequest="40"
+                                    Scale=".7"
+                                    Source="resource://PeakMVP.Images.Svg.ic_picture_file.svg"
+                                    WidthRequest="40">
+                                    <ffimageloadingsvg:SvgCachedImage.Behaviors>
+                                        <behaviors:FFColorScaleBehavior Brightness=".5" TargetColor="Gray" />
+                                    </ffimageloadingsvg:SvgCachedImage.Behaviors>
+                                </ffimageloadingsvg:SvgCachedImage>
+                            </controls:ExtendedContentView>
+
+                            <Label
+                                Grid.Row="1"
+                                FontSize="{StaticResource Key=MidMediumSize}"
+                                HorizontalOptions="Center"
+                                Text="Pictures"
+                                TextColor="{StaticResource Key=LightGrayColor}"
+                                VerticalOptions="Center" />
+                        </Grid>
+
+                        <Grid
+                            Grid.Column="1"
+                            HorizontalOptions="Center"
+                            RowSpacing="3"
+                            VerticalOptions="Center">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <controls:ExtendedContentView
+                                Grid.Row="0"
+                                Padding="9"
+                                BackgroundColor="{StaticResource Key=MainBackgroundColor}"
+                                BorderColor="{StaticResource Key=GrayBorderColor}"
+                                BorderThickness="2"
+                                HorizontalOptions="Center">
+                                <controls:ExtendedContentView.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=TakeVideoCommand}" />
+                                </controls:ExtendedContentView.GestureRecognizers>
+                                <ffimageloadingsvg:SvgCachedImage
+                                    CacheType="All"
+                                    HeightRequest="40"
+                                    Scale=".7"
+                                    Source="resource://PeakMVP.Images.Svg.ic_video_file.svg"
+                                    WidthRequest="40">
+                                    <ffimageloadingsvg:SvgCachedImage.Behaviors>
+                                        <behaviors:FFColorScaleBehavior Brightness=".5" TargetColor="Gray" />
+                                    </ffimageloadingsvg:SvgCachedImage.Behaviors>
+                                </ffimageloadingsvg:SvgCachedImage>
+                            </controls:ExtendedContentView>
+
+                            <Label
+                                Grid.Row="1"
+                                FontSize="{StaticResource Key=MidMediumSize}"
+                                HorizontalOptions="Center"
+                                Text="Video"
+                                TextColor="{StaticResource Key=LightGrayColor}"
+                                VerticalOptions="Center" />
+                        </Grid>
+
+                        <Grid
+                            Grid.Column="2"
+                            HorizontalOptions="Start"
+                            RowSpacing="3"
+                            VerticalOptions="Center">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <controls:ExtendedContentView
+                                Grid.Row="0"
+                                Padding="9"
+                                BackgroundColor="{StaticResource Key=MainBackgroundColor}"
+                                BorderColor="{StaticResource Key=GrayBorderColor}"
+                                BorderThickness="2"
+                                HorizontalOptions="Center">
+                                <controls:ExtendedContentView.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=PickMediaCommand}" />
+                                </controls:ExtendedContentView.GestureRecognizers>
+                                <ffimageloadingsvg:SvgCachedImage
+                                    CacheType="All"
+                                    HeightRequest="40"
+                                    Scale="1.2"
+                                    Source="resource://PeakMVP.Images.Svg.ic_grid.svg"
+                                    WidthRequest="40">
+                                    <ffimageloadingsvg:SvgCachedImage.Behaviors>
+                                        <behaviors:FFColorScaleBehavior Brightness=".5" TargetColor="Gray" />
+                                    </ffimageloadingsvg:SvgCachedImage.Behaviors>
+                                </ffimageloadingsvg:SvgCachedImage>
+                            </controls:ExtendedContentView>
+
+                            <Label
+                                Grid.Row="1"
+                                FontSize="{StaticResource Key=MidMediumSize}"
+                                HorizontalOptions="Center"
+                                Text="Album"
+                                TextColor="{StaticResource Key=LightGrayColor}"
+                                VerticalOptions="Center" />
+                        </Grid>
+                    </Grid>
+
+                    <!--  What to do with media offers  -->
+                    <Grid ColumnSpacing="9" IsVisible="{Binding Path=PickedMedia, Converter={StaticResource Key=Is_not_null_converter}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid
+                            Grid.Column="0"
+                            HorizontalOptions="End"
+                            RowSpacing="3"
+                            VerticalOptions="Center">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <controls:ExtendedContentView
+                                Grid.Row="0"
+                                Padding="9"
+                                BackgroundColor="{StaticResource Key=MainBackgroundColor}"
+                                BorderColor="{StaticResource Key=GrayBorderColor}"
+                                BorderThickness="2"
+                                HorizontalOptions="Center">
+                                <controls:ExtendedContentView.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=AddToAlbumOfferCommand}" />
+                                </controls:ExtendedContentView.GestureRecognizers>
+                                <ffimageloadingsvg:SvgCachedImage
+                                    CacheType="All"
+                                    HeightRequest="40"
+                                    Scale="1.2"
+                                    Source="resource://PeakMVP.Images.Svg.ic_grid.svg"
+                                    WidthRequest="40">
+                                    <ffimageloadingsvg:SvgCachedImage.Behaviors>
+                                        <behaviors:FFColorScaleBehavior Brightness=".5" TargetColor="Gray" />
+                                    </ffimageloadingsvg:SvgCachedImage.Behaviors>
+                                </ffimageloadingsvg:SvgCachedImage>
+                            </controls:ExtendedContentView>
+
+                            <Label
+                                Grid.Row="1"
+                                FontSize="{StaticResource Key=MidMediumSize}"
+                                HorizontalOptions="Center"
+                                Text="Upload to album"
+                                TextColor="{StaticResource Key=LightGrayColor}"
+                                VerticalOptions="Center" />
+                        </Grid>
+
+                        <Grid
+                            Grid.Column="1"
+                            HorizontalOptions="Start"
+                            RowSpacing="3"
+                            VerticalOptions="Center">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <controls:ExtendedContentView
+                                Grid.Row="0"
+                                Padding="9"
+                                BackgroundColor="{StaticResource Key=MainBackgroundColor}"
+                                BorderColor="{StaticResource Key=GrayBorderColor}"
+                                BorderThickness="2"
+                                HorizontalOptions="Center">
+                                <controls:ExtendedContentView.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=AttachToTheNewPostFeedOfferCommand}" />
+                                </controls:ExtendedContentView.GestureRecognizers>
+                                <ffimageloadingsvg:SvgCachedImage
+                                    CacheType="All"
+                                    HeightRequest="40"
+                                    Scale=".5"
+                                    Source="resource://PeakMVP.Images.Svg.ic_paperplane.svg"
+                                    WidthRequest="40">
+                                    <ffimageloadingsvg:SvgCachedImage.Behaviors>
+                                        <behaviors:FFColorScaleBehavior Brightness=".5" TargetColor="Gray" />
+                                    </ffimageloadingsvg:SvgCachedImage.Behaviors>
+                                </ffimageloadingsvg:SvgCachedImage>
+                            </controls:ExtendedContentView>
+
+                            <Label
+                                Grid.Row="1"
+                                FontSize="{StaticResource Key=MidMediumSize}"
+                                HorizontalOptions="Center"
+                                Text="New feed post"
+                                TextColor="{StaticResource Key=LightGrayColor}"
+                                VerticalOptions="Center" />
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </mainContentCompoundedViews:PopupContentWrapper.MainContent>
+        </mainContentCompoundedViews:PopupContentWrapper>
+    </popups:SinglePopup.Content>
+</popups:SinglePopup>

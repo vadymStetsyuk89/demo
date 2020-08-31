@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.Live.LiveView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:liveTemplateSelectors="clr-namespace:PeakMVP.Models.DataTemplateSelectors.Live">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <liveTemplateSelectors:ScheduledActionDataTemplateSelector x:Key="scheduled_action_data_template_selector" />
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <controls:ListViewExtended
+        BackgroundColor="Transparent"
+        HasUnevenRows="True"
+        IsPullToRefreshEnabled="{Binding Path=IsNestedPullToRefreshEnabled}"
+        IsRefreshing="{Binding Path=IsNestedRefreshing}"
+        ItemTemplate="{StaticResource Key=scheduled_action_data_template_selector}"
+        ItemsSource="{Binding Path=ScheduledEvents}"
+        RefreshCommand="{Binding Path=NestedRefreshCommand}"
+        SelectionMode="None"
+        SeparatorVisibility="None">
+        <x:Arguments>
+            <ListViewCachingStrategy>
+                RecycleElement
+            </ListViewCachingStrategy>
+        </x:Arguments>
+    </controls:ListViewExtended>
+</ContentView>

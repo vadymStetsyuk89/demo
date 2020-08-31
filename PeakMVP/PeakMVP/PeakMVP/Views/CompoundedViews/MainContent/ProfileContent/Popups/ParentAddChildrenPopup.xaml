@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<popups:SinglePopup
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.ProfileContent.Popups.ParentAddChildrenPopup"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:PeakMVP.Behaviors"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:converters="clr-namespace:PeakMVP.Converters"
+    xmlns:mainContentCompoundedViews="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent"
+    xmlns:popups="clr-namespace:PeakMVP.Controls.Popups"
+    xmlns:system="clr-namespace:System;assembly=netstandard"
+    VerticalOptions="Start">
+
+    <popups:SinglePopup.Content>
+        <mainContentCompoundedViews:PopupContentWrapper
+            CancelButtonText="CANCEL"
+            CancelCommand="{Binding Path=ClosePopupCommand}"
+            CloseCommand="{Binding Path=ClosePopupCommand}"
+            IsCancelButtonVisible="True"
+            IsSucceedButtonVisible="True"
+            SucceedButtonText="CREATE   "
+            SucceedCommand="{Binding Path=CreateChildCommand}"
+            TitleText="Add child"
+            VerticalOptions="Start">
+            <mainContentCompoundedViews:PopupContentWrapper.MainContent>
+
+                <!--  Form main content  -->
+                <StackLayout Padding="20,16" Spacing="16">
+                    <Label
+                        FontFamily="{StaticResource MontserratBold}"
+                        FontSize="{StaticResource LargeSize}"
+                        Text="Contact Details" />
+
+                    <!--  FIRST NAME  -->
+                    <StackLayout Spacing="3">
+                        <Label Style="{StaticResource Input_group_title_label}" Text="First Name" />
+
+                        <controls:ExtendedContentView BorderColor="{Binding Path=FirstName.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}" Style="{StaticResource Key=Input_group_entry_wraper}">
+                            <controls:EntryEx
+                                Placeholder="Enter first name"
+                                Style="{StaticResource Key=Input_group_entry}"
+                                Text="{Binding Path=FirstName.Value, Mode=TwoWay}" />
+                        </controls:ExtendedContentView>
+                        <Label
+                            IsVisible="{Binding Path=FirstName.IsValid, Converter={StaticResource Reverce_bool_converter}}"
+                            Style="{StaticResource ValidationErrorLabelStyle}"
+                            Text="{Binding Path=FirstName.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+                    </StackLayout>
+
+                    <!--  LAST NAME  -->
+                    <StackLayout Spacing="3">
+                        <Label Style="{StaticResource Input_group_title_label}" Text="Last Name" />
+
+                        <controls:ExtendedContentView BorderColor="{Binding Path=LastName.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}" Style="{StaticResource Key=Input_group_entry_wraper}">
+                            <controls:EntryEx
+                                Placeholder="Enter last name"
+                                Style="{StaticResource Key=Input_group_entry}"
+                                Text="{Binding Path=LastName.Value, Mode=TwoWay}" />
+                        </controls:ExtendedContentView>
+                        <Label
+                            IsVisible="{Binding Path=LastName.IsValid, Converter={StaticResource Reverce_bool_converter}}"
+                            Style="{StaticResource ValidationErrorLabelStyle}"
+                            Text="{Binding Path=LastName.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+                    </StackLayout>
+
+                    <!--  ZIP CODE  -->
+                    <StackLayout Spacing="3">
+                        <Label Style="{StaticResource Input_group_title_label}" Text="Zip Code" />
+
+                        <controls:ExtendedContentView BorderColor="{Binding Path=ZipCode.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}" Style="{StaticResource Key=Input_group_entry_wraper}">
+                            <controls:EntryEx
+                                Keyboard="Numeric"
+                                MaxLength="8"
+                                Placeholder="Enter zip"
+                                Style="{StaticResource Key=Input_group_entry}"
+                                Text="{Binding Path=ZipCode.Value, Mode=TwoWay}" />
+                        </controls:ExtendedContentView>
+                        <Label
+                            IsVisible="{Binding Path=ZipCode.IsValid, Converter={StaticResource Reverce_bool_converter}}"
+                            Style="{StaticResource ValidationErrorLabelStyle}"
+                            Text="{Binding Path=ZipCode.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+                    </StackLayout>
+
+                    <!--  Phone number  -->
+                    <StackLayout Spacing="3">
+                        <Label Style="{StaticResource Input_group_title_label}" Text="Phone number" />
+
+                        <controls:ExtendedContentView BorderColor="{Binding Path=PhonenNumber.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}" Style="{StaticResource Key=Input_group_entry_wraper}">
+                            <controls:EntryEx
+                                Keyboard="Numeric"
+                                Placeholder="Enter phone number"
+                                Style="{StaticResource Key=Input_group_entry}"
+                                Text="{Binding Path=PhonenNumber.Value, Mode=TwoWay}" />
+                        </controls:ExtendedContentView>
+                        <Label
+                            IsVisible="{Binding Path=PhonenNumber.IsValid, Converter={StaticResource Reverce_bool_converter}}"
+                            Style="{StaticResource ValidationErrorLabelStyle}"
+                            Text="{Binding Path=PhonenNumber.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+                    </StackLayout>
+
+                    <!--  EMAIL  -->
+                    <StackLayout IsVisible="{Binding Path=IsEmailAddressVisible, Mode=OneWay}" Spacing="3">
+                        <Label Style="{StaticResource Input_group_title_label}" Text="Email Address" />
+
+                        <controls:ExtendedContentView BorderColor="{Binding Path=Email.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}" Style="{StaticResource Key=Input_group_entry_wraper}">
+                            <controls:EntryEx
+                                Placeholder="Enter first name"
+                                Style="{StaticResource Key=Input_group_entry}"
+                                Text="{Binding Path=Email.Value, Mode=TwoWay}" />
+                        </controls:ExtendedContentView>
+                        <Label
+                            IsVisible="{Binding Path=Email.IsValid, Converter={StaticResource Reverce_bool_converter}}"
+                            Style="{StaticResource ValidationErrorLabelStyle}"
+                            Text="{Binding Path=Email.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+                    </StackLayout>
+
+                    <!--  Date of birth  -->
+                    <StackLayout Spacing="3">
+                        <Label Style="{StaticResource Input_group_title_label}" Text="Date of Birth" />
+
+                        <controls:ExtendedContentView BorderColor="{Binding Path=DateOfBirth.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}" Style="{StaticResource Key=Input_group_entry_wraper}">
+                            <controls:ExtendedDatePicker Date="{Binding Path=DateOfBirth.Value, Mode=TwoWay}" MaximumDate="{x:Static system:DateTime.Today}" />
+                        </controls:ExtendedContentView>
+                        <Label
+                            IsVisible="{Binding Path=DateOfBirth.IsValid, Converter={StaticResource Key=Reverce_bool_converter}}"
+                            Style="{StaticResource Key=ValidationErrorLabelStyle}"
+                            Text="{Binding Path=DateOfBirth.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+                    </StackLayout>
+
+                    <!--  Login details scope  -->
+                    <StackLayout IsVisible="{Binding Path=LoginDetailVisibility}" Spacing="16">
+                        <Label
+                            FontFamily="{StaticResource MontserratBold}"
+                            FontSize="{StaticResource LargeSize}"
+                            Text="Login Details" />
+
+                        <!--  User name (nickname) input group  -->
+                        <StackLayout Spacing="3">
+                            <Label Style="{StaticResource Input_group_title_label}" Text="Username" />
+                            <controls:ExtendedContentView BorderColor="{Binding Path=UserName.IsValid, Converter={StaticResource Bool_to_entry_wraper_error_border_color_converter}}" Style="{StaticResource Key=Input_group_entry_wraper}">
+                                <controls:EntryEx
+                                    Placeholder="enter username"
+                                    Style="{StaticResource Input_group_entry}"
+                                    Text="{Binding Path=UserName.Value, Mode=TwoWay}" />
+                            </controls:ExtendedContentView>
+                            <Label
+                                IsVisible="{Binding Path=UserName.IsValid, Converter={StaticResource Reverce_bool_converter}}"
+                                Style="{StaticResource ValidationErrorLabelStyle}"
+                                Text="{Binding Path=UserName.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+                        </StackLayout>
+
+                        <!--  Password input group  -->
+                        <StackLayout Spacing="3">
+                            <Label Style="{StaticResource Input_group_title_label}" Text="Password" />
+                            <controls:ExtendedContentView BorderColor="{Binding Path=Password.IsValid, Converter={StaticResource Bool_to_entry_wraper_error_border_color_converter}}" Style="{StaticResource Input_group_entry_wraper}">
+                                <controls:EntryEx
+                                    IsPassword="True"
+                                    Placeholder="enter password"
+                                    Style="{StaticResource Input_group_entry}"
+                                    Text="{Binding Path=Password.Value, Mode=TwoWay}" />
+                            </controls:ExtendedContentView>
+                            <Label
+                                IsVisible="{Binding Path=Password.IsValid, Converter={StaticResource Reverce_bool_converter}}"
+                                Style="{StaticResource ValidationErrorLabelStyle}"
+                                Text="{Binding Path=Password.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+                        </StackLayout>
+                    </StackLayout>
+                </StackLayout>
+            </mainContentCompoundedViews:PopupContentWrapper.MainContent>
+        </mainContentCompoundedViews:PopupContentWrapper>
+    </popups:SinglePopup.Content>
+</popups:SinglePopup>

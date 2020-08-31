@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.Teams.TeamsView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:stackList="clr-namespace:PeakMVP.Controls.Stacklist">
+
+    <controls:PullToRefreshLayout
+        IsPullToRefreshEnabled="{Binding Path=IsNestedPullToRefreshEnabled}"
+        IsRefreshing="{Binding Path=IsNestedRefreshing, Mode=TwoWay}"
+        RefreshCommand="{Binding Path=NestedRefreshCommand}">
+        <ScrollView>
+            <StackLayout Padding="0,40" Spacing="21">
+                <!--  Header  -->
+                <Label
+                    Margin="20,0"
+                    Style="{StaticResource Key=Title_text_label_style}"
+                    Text="My Peak Teams"
+                    VerticalOptions="Center" />
+
+                <!--<ScrollView Orientation="Horizontal">-->
+                <controls:ExtendedContentView BackgroundColor="{StaticResource Key=WhiteColor}" CornerRadius="3">
+                    <Grid ColumnSpacing="0" RowSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="1" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <!--  Grid headers  -->
+                        <Grid Grid.Row="0" Padding="6,7">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="73" />
+                            </Grid.ColumnDefinitions>
+                            <Label
+                                Grid.Column="0"
+                                Style="{StaticResource Key=Subtitle_text_label_style}"
+                                Text="Sport"
+                                VerticalTextAlignment="Center" />
+                            <Label
+                                Grid.Column="1"
+                                Style="{StaticResource Key=Subtitle_text_label_style}"
+                                Text="Owner"
+                                VerticalTextAlignment="Center" />
+                            <Label
+                                Grid.Column="2"
+                                Style="{StaticResource Key=Subtitle_text_label_style}"
+                                Text="Team"
+                                VerticalTextAlignment="Center" />
+                            <Label
+                                Grid.Column="3"
+                                Style="{StaticResource Key=Subtitle_text_label_style}"
+                                Text="Actions"
+                                VerticalTextAlignment="Center" />
+                        </Grid>
+
+                        <!--  Separator  -->
+                        <BoxView Grid.Row="1" BackgroundColor="{StaticResource Key=GrayBorderColor}" />
+
+                        <Grid Grid.Row="2" Padding="0,7">
+                            <!--  No elements hint  -->
+                            <Label
+                                FontFamily="{StaticResource Key=MontserratRegular}"
+                                HorizontalOptions="Center"
+                                IsVisible="{Binding Path=TeamMemberProviderViewModel.TeamMembers, Converter={StaticResource Key=iList_no_elements_to_bool_converter}}"
+                                Style="{StaticResource Key=Subtitle_text_label_style}"
+                                Text="No teams"
+                                VerticalOptions="Center" />
+
+                            <!--  Grid values  -->
+                            <stackList:StackList x:Name="_teamValuesGrid_StackList" ItemsSource="{Binding Path=TeamMemberProviderViewModel.TeamMembers, Mode=OneWay}">
+                                <stackList:StackList.ItemTemplate>
+                                    <DataTemplate>
+                                        <stackList:CommonStackListItem>
+                                            <Grid Padding="10,7">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="80" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="73" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <Label
+                                                    Grid.Column="0"
+                                                    LineBreakMode="TailTruncation"
+                                                    Style="{StaticResource Plain_text_label_style}"
+                                                    Text="{Binding Path=Sport}"
+                                                    VerticalTextAlignment="Center" />
+                                                <Label
+                                                    Grid.Column="1"
+                                                    LineBreakMode="WordWrap"
+                                                    Style="{StaticResource Plain_text_label_style}"
+                                                    Text="{Binding Path=Owner}"
+                                                    VerticalTextAlignment="Center" />
+                                                <Label
+                                                    Grid.Column="2"
+                                                    FontFamily="{StaticResource Key=MontserratBold}"
+                                                    LineBreakMode="WordWrap"
+                                                    Style="{StaticResource Plain_text_label_style}"
+                                                    Text="{Binding Path=Team}"
+                                                    TextColor="{StaticResource Key=BlueColor}"
+                                                    VerticalTextAlignment="Center">
+                                                    <Label.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.ViewTeamMembersCommand, Source={Reference Name=_teamValuesGrid_StackList}, Mode=OneWay}" CommandParameter="{Binding}" />
+                                                    </Label.GestureRecognizers>
+                                                </Label>
+                                                <Label
+                                                    Grid.Column="3"
+                                                    FontFamily="{StaticResource Key=MontserratBold}"
+                                                    IsVisible="{Binding Path=CanBeDeleted}"
+                                                    Style="{StaticResource Plain_text_label_style}"
+                                                    Text="Delete"
+                                                    TextColor="{StaticResource Key=RedColor}"
+                                                    VerticalTextAlignment="Center">
+                                                    <Label.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding Path=BindingContext.DeleteTeamCommand, Source={Reference Name=_teamValuesGrid_StackList}}" CommandParameter="{Binding}" />
+                                                    </Label.GestureRecognizers>
+                                                </Label>
+                                            </Grid>
+                                        </stackList:CommonStackListItem>
+                                    </DataTemplate>
+                                </stackList:StackList.ItemTemplate>
+                            </stackList:StackList>
+                        </Grid>
+                    </Grid>
+                </controls:ExtendedContentView>
+                <!--</ScrollView>-->
+            </StackLayout>
+        </ScrollView>
+    </controls:PullToRefreshLayout>
+</ContentView>

@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.Events.AssignmentView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:converters="clr-namespace:PeakMVP.Converters"
+    xmlns:dropDowns="clr-namespace:PeakMVP.Controls.DropdownSelectors"
+    xmlns:eventsConverters="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent.Events.Resources.Converters"
+    xmlns:extensions="clr-namespace:PeakMVP.Extensions"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:popovers="clr-namespace:PeakMVP.Controls.Popovers"
+    xmlns:stackList="clr-namespace:PeakMVP.Controls.Stacklist">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <eventsConverters:IsMemberAssignmentAvailableConverter x:Key="is_member_assignment_available_converter" />
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <StackLayout Spacing="16">
+
+        <!--  Assignment details input group  -->
+        <StackLayout Spacing="3">
+            <Label Style="{StaticResource Key=Input_group_title_label}" Text="Assignment" />
+
+            <controls:ExtendedContentView BorderColor="{Binding Path=AssignmentDescription.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}" Style="{StaticResource Key=Input_group_entry_wraper}">
+                <controls:EntryEx
+                    Placeholder="e.g. Bring Snacks, Stripe Field"
+                    Style="{StaticResource Key=Input_group_entry}"
+                    Text="{Binding Path=AssignmentDescription.Value, Mode=TwoWay}" />
+            </controls:ExtendedContentView>
+
+            <Label
+                IsVisible="{Binding Path=AssignmentDescription.IsValid, Converter={StaticResource Key=Reverce_bool_converter}}"
+                Style="{StaticResource Key=ValidationErrorLabelStyle}"
+                Text="{Binding Path=AssignmentDescription.Errors, Converter={StaticResource Key=FirstValidationErrorConverter}}" />
+        </StackLayout>
+
+        <!--  Assignment status input group  -->
+        <StackLayout Spacing="3">
+            <Label Style="{StaticResource Key=Input_group_title_label}" Text="Oponent" />
+
+            <dropDowns:DropSelect
+                BackgroundColor="{StaticResource Key=WhiteColor}"
+                BorderColor="{Binding Path=SelectedAssignmentStatus.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}"
+                HeightRequest="40"
+                IsHintEnabled="True"
+                ItemSource="{Binding Path=AssignmentStatuses}"
+                PopoverLayouting="LeftBottom"
+                SelectedItem="{Binding Path=SelectedAssignmentStatus.Value, Mode=TwoWay}"
+                VerticalOptions="Start">
+                <dropDowns:DropSelect.HintViewTemplate>
+                    <DataTemplate>
+                        <Label
+                            Margin="20,0"
+                            FontFamily="{StaticResource Key=MontserratRegular}"
+                            FontSize="{StaticResource Key=MidMediumSize}"
+                            Text="Select"
+                            TextColor="{StaticResource Key=GrayColor}"
+                            VerticalOptions="Center" />
+                    </DataTemplate>
+                </dropDowns:DropSelect.HintViewTemplate>
+                <dropDowns:DropSelect.SelectedItemFiguring>
+                    <!--  Don't use StackLayout in that case - sometimes it throws own calculation-related exception  -->
+                    <Grid Padding="20,0,25,0">
+                        <Label
+                            FontSize="{StaticResource Key=MidMediumSize}"
+                            HorizontalTextAlignment="Start"
+                            LineBreakMode="TailTruncation"
+                            Text="{Binding Path=Status}"
+                            VerticalTextAlignment="Center" />
+                    </Grid>
+                </dropDowns:DropSelect.SelectedItemFiguring>
+                <dropDowns:DropSelect.Popover>
+                    <popovers:ListedPopover
+                        HorizontalOptions="Start"
+                        IsHaveSameWidth="True"
+                        ListPadding="20,7">
+                        <popovers:ListedPopover.ItemTemplate>
+                            <DataTemplate>
+                                <stackList:CommonStackListItem IsOnSelectionVisualChangesEnabled="False" IsSelectable="True">
+                                    <!--  Don't use StackLayout in that case - sometimes it throws own calculation-related exception  -->
+                                    <Grid HorizontalOptions="Start">
+                                        <Label
+                                            FontSize="{StaticResource Key=MidMediumSize}"
+                                            HorizontalTextAlignment="Start"
+                                            Text="{Binding Path=Status}"
+                                            VerticalTextAlignment="Start" />
+                                    </Grid>
+                                </stackList:CommonStackListItem>
+                            </DataTemplate>
+                        </popovers:ListedPopover.ItemTemplate>
+                    </popovers:ListedPopover>
+                </dropDowns:DropSelect.Popover>
+            </dropDowns:DropSelect>
+            <Label
+                IsVisible="{Binding Path=SelectedAssignmentStatus.IsValid, Converter={StaticResource Key=Reverce_bool_converter}}"
+                Style="{StaticResource Key=ValidationErrorLabelStyle}"
+                Text="{Binding Path=SelectedAssignmentStatus.Errors, Converter={StaticResource Key=FirstValidationErrorConverter}}" />
+        </StackLayout>
+
+        <!--  Assignment member input group  -->
+        <StackLayout IsVisible="{Binding Path=SelectedAssignmentStatus.Value, Converter={StaticResource Key=is_member_assignment_available_converter}}" Spacing="3">
+            <Label Style="{StaticResource Key=Input_group_title_label}" Text="Player" />
+
+            <dropDowns:DropSelect
+                BackgroundColor="{StaticResource Key=WhiteColor}"
+                BorderColor="{Binding Path=SelectedAssignedMember.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}"
+                HeightRequest="40"
+                IsHintEnabled="True"
+                ItemSource="{Binding Path=Members}"
+                PopoverLayouting="LeftBottom"
+                SelectedItem="{Binding Path=SelectedAssignedMember.Value, Mode=TwoWay}"
+                VerticalOptions="Start">
+                <dropDowns:DropSelect.HintViewTemplate>
+                    <DataTemplate>
+                        <Label
+                            Margin="20,0"
+                            FontFamily="{StaticResource Key=MontserratRegular}"
+                            FontSize="{StaticResource Key=MidMediumSize}"
+                            Text="Select"
+                            TextColor="{StaticResource Key=GrayColor}"
+                            VerticalOptions="Center" />
+                    </DataTemplate>
+                </dropDowns:DropSelect.HintViewTemplate>
+                <dropDowns:DropSelect.SelectedItemFiguring>
+                    <!--  Don't use StackLayout in that case - sometimes it throws own calculation-related exception  -->
+                    <Grid Padding="20,0,25,0">
+                        <Label
+                            FontSize="{StaticResource Key=MidMediumSize}"
+                            HorizontalTextAlignment="Start"
+                            LineBreakMode="TailTruncation"
+                            Text="{Binding Path=Member.DisplayName}"
+                            VerticalTextAlignment="Center" />
+                    </Grid>
+                </dropDowns:DropSelect.SelectedItemFiguring>
+                <dropDowns:DropSelect.Popover>
+                    <popovers:ListedPopover
+                        HorizontalOptions="Start"
+                        IsHaveSameWidth="True"
+                        ListPadding="20,7">
+                        <popovers:ListedPopover.ItemTemplate>
+                            <DataTemplate>
+                                <stackList:CommonStackListItem IsOnSelectionVisualChangesEnabled="False" IsSelectable="True">
+                                    <!--  Don't use StackLayout in that case - sometimes it throws own calculation-related exception  -->
+                                    <Grid HorizontalOptions="Start">
+                                        <Label
+                                            FontSize="{StaticResource Key=MidMediumSize}"
+                                            HorizontalTextAlignment="Start"
+                                            Text="{Binding Path=Member.DisplayName}"
+                                            VerticalTextAlignment="Start" />
+                                    </Grid>
+                                </stackList:CommonStackListItem>
+                            </DataTemplate>
+                        </popovers:ListedPopover.ItemTemplate>
+                    </popovers:ListedPopover>
+                </dropDowns:DropSelect.Popover>
+            </dropDowns:DropSelect>
+
+            <Label
+                IsVisible="{Binding Path=SelectedAssignedMember.IsValid, Converter={StaticResource Key=Reverce_bool_converter}}"
+                Style="{StaticResource Key=ValidationErrorLabelStyle}"
+                Text="{Binding Path=SelectedAssignedMember.Errors, Converter={StaticResource Key=FirstValidationErrorConverter}}" />
+        </StackLayout>
+
+        <!--<controls:ButtonControll
+            ButtonBackgroundColor="{StaticResource Key=RedColor}"
+            ButtonCommand="{Binding Path=RemoveAssignmentCommand}"
+            ButtonCornerRadius="3"
+            ButtonFontFamily="{StaticResource Key=MontserratBold}"
+            ButtonFontSize="{StaticResource Key=MidMediumSize}"
+            ButtonText="&#x2716;"
+            ButtonTextColor="{StaticResource Key=WhiteColor}" />-->
+        <controls:ExtendedContentView
+            BackgroundColor="{StaticResource Key=RedColor}"
+            CornerRadius="3"
+            HeightRequest="40"
+            VerticalOptions="Center">
+            <controls:ExtendedContentView.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding Path=RemoveAssignmentCommand}" />
+            </controls:ExtendedContentView.GestureRecognizers>
+            <ffimageloading:CachedImage
+                CacheType="All"
+                HeightRequest="15"
+                HorizontalOptions="Center"
+                Source="{extensions:ImageResource Source=PeakMVP.Images.ic_close.png}"
+                VerticalOptions="Center"
+                WidthRequest="15" />
+        </controls:ExtendedContentView>
+    </StackLayout>
+</ContentView>

@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<viewBase:ContentPageBase
+    x:Class="PeakMVP.Views.MainContent.Live.ScheduledEventInfoView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:PeakMVP.Behaviors"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:extensions="clr-namespace:PeakMVP.Extensions"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:items="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent.Invites"
+    xmlns:mainContentCompoundedViews="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent"
+    xmlns:stackList="clr-namespace:PeakMVP.Controls.Stacklist"
+    xmlns:switcher="clr-namespace:PeakMVP.Controls.Switcher"
+    xmlns:teamsResources="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent.Teams.Resources"
+    xmlns:viewBase="clr-namespace:PeakMVP.Views.Base"
+    xmlns:viewModelBase="clr-namespace:PeakMVP.ViewModels.Base"
+    viewModelBase:ViewModelLocator.AutoWireViewModel="True">
+
+    <viewBase:ContentPageBase.MainContent>
+        <AbsoluteLayout>
+            <ScrollView AbsoluteLayout.LayoutBounds="1,1,1,1" AbsoluteLayout.LayoutFlags="All">
+                <Grid RowSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="45" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <!--  Pseudo action bar duplicated  -->
+                    <Grid
+                        Grid.Row="0"
+                        BackgroundColor="{StaticResource Key=BlueColor}"
+                        ColumnSpacing="0"
+                        HeightRequest="60">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width=".3*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width=".3*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Grid.Column="0"
+                            FontFamily="{StaticResource Key=MontserratRegular}"
+                            HorizontalTextAlignment="Center"
+                            Style="{StaticResource Key=Subtitle_text_label_style}"
+                            Text="Back"
+                            TextColor="{StaticResource Key=WhiteColor}"
+                            VerticalTextAlignment="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Path=BackCommand}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+
+                        <Label
+                            Grid.Column="1"
+                            HorizontalTextAlignment="Center"
+                            LineBreakMode="TailTruncation"
+                            Style="{StaticResource Key=Title_text_label_style}"
+                            Text="{Binding Path=TargetScheduledEvent.EventName}"
+                            TextColor="{StaticResource Key=WhiteColor}"
+                            VerticalTextAlignment="Center" />
+
+                        <Label
+                            Grid.Column="2"
+                            FontFamily="{StaticResource Key=MontserratRegular}"
+                            HorizontalTextAlignment="Center"
+                            Style="{StaticResource Key=Subtitle_text_label_style}"
+                            Text="Edit"
+                            TextColor="{StaticResource Key=WhiteColor}"
+                            VerticalTextAlignment="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Path=EditCommand}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </Grid>
+
+                    <switcher:ContentSwitcher Grid.Row="1" ContentItemSource="{Binding Path=NestedTabs}" />
+                </Grid>
+            </ScrollView>
+        </AbsoluteLayout>
+    </viewBase:ContentPageBase.MainContent>
+</viewBase:ContentPageBase>

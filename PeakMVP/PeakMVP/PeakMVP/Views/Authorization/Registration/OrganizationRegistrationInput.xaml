@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="PeakMVP.Views.Authorization.Registration.OrganizationRegistrationInput"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:registrationResources="clr-namespace:PeakMVP.Views.Authorization.Registration.Resources">
+
+    <ContentView.Resources>
+        <registrationResources:RegistrationCommonResourceDictionary />
+    </ContentView.Resources>
+
+    <!--  Organization details  -->
+    <StackLayout Spacing="16">
+
+        <!--  Section header  -->
+        <Label Style="{StaticResource Key=form_title_label}" Text="Organization Details" />
+
+        <!--  Organization name input group  -->
+        <StackLayout Spacing="3">
+            <Label Style="{StaticResource Key=Input_group_title_label}" Text="Name" />
+            <controls:ExtendedContentView BorderColor="{Binding Path=TypeSpecificRegistrationInputForm.OrganizationName.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}" Style="{StaticResource Key=Input_group_entry_wraper}">
+                <controls:EntryEx
+                    Placeholder="Enter organization name"
+                    Style="{StaticResource Key=Input_group_entry}"
+                    Text="{Binding Path=TypeSpecificRegistrationInputForm.OrganizationName.Value, Mode=TwoWay}" />
+            </controls:ExtendedContentView>
+            <Label
+                IsVisible="{Binding Path=TypeSpecificRegistrationInputForm.OrganizationName.IsValid, Converter={StaticResource Key=Reverce_bool_converter}}"
+                Style="{StaticResource Key=ValidationErrorLabelStyle}"
+                Text="{Binding Path=TypeSpecificRegistrationInputForm.OrganizationName.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+        </StackLayout>
+    </StackLayout>
+</ContentView>

@@ -1,0 +1,775 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controls\Popups\Base\**" />
+    <Compile Remove="Models\Rests\Requests\RequestDataModels\Invites\**" />
+    <Compile Remove="Services\PopupVisibility\**" />
+    <Compile Remove="ViewModels\MainContent\Friends\Arguments\**" />
+    <Compile Remove="ViewModels\MainContent\Invites\Arguments\**" />
+    <Compile Remove="ViewModels\MainContent\ProfileSettings\Arguments\**" />
+    <Compile Remove="Views\CompoundedViews\CustomCells\**" />
+    <Compile Remove="Views\CompoundedViews\MainContent\Groups\Popups\PopupContent\**" />
+    <Compile Remove="Views\CompoundedViews\MainContent\Groups\Resources\Converters\**" />
+    <Compile Remove="Views\MainContent\Friends\**" />
+    <EmbeddedResource Remove="Controls\Popups\Base\**" />
+    <EmbeddedResource Remove="Models\Rests\Requests\RequestDataModels\Invites\**" />
+    <EmbeddedResource Remove="Services\PopupVisibility\**" />
+    <EmbeddedResource Remove="ViewModels\MainContent\Friends\Arguments\**" />
+    <EmbeddedResource Remove="ViewModels\MainContent\Invites\Arguments\**" />
+    <EmbeddedResource Remove="ViewModels\MainContent\ProfileSettings\Arguments\**" />
+    <EmbeddedResource Remove="Views\CompoundedViews\CustomCells\**" />
+    <EmbeddedResource Remove="Views\CompoundedViews\MainContent\Groups\Popups\PopupContent\**" />
+    <EmbeddedResource Remove="Views\CompoundedViews\MainContent\Groups\Resources\Converters\**" />
+    <EmbeddedResource Remove="Views\MainContent\Friends\**" />
+    <None Remove="Controls\Popups\Base\**" />
+    <None Remove="Models\Rests\Requests\RequestDataModels\Invites\**" />
+    <None Remove="Services\PopupVisibility\**" />
+    <None Remove="ViewModels\MainContent\Friends\Arguments\**" />
+    <None Remove="ViewModels\MainContent\Invites\Arguments\**" />
+    <None Remove="ViewModels\MainContent\ProfileSettings\Arguments\**" />
+    <None Remove="Views\CompoundedViews\CustomCells\**" />
+    <None Remove="Views\CompoundedViews\MainContent\Groups\Popups\PopupContent\**" />
+    <None Remove="Views\CompoundedViews\MainContent\Groups\Resources\Converters\**" />
+    <None Remove="Views\MainContent\Friends\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Behaviors\LabelToUppercaseBehavior.cs" />
+    <Compile Remove="Controls\ActionBars\Base\BottomBarBase.cs" />
+    <Compile Remove="Controls\ActionBars\Base\BottomBarItem.cs" />
+    <Compile Remove="Controls\ActionBars\CommonActionBar.xaml.cs" />
+    <Compile Remove="Controls\Popovers\StringPopover.xaml.cs" />
+    <Compile Remove="Converters\BarModeToImageSourceConverter.cs" />
+    <Compile Remove="Factories\MainContent\GroupFactory.cs" />
+    <Compile Remove="Factories\MainContent\GroupMemberFactory.cs" />
+    <Compile Remove="Factories\MainContent\IGroupFactory.cs" />
+    <Compile Remove="Factories\MainContent\IGroupMemberFactory.cs" />
+    <Compile Remove="Models\AppNavigation\NavigationContext.cs" />
+    <Compile Remove="Models\DataItems\Autorization\ChildDataItem.cs" />
+    <Compile Remove="Models\DataItems\MainContent\BottomBarDataItem.cs" />
+    <Compile Remove="Models\DataItems\MainContent\FeedMessageDataItem.cs" />
+    <Compile Remove="Models\DataItems\MainContent\Groups\PossibleMemberOfTheGroupDataItem.cs" />
+    <Compile Remove="Models\Identities\MessagePublicityType.cs" />
+    <Compile Remove="Models\Identities\Messenger\FamilyPossibleConverstionItem.cs" />
+    <Compile Remove="Models\Identities\Messenger\FriendPossibleConverstionItem.cs" />
+    <Compile Remove="Models\Identities\Messenger\GroupPossibleConverstionItem.cs" />
+    <Compile Remove="Models\Identities\Messenger\TeamPossibleConverstionItem.cs" />
+    <Compile Remove="Models\Rests\DTOs\AuthorDTO.cs" />
+    <Compile Remove="Models\Rests\DTOs\ChildDTO.cs" />
+    <Compile Remove="Models\Rests\DTOs\CoachDTO.cs" />
+    <Compile Remove="Models\Rests\DTOs\ErrorDTO.cs" />
+    <Compile Remove="Models\Rests\DTOs\FriendsDataDTO.cs" />
+    <Compile Remove="Models\Rests\DTOs\GroupInviteDTO.cs" />
+    <Compile Remove="Models\Rests\DTOs\TeamInviteDTO.cs" />
+    <Compile Remove="Services\DataItems\MainContent\FeedMessageDataItems.cs" />
+    <Compile Remove="Services\DataItems\MainContent\IFeedMessageDataItems.cs" />
+    <Compile Remove="Services\SignalR\IStateService.cs" />
+    <Compile Remove="Services\SignalR\StateService.cs" />
+    <Compile Remove="ViewModels\Authorization\AuthorizationActionBarViewModel.cs" />
+    <Compile Remove="ViewModels\MainContent\Character\CharacterContactViewModel.cs" />
+    <Compile Remove="ViewModels\MainContent\ChatViewModel.cs" />
+    <Compile Remove="ViewModels\MainContent\Friends\FriendInfoViewModel.cs" />
+    <Compile Remove="ViewModels\MainContent\Groups\Arguments\GroupCreatedArgs.cs" />
+    <Compile Remove="ViewModels\MainContent\Groups\Arguments\GroupDeletedArgs.cs" />
+    <Compile Remove="ViewModels\MainContent\Groups\Arguments\GroupManagmentArgsBase.cs" />
+    <Compile Remove="ViewModels\MainContent\Groups\GroupPopups\IGroupPopupViewModel.cs" />
+    <Compile Remove="ViewModels\MainContent\Groups\GroupPopups\TeamsAndGroupsPopupViewModel.cs" />
+    <Compile Remove="ViewModels\MainContent\ProfileContent\Arguments\EditPostArgs.cs" />
+    <Compile Remove="ViewModels\MainContent\Teams\Arguments\TeamCreatedArgs.cs" />
+    <Compile Remove="ViewModels\MainContent\Teams\Arguments\TeamDeletedArgs.cs" />
+    <Compile Remove="ViewModels\MainContent\Teams\Arguments\TeamManagmentArgsBase.cs" />
+    <Compile Remove="ViewModels\MainContent\Teams\Arguments\ViewTeamMembersArgs.cs" />
+    <Compile Remove="ViewModels\MainViewModel.cs" />
+    <Compile Remove="Views\CompoundedViews\MainContent\ActionBars\Bottom\CommonBottomBar.xaml.cs" />
+    <Compile Remove="Views\CompoundedViews\MainContent\Albums\ProfilePicturesContentView.xaml.cs" />
+    <Compile Remove="Views\CompoundedViews\MainContent\Albums\ProfileVideosContentView.xaml.cs" />
+    <Compile Remove="Views\CompoundedViews\MainContent\Events\Resources\Converters\GameEventToHeaderTitleStringConverter.cs" />
+    <Compile Remove="Views\CompoundedViews\MainContent\Events\Resources\Converters\GameEventToStringConverter.cs" />
+    <Compile Remove="Views\CompoundedViews\MainContent\ProfileContent\CoachTeamMemberView.xaml.cs" />
+    <Compile Remove="Views\CompoundedViews\MainContent\ProfileContent\FeedScopeView.xaml.cs" />
+    <Compile Remove="Views\CompoundedViews\MainContent\ProfileContent\OrganizationTeamMemberView.xaml.cs" />
+    <Compile Remove="Views\CompoundedViews\MainContent\ProfileContent\ParentChildrenView.xaml.cs" />
+    <Compile Remove="Views\CompoundedViews\MainContent\ProfileContent\Popups\CoachAddNewTeamPopup.xaml.cs" />
+    <Compile Remove="Views\CompoundedViews\MainContent\ProfileContent\ProfileClipboardContentView.xaml.cs" />
+    <Compile Remove="Views\MainContent\ChatView.xaml.cs" />
+    <Compile Remove="Views\MainContent\DashboardView.xaml.cs" />
+    <Compile Remove="Views\MainView.xaml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Controls\ActionBars\CommonActionBar.xaml" />
+    <EmbeddedResource Remove="Controls\Popovers\StringPopover.xaml" />
+    <EmbeddedResource Remove="Views\CompoundedViews\MainContent\ActionBars\Bottom\CommonBottomBar.xaml" />
+    <EmbeddedResource Remove="Views\CompoundedViews\MainContent\Albums\ProfilePicturesContentView.xaml" />
+    <EmbeddedResource Remove="Views\CompoundedViews\MainContent\Albums\ProfileVideosContentView.xaml" />
+    <EmbeddedResource Remove="Views\CompoundedViews\MainContent\ProfileContent\CoachTeamMemberView.xaml" />
+    <EmbeddedResource Remove="Views\CompoundedViews\MainContent\ProfileContent\FeedScopeView.xaml" />
+    <EmbeddedResource Remove="Views\CompoundedViews\MainContent\ProfileContent\OrganizationTeamMemberView.xaml" />
+    <EmbeddedResource Remove="Views\CompoundedViews\MainContent\ProfileContent\ParentChildrenView.xaml" />
+    <EmbeddedResource Remove="Views\CompoundedViews\MainContent\ProfileContent\Popups\CoachAddNewTeamPopup.xaml" />
+    <EmbeddedResource Remove="Views\CompoundedViews\MainContent\ProfileContent\ProfileClipboardContentView.xaml" />
+    <EmbeddedResource Remove="Views\MainContent\ChatView.xaml" />
+    <EmbeddedResource Remove="Views\MainContent\DashboardView.xaml" />
+    <EmbeddedResource Remove="Views\MainView.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Images\BottomBar\ic_calendar.png" />
+    <None Remove="Images\BottomBar\ic_gear.png" />
+    <None Remove="Images\BottomBar\ic_heart.png" />
+    <None Remove="Images\BottomBar\ic_home.png" />
+    <None Remove="Images\BottomBar\ic_image.png" />
+    <None Remove="Images\BottomBar\ic_message.png" />
+    <None Remove="Images\BottomBar\ic_stopwatch.png" />
+    <None Remove="Images\BottomBar\ic_user.png" />
+    <None Remove="Images\BottomBar\ic_users.png" />
+    <None Remove="Images\ic_accept_green.png" />
+    <None Remove="Images\ic_accept_white.png" />
+    <None Remove="Images\ic_add_movie.png" />
+    <None Remove="Images\ic_add_photo.png" />
+    <None Remove="Images\ic_add_white.png" />
+    <None Remove="Images\ic_arrow_back.png" />
+    <None Remove="Images\ic_avatar_stumb.png" />
+    <None Remove="Images\ic_back_button.png" />
+    <None Remove="Images\ic_back_button_dark.png" />
+    <None Remove="Images\ic_badge.png" />
+    <None Remove="Images\ic_ball-soccer.png" />
+    <None Remove="Images\ic_cake.png" />
+    <None Remove="Images\ic_camera_black.png" />
+    <None Remove="Images\ic_chat_bubble_gray.png" />
+    <None Remove="Images\ic_close.png" />
+    <None Remove="Images\ic_close_blue.png" />
+    <None Remove="Images\ic_close_gray.png" />
+    <None Remove="Images\ic_coach.png" />
+    <None Remove="Images\ic_comment_blue.png" />
+    <None Remove="Images\ic_comment_white.png" />
+    <None Remove="Images\ic_date_range_gray.png" />
+    <None Remove="Images\ic_delete_bucket.png" />
+    <None Remove="Images\ic_drop_down_arrow.png" />
+    <None Remove="Images\ic_earth.png" />
+    <None Remove="Images\ic_edit.png" />
+    <None Remove="Images\ic_exit.png" />
+    <None Remove="Images\ic_flag.png" />
+    <None Remove="Images\ic_friend_list.png" />
+    <None Remove="Images\ic_grid.png" />
+    <None Remove="Images\ic_group_gray.png" />
+    <None Remove="Images\ic_home_gray.png" />
+    <None Remove="Images\ic_impersonate.png" />
+    <None Remove="Images\ic_left_arrow.png" />
+    <None Remove="Images\ic_location.png" />
+    <None Remove="Images\ic_logo-colored_2x.png" />
+    <None Remove="Images\ic_menu.png" />
+    <None Remove="Images\ic_menu_black.png" />
+    <None Remove="Images\ic_minus.png" />
+    <None Remove="Images\ic_more_horiz_blue.png" />
+    <None Remove="Images\ic_no_accept_yellow.png" />
+    <None Remove="Images\ic_org.png" />
+    <None Remove="Images\ic_parent.png" />
+    <None Remove="Images\ic_person_black.png" />
+    <None Remove="Images\ic_picture_file.png" />
+    <None Remove="Images\ic_player-13.png" />
+    <None Remove="Images\ic_player-under.png" />
+    <None Remove="Images\ic_plus.png" />
+    <None Remove="Images\ic_plus_2.png" />
+    <None Remove="Images\ic_profile-avatar.png" />
+    <None Remove="Images\ic_profile-avatar_white.png" />
+    <None Remove="Images\ic_right_arrow.png" />
+    <None Remove="Images\ic_search.png" />
+    <None Remove="Images\ic_soccer_ball.png" />
+    <None Remove="Images\ic_spinner_arrow.png" />
+    <None Remove="Images\ic_tactic.png" />
+    <None Remove="Images\ic_trophy.png" />
+    <None Remove="Images\ic_video_file.png" />
+    <None Remove="Images\ic_white_logo.png" />
+    <None Remove="Images\im_card-1.jpg" />
+    <None Remove="Images\im_card-2.jpg" />
+    <None Remove="Images\im_card-3.jpg" />
+    <None Remove="Images\im_hero_bg.png" />
+    <None Remove="Images\im_logo-colored.png" />
+    <None Remove="Images\im_peak.png" />
+    <None Remove="Images\im_player_card.jpg" />
+    <None Remove="Images\Svg\ic_arrow_left.svg" />
+    <None Remove="Images\Svg\ic_calendar.svg" />
+    <None Remove="Images\Svg\ic_camera.svg" />
+    <None Remove="Images\Svg\ic_cheveron_down.svg" />
+    <None Remove="Images\Svg\ic_close.svg" />
+    <None Remove="Images\Svg\ic_curve_arrow_left.svg" />
+    <None Remove="Images\Svg\ic_directions_run.svg" />
+    <None Remove="Images\Svg\ic_earth.svg" />
+    <None Remove="Images\Svg\ic_film_tape.svg" />
+    <None Remove="Images\Svg\ic_gear.svg" />
+    <None Remove="Images\Svg\ic_grid.svg" />
+    <None Remove="Images\Svg\ic_hearrt.svg" />
+    <None Remove="Images\Svg\ic_home.svg" />
+    <None Remove="Images\Svg\ic_image.svg" />
+    <None Remove="Images\Svg\ic_list_numbered.svg" />
+    <None Remove="Images\Svg\ic_location.svg" />
+    <None Remove="Images\Svg\ic_mail.svg" />
+    <None Remove="Images\Svg\ic_mask_circle.svg" />
+    <None Remove="Images\Svg\ic_message.svg" />
+    <None Remove="Images\Svg\ic_message_empty.svg" />
+    <None Remove="Images\Svg\ic_paperplane.svg" />
+    <None Remove="Images\Svg\ic_pencil.svg" />
+    <None Remove="Images\Svg\ic_phone.svg" />
+    <None Remove="Images\Svg\ic_picture_file.svg" />
+    <None Remove="Images\Svg\ic_plus.svg" />
+    <None Remove="Images\Svg\ic_spinner_arrow.svg" />
+    <None Remove="Images\Svg\ic_star.svg" />
+    <None Remove="Images\Svg\ic_stopwatch.svg" />
+    <None Remove="Images\Svg\ic_trophy.svg" />
+    <None Remove="Images\Svg\ic_user.svg" />
+    <None Remove="Images\Svg\ic_users.svg" />
+    <None Remove="Images\Svg\ic_video_file.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Images\BottomBar\ic_image.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Images\BottomBar\ic_calendar.png" />
+    <EmbeddedResource Include="Images\BottomBar\ic_gear.png" />
+    <EmbeddedResource Include="Images\BottomBar\ic_heart.png" />
+    <EmbeddedResource Include="Images\BottomBar\ic_home.png" />
+    <EmbeddedResource Include="Images\BottomBar\ic_message.png" />
+    <EmbeddedResource Include="Images\BottomBar\ic_stopwatch.png" />
+    <EmbeddedResource Include="Images\BottomBar\ic_user.png" />
+    <EmbeddedResource Include="Images\ic_accept_green.png" />
+    <EmbeddedResource Include="Images\ic_accept_white.png" />
+    <EmbeddedResource Include="Images\ic_add_movie.png" />
+    <EmbeddedResource Include="Images\ic_add_photo.png" />
+    <EmbeddedResource Include="Images\ic_add_white.png" />
+    <EmbeddedResource Include="Images\ic_arrow_back.png" />
+    <EmbeddedResource Include="Images\ic_avatar_stumb.png" />
+    <EmbeddedResource Include="Images\ic_back_button.png" />
+    <EmbeddedResource Include="Images\ic_back_button_dark.png" />
+    <EmbeddedResource Include="Images\ic_badge.png" />
+    <EmbeddedResource Include="Images\ic_ball-soccer.png" />
+    <EmbeddedResource Include="Images\ic_cake.png" />
+    <EmbeddedResource Include="Images\ic_camera_black.png" />
+    <EmbeddedResource Include="Images\ic_chat_bubble_gray.png" />
+    <EmbeddedResource Include="Images\ic_close.png" />
+    <EmbeddedResource Include="Images\ic_close_blue.png" />
+    <EmbeddedResource Include="Images\ic_close_gray.png" />
+    <EmbeddedResource Include="Images\ic_coach.png" />
+    <EmbeddedResource Include="Images\ic_comment_blue.png" />
+    <EmbeddedResource Include="Images\ic_comment_white.png" />
+    <EmbeddedResource Include="Images\ic_date_range_gray.png" />
+    <EmbeddedResource Include="Images\ic_delete_bucket.png" />
+    <EmbeddedResource Include="Images\ic_drop_down_arrow.png" />
+    <EmbeddedResource Include="Images\ic_earth.png" />
+    <EmbeddedResource Include="Images\ic_edit.png" />
+    <EmbeddedResource Include="Images\ic_exit.png" />
+    <EmbeddedResource Include="Images\ic_flag.png" />
+    <EmbeddedResource Include="Images\ic_friend_list.png" />
+    <EmbeddedResource Include="Images\ic_grid.png" />
+    <EmbeddedResource Include="Images\ic_group_gray.png" />
+    <EmbeddedResource Include="Images\ic_home_gray.png" />
+    <EmbeddedResource Include="Images\ic_impersonate.png" />
+    <EmbeddedResource Include="Images\ic_left_arrow.png" />
+    <EmbeddedResource Include="Images\ic_location.png" />
+    <EmbeddedResource Include="Images\ic_logo-colored_2x.png" />
+    <EmbeddedResource Include="Images\ic_menu.png" />
+    <EmbeddedResource Include="Images\ic_menu_black.png" />
+    <EmbeddedResource Include="Images\ic_minus.png" />
+    <EmbeddedResource Include="Images\ic_more_horiz_blue.png" />
+    <EmbeddedResource Include="Images\ic_no_accept_yellow.png" />
+    <EmbeddedResource Include="Images\ic_org.png" />
+    <EmbeddedResource Include="Images\ic_parent.png" />
+    <EmbeddedResource Include="Images\ic_person_black.png" />
+    <EmbeddedResource Include="Images\ic_picture_file.png" />
+    <EmbeddedResource Include="Images\ic_player-13.png" />
+    <EmbeddedResource Include="Images\ic_player-under.png" />
+    <EmbeddedResource Include="Images\ic_plus.png" />
+    <EmbeddedResource Include="Images\ic_plus_2.png" />
+    <EmbeddedResource Include="Images\ic_profile-avatar.png" />
+    <EmbeddedResource Include="Images\ic_profile-avatar_white.png" />
+    <EmbeddedResource Include="Images\ic_right_arrow.png" />
+    <EmbeddedResource Include="Images\ic_search.png" />
+    <EmbeddedResource Include="Images\ic_soccer_ball.png" />
+    <EmbeddedResource Include="Images\ic_spinner_arrow.png" />
+    <EmbeddedResource Include="Images\ic_tactic.png" />
+    <EmbeddedResource Include="Images\ic_trophy.png" />
+    <EmbeddedResource Include="Images\ic_video_file.png" />
+    <EmbeddedResource Include="Images\ic_white_logo.png" />
+    <EmbeddedResource Include="Images\im_card-1.jpg" />
+    <EmbeddedResource Include="Images\im_card-2.jpg" />
+    <EmbeddedResource Include="Images\im_card-3.jpg" />
+    <EmbeddedResource Include="Images\im_hero_bg.png" />
+    <EmbeddedResource Include="Images\im_logo-colored.png" />
+    <EmbeddedResource Include="Images\im_peak.png" />
+    <EmbeddedResource Include="Images\im_player_card.jpg" />
+    <EmbeddedResource Include="Images\Svg\ic_arrow_left.svg" />
+    <EmbeddedResource Include="Images\Svg\ic_calendar.svg" />
+    <EmbeddedResource Include="Images\Svg\ic_camera.svg" />
+    <EmbeddedResource Include="Images\Svg\ic_cheveron_down.svg" />
+    <EmbeddedResource Include="Images\Svg\ic_close.svg" />
+    <EmbeddedResource Include="Images\Svg\ic_curve_arrow_left.svg" />
+    <EmbeddedResource Include="Images\Svg\ic_directions_run.svg" />
+    <EmbeddedResource Include="Images\Svg\ic_earth.svg" />
+    <EmbeddedResource Include="Images\Svg\ic_film_tape.svg" />
+    <EmbeddedResource Include="Images\Svg\ic_gear.svg" />
+    <EmbeddedResource Include="Images\Svg\ic_grid.svg" />
+    <EmbeddedResource Include="Images\Svg\ic_hearrt.svg" />
+    <EmbeddedResource Include="Images\Svg\ic_home.svg" />
+    <EmbeddedResource Include="Images\Svg\ic_image.svg" />
+    <EmbeddedResource Include="Images\Svg\ic_list_numbered.svg" />
+    <EmbeddedResource Include="Images\Svg\ic_location.svg" />
+    <EmbeddedResource Include="Images\Svg\ic_mail.svg" />
+    <EmbeddedResource Include="Images\Svg\ic_message.svg" />
+    <EmbeddedResource Include="Images\Svg\ic_message_empty.svg" />
+    <EmbeddedResource Include="Images\Svg\ic_paperplane.svg" />
+    <EmbeddedResource Include="Images\Svg\ic_pencil.svg" />
+    <EmbeddedResource Include="Images\Svg\ic_phone.svg" />
+    <EmbeddedResource Include="Images\Svg\ic_picture_file.svg" />
+    <EmbeddedResource Include="Images\Svg\ic_plus.svg" />
+    <EmbeddedResource Include="Images\Svg\ic_spinner_arrow.svg" />
+    <EmbeddedResource Include="Images\Svg\ic_star.svg" />
+    <EmbeddedResource Include="Images\Svg\ic_stopwatch.svg" />
+    <EmbeddedResource Include="Images\Svg\ic_trophy.svg" />
+    <EmbeddedResource Include="Images\Svg\ic_user.svg" />
+    <EmbeddedResource Include="Images\Svg\ic_users.svg" />
+    <EmbeddedResource Include="Images\Svg\ic_video_file.svg" />
+    <EmbeddedResource Include="Images\Svg\ic_mask_circle.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Acr.UserDialogs" Version="7.0.1" />
+    <PackageReference Include="Autofac" Version="4.7.0" />
+    <PackageReference Include="CarouselView.FormsPlugin" Version="5.2.0" />
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="1.6.0" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="1.6.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="1.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client.Core" Version="1.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="Plugin.Permissions" Version="2.2.1" />
+    <PackageReference Include="Syncfusion.Xamarin.SfCalendar" Version="16.3.0.21" />
+    <PackageReference Include="System.Reactive" Version="4.0.0" />
+    <PackageReference Include="Xam.Plugin.Connectivity" Version="3.1.1" />
+    <PackageReference Include="Xam.Plugin.Media" Version="3.1.3" />
+    <PackageReference Include="Xam.Plugins.Forms.ImageCircle" Version="2.0.2" />
+    <PackageReference Include="Xam.Plugins.Messaging" Version="5.1.0" />
+    <PackageReference Include="Xam.Plugins.Settings" Version="3.1.1" />
+    <PackageReference Include="Xamarin.FFImageLoading" Version="2.3.6" />
+    <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.3.6" />
+    <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms" Version="2.3.6" />
+    <PackageReference Include="Xamarin.FFImageLoading.Transformations" Version="2.3.6" />
+    <PackageReference Include="Xamarin.Forms" Version="3.1.0.697729" />
+    <PackageReference Include="Xamarin.Forms.CarouselView" Version="2.3.0-pre2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Images\BottomBar\ic_users.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="App.xaml.cs">
+      <DependentUpon>*.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\Popovers\ListedPopover.xaml.cs">
+      <DependentUpon>ListedPopover.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\CompoundedViews\MainContent\Events\ListViewingOfEventsAndGamesContentView.xaml.cs">
+      <DependentUpon>ListViewingOfEventsAndGamesContentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\CompoundedViews\MainContent\FriendItemView.xaml.cs">
+      <DependentUpon>FriendItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\CompoundedViews\MainContent\Invites\GroupInviteItemView.xaml.cs">
+      <DependentUpon>GroupInviteItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\CompoundedViews\MainContent\ProfileSettings\SelfInformations\PlayerSelfInformation.xaml.cs">
+      <DependentUpon>PlayerSelfInformation.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\CompoundedViews\MainContent\Invites\FriendshipInviteItemView.xaml.cs">
+      <DependentUpon>FriendshipInviteItemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\CompoundedViews\MainContent\Live\LiveView.xaml.cs">
+      <DependentUpon>LiveView.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\MainContent\Live\ScheduledEventInfoView.xaml.cs">
+      <DependentUpon>ScheduledEventInfoView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Controls\ButtonControll.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\Carousels\CompoundedCarousel\Buttons\CircleButton.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\Carousels\CompoundedCarousel\Buttons\SquareButton.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\Carousels\CompoundedCarousel\CompoundedCarousel.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ContentSwitcher.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\EditorCompounded.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\Indicator.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\Popovers\ListedPopover.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\Popups\PopupsBlockView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ScheduleCalendar\NoAppointmentsStubView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ScheduleCalendar\ScheduleEventAppointmentItemView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\SuggestInput\SuggestInput.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Authorization\CreateProfileView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Authorization\ForgotPasswordView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Authorization\LoginView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Authorization\RegistrationView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Base\ContentPageBase.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Authorization\FooterNavigationItem.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Authorization\PlayerProfileCard.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Authorization\Popups\NavigateToAthorizationPopup.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Authorization\Registration\CoachRegistrationInput.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Authorization\Registration\CommonContactDetails.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Authorization\Registration\CommonLoginDetails.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Authorization\Registration\OrganizationRegistrationInput.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Authorization\Registration\ParentRegistrationInput.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Authorization\Registration\Resources\RegistrationCommonResourceDictionary.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\ActionBars\Top\ExecutionActionBarView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\ActionBars\Top\ModeActionBar.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\ActionBars\Top\Popups\MediaActionPopupView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Albums\AlbumsView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Character\CharacterView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Character\CreateFeedPostFormView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Character\Popups\AddTeamMemberContactNotePopupView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Character\Popups\EditOuterCharacterPopupView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Events\AssignmentView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Events\CalendarViewingOfEventsAndGamesContentView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Events\Popups\AddLocationPopupView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Events\Popups\AddOpponentPopupView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Events\Popups\ViewDayAppointmentsPopupView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Invites\ChildInviteItemView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Live\ScheduledActionItems\ScheduledCompletedGameViewCell.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Live\ScheduledActionItems\ScheduledEventViewCell.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Live\ScheduledActionItems\ScheduledGameViewCell.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Live\ScheduleEventInfo\EventStatisticsView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Live\ScheduleEventInfo\InterestAndAvailabilityView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Live\ScheduleEventInfo\Popups\AddAvailabilityNotePopupView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Live\ScheduleEventInfo\ScheduleEventDetailsView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MainContent\Character\CharacterDetailInfoView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MainContent\Character\EditCharacterDetailsView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MainContent\Events\CreateNewEventView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MainContent\Events\CreateNewGameView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Events\EventsAndGamesGridContentView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Events\ListViewingOfEventsAndGamesContentView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Events\EventsView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Events\GameEventActionsPopover.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Events\TeamSelectorPopover.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\FriendItemView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Invites\GroupInviteItemView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Invites\Resources\InviteItemResourceDictionary.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Invites\TeamInviteItemView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Invites\TeamRequestItemView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Members\MembersView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Messenger\IncomingMessageStackItem.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Messenger\MessengerTabStackItem.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Messenger\OutcomingMessageStackItem.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Messenger\Resources\MessengerCommonResourceDictionary.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\ProfileContent\DashboardContentView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\ProfileContent\InvitesContentView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\ProfileContent\OrganizationProfileContentView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\ProfileContent\ParentProfileContentView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\ProfileContent\PlayerProfileContentView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\ProfileContent\Popups\EditPostPopup.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\ProfileContent\Popups\OrganizationAddNewTeamPopup.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\ProfileContent\Popups\ParentAddChildrenPopup.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\ProfileSettings\SelfInformations\CoachSelfInformation.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\ProfileSettings\Resources\ProfileSettingsCommonResourceDictionary.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\ProfileSettings\SelfInformations\CommonSelfInformation.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\ProfileSettings\SelfInformations\FanSelfInformation.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\ProfileSettings\SelfInformations\OrganizationSelfInformation.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\ProfileSettings\SelfInformations\ParentSelfInformation.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\ProfileSettings\SelfInformations\PlayerSelfInformation.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Invites\FriendshipInviteItemView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\ActionBars\Top\AccountMenu.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Groups\GroupTypePopover.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Groups\Popups\AddGroupPopup.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Groups\Popups\AddMemberToGroupPopup.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Groups\Resources\GroupsCommonResourceDictionary.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\ProfileContent\CommentContentView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\ActionBars\Top\CommonActionBar.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\PopupContentWrapper.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\ProfileContent\PostContentView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\ProfileContent\ProfileContentView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\ProfileContent\CoachProfileContentView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\ProfileContent\FeedPublicityPopover.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\ProfileContent\Popups\AddPicturesPopup.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\ProfileContent\Popups\AddVideosPopup.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\ProfileContent\Resources\ProfileContentCommonResourceDictionary.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\SearchPopover.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\ActionBars\Bottom\SingleBottomItem.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Teams\Resources\TeamsCommonResourceDictionary.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Teams\TeamsView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Live\LiveView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ProfileTileView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CustomNavigationView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Authorization\HomeView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Friends\FriendsView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MainContent\Events\EditEventView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MainContent\Events\EditGameView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MainContent\Events\EventManagingViewBase.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MainContent\Events\GameManagingViewBase.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MainContent\Groups\GroupInfoView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Groups\GroupsView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MainContent\Live\ScheduledEventInfoView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MainContent\MainAppView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MainContent\MediaViewers\PicturesViewerView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MainContent\MediaViewers\VideoViewerView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\Messenger\MessengerView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MainContent\ProfileInfoView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\CompoundedViews\MainContent\ProfileSettings\SettingsView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MainContent\ProfileSettings\ChildSettingsUpdateView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MainContent\Teams\InviteExternalMembersView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\MainContent\Teams\TeamsInfoView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\StumbPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\SignalR\StateNotify\" />
+    <Folder Include="ViewModels\MainContent\Live\Base\" />
+  </ItemGroup>
+</Project>

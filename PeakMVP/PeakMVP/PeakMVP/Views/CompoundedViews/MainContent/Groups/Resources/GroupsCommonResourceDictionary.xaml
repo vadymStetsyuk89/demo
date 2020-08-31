@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.Groups.Resources.GroupsCommonResourceDictionary"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:converters="clr-namespace:PeakMVP.Converters"
+    xmlns:dataTemplateSelectors="clr-namespace:PeakMVP.Models.DataTemplateSelectors"
+    xmlns:dropDowns="clr-namespace:PeakMVP.Controls.DropdownSelectors"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:stackList="clr-namespace:PeakMVP.Controls.Stacklist">
+
+    <Style x:Key="add_button_wraper_style" TargetType="ContentView">
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="BackgroundColor" Value="LightSkyBlue" />
+    </Style>
+
+    <Style x:Key="add_button_ffimage_style" TargetType="ffimageloading:CachedImage">
+        <Setter Property="WidthRequest" Value="25" />
+        <Setter Property="HeightRequest" Value="25" />
+    </Style>
+
+    <Style x:Key="drop_down_input_select" TargetType="dropDowns:DropSelect">
+        <Setter Property="BackgroundColor" Value="{StaticResource Key=WhiteColor}" />
+        <Setter Property="BorderColor" Value="{StaticResource Key=GrayBorderColor}" />
+        <Setter Property="HeightRequest" Value="39" />
+    </Style>
+
+    <converters:GroupMemberToFormatedStringConverter
+        x:Key="group_member_to_formated_string_converter"
+        IconCode="&#xe971;"
+        IconFontSize="12" />
+
+    <dataTemplateSelectors:OddAndEvenTemplateSelector x:Key="odd_and_even_group_data_template_selector">
+        <dataTemplateSelectors:OddAndEvenTemplateSelector.OddItemTemplate>
+            <DataTemplate>
+                <stackList:CommonStackListItem
+                    x:Name="_oddGroupItem_CommonStackListItem"
+                    BackgroundColor="{StaticResource Key=LightGrayWhiteColor}"
+                    IsOnSelectionVisualChangesEnabled="False"
+                    IsSelectable="True">
+                    <stackList:CommonStackListItem.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=Parent.BindingContext.SelectGroupItemCommand, Source={Reference Name=_oddGroupItem_CommonStackListItem}}" CommandParameter="{Binding}" />
+                    </stackList:CommonStackListItem.GestureRecognizers>
+                    <Label Style="{StaticResource Key=Plain_text_label_style}" Text="{Binding Path=Name}" />
+                </stackList:CommonStackListItem>
+            </DataTemplate>
+        </dataTemplateSelectors:OddAndEvenTemplateSelector.OddItemTemplate>
+        <dataTemplateSelectors:OddAndEvenTemplateSelector.EvenItemTemplate>
+            <DataTemplate>
+                <stackList:CommonStackListItem
+                    x:Name="_evenGroupItem_CommonStackListItem"
+                    BackgroundColor="{StaticResource Key=WhiteColor}"
+                    IsOnSelectionVisualChangesEnabled="False"
+                    IsSelectable="True">
+                    <stackList:CommonStackListItem.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Path=Parent.BindingContext.SelectGroupItemCommand, Source={Reference Name=_evenGroupItem_CommonStackListItem}}" CommandParameter="{Binding}" />
+                    </stackList:CommonStackListItem.GestureRecognizers>
+                    <Label Style="{StaticResource Key=Plain_text_label_style}" Text="{Binding Path=Name}" />
+                </stackList:CommonStackListItem>
+            </DataTemplate>
+        </dataTemplateSelectors:OddAndEvenTemplateSelector.EvenItemTemplate>
+    </dataTemplateSelectors:OddAndEvenTemplateSelector>
+</ResourceDictionary>

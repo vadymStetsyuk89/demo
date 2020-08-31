@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.ProfileContent.ParentProfileContentView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:PeakMVP.Behaviors"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:extensions="clr-namespace:PeakMVP.Extensions"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:profileContentResources="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent.ProfileContent.Resources"
+    xmlns:stackList="clr-namespace:PeakMVP.Controls.Stacklist">
+
+    <ContentView.Resources>
+        <profileContentResources:ProfileContentCommonResourceDictionary />
+    </ContentView.Resources>
+
+    <StackLayout>
+        <!--  Scope teams table header  -->
+        <StackLayout Margin="20,0" Orientation="Horizontal">
+            <Label
+                Style="{StaticResource Key=Title_text_label_style}"
+                Text="My Children"
+                VerticalOptions="Center" />
+            <!--  ADD BUTTON  -->
+            <ffimageloadingsvg:SvgCachedImage
+                CacheType="All"
+                HeightRequest="25"
+                Source="resource://PeakMVP.Images.Svg.ic_plus.svg"
+                WidthRequest="25">
+                <ffimageloadingsvg:SvgCachedImage.Behaviors>
+                    <behaviors:FFColorScaleBehavior Brightness=".5" TargetColor="Gray" />
+                </ffimageloadingsvg:SvgCachedImage.Behaviors>
+                <ffimageloading:CachedImage.Transformations>
+                    <fftransformations:CircleTransformation BorderHexColor="#798897" BorderSize="6" />
+                </ffimageloading:CachedImage.Transformations>
+                <ffimageloading:CachedImage.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ProfileContentViewModel.UserTypeSpecificViewModel.AddChildCommand}" />
+                </ffimageloading:CachedImage.GestureRecognizers>
+            </ffimageloadingsvg:SvgCachedImage>
+        </StackLayout>
+
+        <controls:ExtendedContentView BackgroundColor="{StaticResource Key=WhiteColor}" CornerRadius="3">
+            <Grid ColumnSpacing="0" RowSpacing="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="1" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!--  Grid headers  -->
+                <Grid Grid.Row="0" Padding="10,7">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="120" />
+                        <ColumnDefinition Width="50" />
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Column="0"
+                        HorizontalOptions="Start"
+                        Style="{StaticResource Key=Subtitle_text_label_style}"
+                        Text="Name"
+                        VerticalTextAlignment="Center" />
+                    <Label
+                        Grid.Column="1"
+                        HorizontalOptions="Center"
+                        Style="{StaticResource Key=Subtitle_text_label_style}"
+                        Text="Age"
+                        VerticalTextAlignment="Center" />
+                    <Label
+                        Grid.Column="2"
+                        HorizontalOptions="End"
+                        Style="{StaticResource Key=Subtitle_text_label_style}"
+                        Text="Impersonate"
+                        VerticalTextAlignment="Center" />
+                    <!--<Label
+                        Grid.Column="3"
+                        HorizontalOptions="End"
+                        Style="{StaticResource Key=Subtitle_text_label_style}"
+                        Text="Settings"
+                        VerticalTextAlignment="Center" />-->
+                </Grid>
+
+                <!--  Separator  -->
+                <BoxView Grid.Row="1" BackgroundColor="{StaticResource GrayBorderColor}" />
+
+                <Grid Grid.Row="2" Padding="0,7">
+                    <Label
+                        FontFamily="{StaticResource MontserratRegular}"
+                        HorizontalOptions="Center"
+                        IsVisible="{Binding ProfileContentViewModel.UserTypeSpecificViewModel.PickedChildren, Converter={StaticResource iList_no_elements_to_bool_converter}}"
+                        Style="{StaticResource Subtitle_text_label_style}"
+                        Text="No children"
+                        VerticalOptions="Center" />
+
+                    <!--  Grid values  -->
+                    <stackList:StackList x:Name="_childrenList_StackList" ItemsSource="{Binding ProfileContentViewModel.UserTypeSpecificViewModel.PickedChildren, Mode=OneWay}">
+                        <stackList:StackList.ItemTemplate>
+                            <DataTemplate>
+                                <stackList:CommonStackListItem>
+
+                                    <!--  Grid values  -->
+                                    <Grid Padding="10,7">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="50" />
+                                            <ColumnDefinition Width="120" />
+                                            <ColumnDefinition Width="50" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label
+                                            Grid.Column="0"
+                                            FontFamily="{StaticResource Key=MontserratBold}"
+                                            HorizontalOptions="Start"
+                                            LineBreakMode="TailTruncation"
+                                            Style="{StaticResource Plain_text_label_style}"
+                                            Text="{Binding Name}"
+                                            TextColor="{StaticResource Key=BlueColor}"
+                                            VerticalTextAlignment="Center">
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Path=BindingContext.ProfileContentViewModel.UserTypeSpecificViewModel.OverviewChildCommand, Source={Reference Name=_childrenList_StackList}}" CommandParameter="{Binding}" />
+                                            </Label.GestureRecognizers>
+                                        </Label>
+
+                                        <Label
+                                            Grid.Column="1"
+                                            HorizontalOptions="Center"
+                                            Style="{StaticResource Plain_text_label_style}"
+                                            Text="{Binding Age}"
+                                            VerticalTextAlignment="Center" />
+
+                                        <ffimageloading:CachedImage
+                                            Grid.Column="2"
+                                            CacheType="All"
+                                            HeightRequest="18"
+                                            HorizontalOptions="Center"
+                                            IsVisible="{Binding Path=IsImpersonateLoginEnabled}"
+                                            Source="{extensions:ImageResource Source=PeakMVP.Images.BottomBar.ic_users.png}"
+                                            WidthRequest="18">
+                                            <ffimageloading:CachedImage.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding LoginImpersonateCommand}" NumberOfTapsRequired="1" />
+                                            </ffimageloading:CachedImage.GestureRecognizers>
+                                        </ffimageloading:CachedImage>
+
+                                        <Label
+                                            Grid.Column="2"
+                                            FontSize="{StaticResource LittleSize}"
+                                            HorizontalOptions="Center"
+                                            HorizontalTextAlignment="Center"
+                                            IsVisible="{Binding Path=IsAddEmailCommandEnabled}"
+                                            Style="{StaticResource Plain_text_label_style}"
+                                            Text="{Binding Path=Name, StringFormat='Confirm email for {0}'}"
+                                            VerticalOptions="Center" />
+                                        <ffimageloadingsvg:SvgCachedImage
+                                            Grid.Column="3"
+                                            CacheType="All"
+                                            HeightRequest="17"
+                                            HorizontalOptions="Center"
+                                            Source="resource://PeakMVP.Images.Svg.ic_gear.svg"
+                                            VerticalOptions="Center"
+                                            WidthRequest="17">
+                                            <ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Path=BindingContext.ProfileContentViewModel.UserTypeSpecificViewModel.EditChildProfileCommand, Source={Reference Name=_childrenList_StackList}}" CommandParameter="{Binding}" />
+                                            </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                                            <!--<ffimageloadingsvg:SvgCachedImage.Behaviors>
+                                                <behaviors:FFColorScaleBehavior Brightness=".5" TargetColor="Gray" />
+                                            </ffimageloadingsvg:SvgCachedImage.Behaviors>-->
+                                        </ffimageloadingsvg:SvgCachedImage>
+                                    </Grid>
+                                </stackList:CommonStackListItem>
+                            </DataTemplate>
+                        </stackList:StackList.ItemTemplate>
+                    </stackList:StackList>
+                </Grid>
+            </Grid>
+        </controls:ExtendedContentView>
+    </StackLayout>
+</ContentView>

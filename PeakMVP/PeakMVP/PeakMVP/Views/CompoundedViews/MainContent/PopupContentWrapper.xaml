@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.PopupContentWrapper"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:extensions="clr-namespace:PeakMVP.Extensions"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <Style x:Key="button_wraper_style" TargetType="ContentView">
+                <Setter Property="Padding" Value="7" />
+            </Style>
+            <Style x:Key="button_image_style" TargetType="Image">
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="WidthRequest" Value="20" />
+                <Setter Property="HeightRequest" Value="20" />
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <controls:ExtendedContentView Margin="10" BackgroundColor="{StaticResource Key=WhiteColor}">
+        <controls:ExtendedContentView.GestureRecognizers>
+            <TapGestureRecognizer />
+        </controls:ExtendedContentView.GestureRecognizers>
+        <Grid ColumnSpacing="0" RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="1" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="1" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!--  Popup header scope  -->
+            <Grid Grid.Row="0" Padding="20,10">
+
+                <!--  Popup header label  -->
+                <Label
+                    x:Name="_popupTitle_Label"
+                    Style="{StaticResource Key=Title_text_label_style}"
+                    Text="Popup header text"
+                    VerticalTextAlignment="Center" />
+
+                <!--  Close button  -->
+                <ContentView HorizontalOptions="End" Style="{StaticResource Key=button_wraper_style}">
+                    <ContentView.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnCloseButtonTapped" />
+                    </ContentView.GestureRecognizers>
+                    <ffimageloading:CachedImage
+                        CacheType="All"
+                        Source="{extensions:ImageResource PeakMVP.Images.ic_close_gray.png}"
+                        Style="{StaticResource button_image_style}" />
+                </ContentView>
+            </Grid>
+
+            <!--  Separator  -->
+            <BoxView Grid.Row="1" BackgroundColor="{StaticResource Key=GrayBorderColor}" />
+
+            <!--  Popup main content  -->
+            <ContentView x:Name="_mainContentScope_ContentView" Grid.Row="2" />
+
+            <!--  Separator  -->
+            <BoxView Grid.Row="3" BackgroundColor="{StaticResource Key=GrayBorderColor}" />
+
+            <!--  Button controls scope  -->
+            <StackLayout
+                Grid.Row="4"
+                Padding="0,10"
+                HorizontalOptions="Center"
+                Orientation="Horizontal"
+                Spacing="9">
+                <!--  Cancel button  -->
+                <controls:ExtendedContentView
+                    x:Name="_cancelButton_ExtendedContentView"
+                    Grid.Column="0"
+                    Padding="0,9"
+                    CornerRadius="3"
+                    HorizontalOptions="Center"
+                    WidthRequest="130">
+                    <controls:ExtendedContentView.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnCancelTapped" />
+                    </controls:ExtendedContentView.GestureRecognizers>
+                    <Label
+                        x:Name="_cancelText_Label"
+                        FontFamily="{StaticResource Key=MontserratBold}"
+                        HorizontalOptions="Center"
+                        Text="CANCEL"
+                        TextColor="{StaticResource WhiteColor}"
+                        VerticalOptions="Center" />
+                </controls:ExtendedContentView>
+
+                <!--  Succeed button  -->
+                <controls:ExtendedContentView
+                    x:Name="_succeedButton_ExtendedContentView"
+                    Grid.Column="1"
+                    Padding="0,9"
+                    CornerRadius="3"
+                    HorizontalOptions="Center"
+                    WidthRequest="130">
+                    <controls:ExtendedContentView.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnSucceedTapped" />
+                    </controls:ExtendedContentView.GestureRecognizers>
+                    <Label
+                        x:Name="_succeedText_Label"
+                        FontFamily="{StaticResource Key=MontserratBold}"
+                        HorizontalOptions="Center"
+                        Text="OK"
+                        TextColor="{StaticResource WhiteColor}"
+                        VerticalOptions="Center" />
+                </controls:ExtendedContentView>
+            </StackLayout>
+        </Grid>
+    </controls:ExtendedContentView>
+</ContentView>

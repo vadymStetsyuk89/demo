@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<popups:SinglePopup
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.Character.Popups.EditOuterCharacterPopupView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:groupsResources="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent.Groups.Resources"
+    xmlns:mainContentCompoundedViews="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent"
+    xmlns:popups="clr-namespace:PeakMVP.Controls.Popups"
+    VerticalOptions="Start">
+
+    <popups:SinglePopup.Content>
+        <mainContentCompoundedViews:PopupContentWrapper
+            CancelButtonText="CANCEL"
+            CancelCommand="{Binding Path=ClosePopupCommand}"
+            CloseCommand="{Binding Path=ClosePopupCommand}"
+            IsCancelButtonVisible="True"
+            IsSucceedButtonVisible="True"
+            SucceedButtonText="SAVE"
+            SucceedCommand="{Binding Path=SaveSettingsCommand}"
+            TitleText="Edit character"
+            VerticalOptions="Start">
+            <mainContentCompoundedViews:PopupContentWrapper.MainContent>
+                <StackLayout Padding="20,16">
+                    <!--  About you input group  -->
+                    <StackLayout Spacing="3">
+                        <Label Style="{StaticResource Key=Input_group_title_label}" Text="About" />
+                        <controls:ExtendedContentView HeightRequest="80" Style="{StaticResource Key=Input_group_entry_wraper}">
+                            <controls:EditorCompounded InputText="{Binding Path=AboutYou.Value, Mode=TwoWay}" Placeholder="About You" />
+                        </controls:ExtendedContentView>
+                    </StackLayout>
+
+                    <!--  My sports input group  -->
+                    <StackLayout Spacing="3">
+                        <Label Style="{StaticResource Key=Input_group_title_label}" Text="My Sports" />
+                        <controls:ExtendedContentView HeightRequest="80" Style="{StaticResource Key=Input_group_entry_wraper}">
+                            <controls:EditorCompounded InputText="{Binding Path=MySports.Value, Mode=TwoWay}" Placeholder="Your sports" />
+                        </controls:ExtendedContentView>
+                    </StackLayout>
+                </StackLayout>
+            </mainContentCompoundedViews:PopupContentWrapper.MainContent>
+        </mainContentCompoundedViews:PopupContentWrapper>
+    </popups:SinglePopup.Content>
+</popups:SinglePopup>

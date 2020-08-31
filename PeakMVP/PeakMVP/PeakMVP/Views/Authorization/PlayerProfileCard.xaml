@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="PeakMVP.Views.Authorization.PlayerProfileCard"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:extensions="clr-namespace:PeakMVP.Extensions"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms">
+
+    <ContentView Padding="16,0">
+        <controls:ExtendedContentView
+            BorderColor="{StaticResource Key=GrayBorderColor}"
+            BorderThickness="1"
+            CornerRadius="7">
+            <Grid ColumnSpacing="0" RowSpacing="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <!--  Card image scope  -->
+                <ffimageloading:CachedImage
+                    Grid.Row="0"
+                    Aspect="AspectFill"
+                    CacheType="All"
+                    HeightRequest="200"
+                    Source="{extensions:ImageResource PeakMVP.Images.im_player_card.jpg}" />
+                <!--  Card description scope  -->
+                <ContentView
+                    Grid.Row="1"
+                    Padding="30,18,30,30"
+                    BackgroundColor="{StaticResource Key=WhiteColor}">
+                    <Grid RowSpacing="32">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="1" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <!--  Name, type scope  -->
+                        <StackLayout Grid.Row="0" Orientation="Horizontal">
+                            <StackLayout.Resources>
+                                <ResourceDictionary>
+                                    <Style TargetType="Label">
+                                        <Setter Property="VerticalTextAlignment" Value="Center" />
+                                    </Style>
+                                </ResourceDictionary>
+                            </StackLayout.Resources>
+                            <Label
+                                FontFamily="{StaticResource Key=MontserratExtraBold}"
+                                FontSize="{StaticResource Key=LargeSize}"
+                                HorizontalOptions="Start"
+                                Text="Matt Garstka"
+                                TextColor="{StaticResource Key=MainBlackColor}" />
+                            <Label
+                                Margin="0,4,0,0"
+                                FontSize="{StaticResource Key=MidMediumSize}"
+                                HorizontalOptions="Start"
+                                Text="Player"
+                                TextColor="{StaticResource Key=GrayColor}" />
+                            <Label
+                                FontFamily="{StaticResource Key=MontserratExtraBold}"
+                                FontSize="{StaticResource Key=BigSize}"
+                                HorizontalOptions="EndAndExpand"
+                                Text="#18"
+                                TextColor="{StaticResource Key=LightGrayColor}" />
+                        </StackLayout>
+                        <!--  Age scope  -->
+                        <StackLayout Grid.Row="1" Spacing="8">
+                            <Label
+                                FontFamily="{StaticResource Key=MontserratBold}"
+                                FontSize="{StaticResource Key=MidMediumSize}"
+                                Text="AGE"
+                                TextColor="{StaticResource Key=MainBlackColor}" />
+                            <StackLayout Orientation="Horizontal" Spacing="8">
+                                <ffimageloading:CachedImage CacheType="All" Source="{extensions:ImageResource PeakMVP.Images.ic_cake.png}" />
+                                <Label
+                                    FontSize="{StaticResource Key=MediumSize}"
+                                    Text="14"
+                                    TextColor="{StaticResource Key=MainBlackColor}" />
+                                <Label
+                                    FontSize="{StaticResource Key=MediumSize}"
+                                    Text="04/30/2003"
+                                    TextColor="{StaticResource Key=LightGrayColor}" />
+                            </StackLayout>
+                        </StackLayout>
+                        <!--  Sport scope  -->
+                        <StackLayout Grid.Row="2" Spacing="8">
+                            <Label
+                                FontFamily="{StaticResource Key=MontserratBold}"
+                                FontSize="{StaticResource Key=MidMediumSize}"
+                                Text="SPORT"
+                                TextColor="{StaticResource Key=MainBlackColor}" />
+                            <StackLayout Orientation="Horizontal" Spacing="8">
+                                <ffimageloading:CachedImage CacheType="All" Source="{extensions:ImageResource PeakMVP.Images.ic_ball-soccer.png}" />
+                                <Label
+                                    FontSize="{StaticResource Key=MediumSize}"
+                                    Text="Football"
+                                    TextColor="{StaticResource Key=MainBlackColor}" />
+                            </StackLayout>
+                        </StackLayout>
+                        <!--  Separator  -->
+                        <BoxView Grid.Row="3" BackgroundColor="{StaticResource Key=GrayBorderColor}" />
+                        <!--  Team scope  -->
+                        <StackLayout Grid.Row="4" Spacing="8">
+                            <Label
+                                FontFamily="{StaticResource Key=MontserratBold}"
+                                FontSize="{StaticResource Key=MidMediumSize}"
+                                Text="TEAM"
+                                TextColor="{StaticResource Key=MainBlackColor}" />
+                            <StackLayout Orientation="Horizontal" Spacing="8">
+                                <ffimageloading:CachedImage CacheType="All" Source="{extensions:ImageResource PeakMVP.Images.ic_badge.png}" />
+                                <Label
+                                    FontSize="{StaticResource Key=MediumSize}"
+                                    Text="Biggleswade Athletic"
+                                    TextColor="{StaticResource Key=MainBlackColor}" />
+                                <Label
+                                    FontSize="{StaticResource Key=MediumSize}"
+                                    Text="Club"
+                                    TextColor="{StaticResource Key=LightGrayColor}" />
+                            </StackLayout>
+                        </StackLayout>
+                        <!--  Position scope  -->
+                        <StackLayout Grid.Row="5" Spacing="8">
+                            <Label
+                                FontFamily="{StaticResource Key=MontserratBold}"
+                                FontSize="{StaticResource Key=MidMediumSize}"
+                                Text="POSITION"
+                                TextColor="{StaticResource Key=MainBlackColor}" />
+                            <StackLayout Orientation="Horizontal" Spacing="8">
+                                <ffimageloading:CachedImage CacheType="All" Source="{extensions:ImageResource PeakMVP.Images.ic_tactic.png}" />
+                                <Label
+                                    FontSize="{StaticResource Key=MediumSize}"
+                                    Text="Midfielder / Forward"
+                                    TextColor="{StaticResource Key=MainBlackColor}" />
+                                <Label
+                                    FontSize="{StaticResource Key=MediumSize}"
+                                    Text="7 years"
+                                    TextColor="{StaticResource Key=LightGrayColor}" />
+                            </StackLayout>
+                        </StackLayout>
+                    </Grid>
+                </ContentView>
+            </Grid>
+        </controls:ExtendedContentView>
+    </ContentView>
+</ContentView>

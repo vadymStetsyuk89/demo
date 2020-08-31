@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<actionBarBase:ActionBarBase
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.ExecutionActionBarView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:actionBarBase="clr-namespace:PeakMVP.Controls.ActionBars.Base"
+    xmlns:converters="clr-namespace:PeakMVP.Converters">
+
+    <actionBarBase:ActionBarBase.Resources>
+        <ResourceDictionary>
+            <converters:BoolToGenericObjectConverter
+                x:Key="is_execution_action_available"
+                x:TypeArguments="Color"
+                FalseObject="#DADCE1"
+                TrueObject="#0CA8F4" />
+        </ResourceDictionary>
+    </actionBarBase:ActionBarBase.Resources>
+
+    <Grid
+        Grid.Row="0"
+        BackgroundColor="{StaticResource WhiteColor}"
+        ColumnSpacing="0"
+        HeightRequest="60">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width=".3*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width=".3*" />
+        </Grid.ColumnDefinitions>
+
+        <Label
+            Grid.Column="0"
+            FontFamily="{StaticResource Key=MontserratRegular}"
+            HorizontalTextAlignment="Center"
+            Style="{StaticResource Key=Subtitle_text_label_style}"
+            Text="Cancel"
+            TextColor="{StaticResource Key=BlueColor}"
+            VerticalTextAlignment="Center">
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding Path=BackCommand}" />
+            </Label.GestureRecognizers>
+        </Label>
+
+        <Label
+            Grid.Column="1"
+            HorizontalTextAlignment="Center"
+            LineBreakMode="TailTruncation"
+            Style="{StaticResource Key=Title_text_label_style}"
+            Text="{Binding Path=Title}"
+            VerticalTextAlignment="Center" />
+
+        <Label
+            Grid.Column="2"
+            FontFamily="{StaticResource Key=MontserratRegular}"
+            HorizontalTextAlignment="Center"
+            Style="{StaticResource Key=Subtitle_text_label_style}"
+            Text="Send"
+            TextColor="{Binding Path=IsEcutionAvailable, Converter={StaticResource Key=is_execution_action_available}}"
+            VerticalTextAlignment="Center">
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding Path=ExecuteCommand}" />
+            </Label.GestureRecognizers>
+        </Label>
+    </Grid>
+</actionBarBase:ActionBarBase>

@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.Albums.ProfilePicturesContentView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:compoundedCarousel="clr-namespace:PeakMVP.Controls.Carousels.CompoundedCarousel"
+    xmlns:compoundedCarouselButtons="clr-namespace:PeakMVP.Controls.Carousels.CompoundedCarousel.Buttons"
+    xmlns:extensions="clr-namespace:PeakMVP.Extensions"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:profileContentResources="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent.ProfileContent.Resources">
+
+    <ContentView.Resources>
+        <profileContentResources:ProfileContentCommonResourceDictionary />
+    </ContentView.Resources>
+
+    <StackLayout>
+        <!--  Scope pictures header  -->
+        <StackLayout Padding="20,0" Orientation="Horizontal">
+            <Label
+                Style="{StaticResource Key=Title_text_label_style}"
+                Text="Pictures"
+                VerticalOptions="Center" />
+            <!--  ADD BUTTON  -->
+            <ffimageloading:CachedImage
+                CacheType="All"
+                HeightRequest="25"
+                Source="{extensions:ImageResource PeakMVP.Images.ic_plus_2.png}"
+                WidthRequest="25">
+                <ffimageloading:CachedImage.Transformations>
+                    <fftransformations:CircleTransformation BorderHexColor="#798897" BorderSize="6" />
+                </ffimageloading:CachedImage.Transformations>
+                <ffimageloading:CachedImage.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Path=ManagePicturesViewModel.ShowPopupCommand}" />
+                </ffimageloading:CachedImage.GestureRecognizers>
+            </ffimageloading:CachedImage>
+        </StackLayout>
+        <!--  Scope content  -->
+        <Grid>
+            <!--  No elements hint  -->
+            <ContentView Padding="20,0" IsVisible="{Binding Path=ManagePicturesViewModel.IsAnyPictures, Converter={StaticResource Key=Reverce_bool_converter}}">
+                <Label
+                    FontFamily="{StaticResource Key=MontserratRegular}"
+                    Style="{StaticResource Key=Subtitle_text_label_style}"
+                    Text="No items. Click + above to add some"
+                    TextColor="{StaticResource Key=GrayColor}"
+                    VerticalTextAlignment="Center" />
+            </ContentView>
+            <!--  Carousel content  -->
+            <Grid Padding="5,0">
+                <!--  Carousel  -->
+                <compoundedCarousel:CompoundedCarousel
+                    x:Name="_picturesCarousel_CompoundedCarousel"
+                    ContentHeight="170"
+                    IsContentVisible="{Binding Path=ManagePicturesViewModel.IsAnyPictures}"
+                    ItemsSource="{Binding Path=ManagePicturesViewModel.AddedPictures}">
+                    <compoundedCarousel:CompoundedCarousel.ItemDataTemplate>
+                        <DataTemplate>
+                            <ContentView Padding="15,0">
+                                <ContentView.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.ManagePicturesViewModel.WatchPicturesCommand, Source={Reference Name=_picturesCarousel_CompoundedCarousel}}" CommandParameter="{Binding}" />
+                                </ContentView.GestureRecognizers>
+                                <Grid Padding="30,20" BackgroundColor="{StaticResource Key=WhiteColor}">
+                                    <AbsoluteLayout HeightRequest="150">
+                                        <!--  Image  -->
+                                        <ffimageloading:CachedImage
+                                            AbsoluteLayout.LayoutBounds="1,1,1,1"
+                                            AbsoluteLayout.LayoutFlags="All"
+                                            Aspect="AspectFill"
+                                            CacheType="All"
+                                            Source="{Binding Path=Url}" />
+                                    </AbsoluteLayout>
+                                </Grid>
+                            </ContentView>
+                        </DataTemplate>
+                    </compoundedCarousel:CompoundedCarousel.ItemDataTemplate>
+                    <compoundedCarousel:CompoundedCarousel.ButtonsTemplate>
+                        <compoundedCarouselButtons:SquareButton />
+                    </compoundedCarousel:CompoundedCarousel.ButtonsTemplate>
+                </compoundedCarousel:CompoundedCarousel>
+            </Grid>
+        </Grid>
+    </StackLayout>
+</ContentView>

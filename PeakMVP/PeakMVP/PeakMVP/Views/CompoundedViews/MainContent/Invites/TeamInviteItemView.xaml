@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<stackListItem:CommonStackListItem
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.Invites.TeamInviteItemView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:extensions="clr-namespace:PeakMVP.Extensions"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:inviteItemsResources="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent.Invites.Resources"
+    xmlns:stackListItem="clr-namespace:PeakMVP.Controls.Stacklist">
+
+    <stackListItem:CommonStackListItem.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <inviteItemsResources:InviteItemResourceDictionary />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </stackListItem:CommonStackListItem.Resources>
+
+    <Grid Style="{StaticResource Key=main_content_box}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+
+        <StackLayout Grid.Column="0" Orientation="Horizontal">
+            <Label
+                LineBreakMode="TailTruncation"
+                Style="{StaticResource Key=plain_text_info}"
+                Text="{Binding TeamName}" />
+            <!--<Label
+                Style="{StaticResource Key=plain_text_info}"
+                Text="from:"
+                WidthRequest="45" />-->
+            <Label
+                LineBreakMode="TailTruncation"
+                Style="{StaticResource Key=plain_text_info}"
+                Text="{Binding Owner}" />
+        </StackLayout>
+
+        <StackLayout Grid.Column="1" Style="{StaticResource Key=buttons_controls_box}">
+            <controls:ExtendedContentView BackgroundColor="{StaticResource BlueColor}" Style="{StaticResource Key=button_box}">
+                <controls:ExtendedContentView.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding AcceptCommand}" NumberOfTapsRequired="1" />
+                </controls:ExtendedContentView.GestureRecognizers>
+                <ffimageloading:CachedImage
+                    CacheType="All"
+                    Scale=".7"
+                    Source="{extensions:ImageResource PeakMVP.Images.ic_accept_white.png}"
+                    Style="{StaticResource Key=button_icon}" />
+            </controls:ExtendedContentView>
+            <controls:ExtendedContentView BackgroundColor="{StaticResource RedColor}" Style="{StaticResource Key=button_box}">
+                <controls:ExtendedContentView.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding DeclineCommand}" NumberOfTapsRequired="1" />
+                </controls:ExtendedContentView.GestureRecognizers>
+                <ffimageloading:CachedImage
+                    CacheType="All"
+                    Scale="1.1"
+                    Source="{extensions:ImageResource PeakMVP.Images.ic_close.png}"
+                    Style="{StaticResource Key=button_icon}" />
+            </controls:ExtendedContentView>
+        </StackLayout>
+    </Grid>
+</stackListItem:CommonStackListItem>

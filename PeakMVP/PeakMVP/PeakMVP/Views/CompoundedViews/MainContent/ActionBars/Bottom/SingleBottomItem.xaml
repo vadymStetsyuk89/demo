@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.SingleBottomItem"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms">
+
+    <AbsoluteLayout>
+        <Grid
+            x:Name="_rootContainer_Grid"
+            Padding="0,8"
+            AbsoluteLayout.LayoutBounds="1,1,1,1"
+            AbsoluteLayout.LayoutFlags="All"
+            RowSpacing="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <ffimageloadingsvg:SvgCachedImage
+                x:Name="_icon_CachedImage"
+                Grid.Row="0"
+                CacheType="All"
+                FadeAnimationEnabled="False"
+                HeightRequest="15"
+                HorizontalOptions="Center"
+                Scale="1.2"
+                Source="{Binding Path=TabIcon}"
+                VerticalOptions="Center"
+                WidthRequest="15" />
+            <ContentView
+                Grid.Row="1"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+                <Label
+                    x:Name="_labelText_Label"
+                    FontSize="{StaticResource Key=ExtraSmallSize}"
+                    HorizontalTextAlignment="Center"
+                    Text="{Binding Path=TabHeader}"
+                    TextColor="{StaticResource Key=MainBlackColor}"
+                    VerticalTextAlignment="Center" />
+            </ContentView>
+
+        </Grid>
+        <AbsoluteLayout
+            AbsoluteLayout.LayoutBounds=".9,.1"
+            AbsoluteLayout.LayoutFlags="PositionProportional"
+            HeightRequest="18"
+            IsVisible="{Binding Path=IsBudgeVisible}"
+            WidthRequest="18">
+            <controls:ExtendedContentView
+                AbsoluteLayout.LayoutBounds=".5,.5,1,1"
+                AbsoluteLayout.LayoutFlags="All"
+                BackgroundColor="{StaticResource Key=LightRedColor}">
+                <controls:ExtendedContentView.CornerRadius>
+                    <OnPlatform
+                        x:TypeArguments="x:Int32"
+                        Android="24"
+                        iOS="8" />
+                </controls:ExtendedContentView.CornerRadius>
+            </controls:ExtendedContentView>
+            <!--<BoxView
+                AbsoluteLayout.LayoutBounds=".5,.5,1,1"
+                AbsoluteLayout.LayoutFlags="All"
+                BackgroundColor="{StaticResource Key=LightRedColor}"
+                CornerRadius="{OnPlatform Android=24,
+                                          iOS=8}" />-->
+            <Label
+                AbsoluteLayout.LayoutBounds=".5,.5"
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+                FontSize="{StaticResource Key=ExtraSmallSize}"
+                Text="{Binding Path=BudgeCount, Converter={StaticResource Key=Ninety_nine_limited_int_converter}}"
+                TextColor="{StaticResource WhiteColor}" />
+        </AbsoluteLayout>
+    </AbsoluteLayout>
+</ContentView>

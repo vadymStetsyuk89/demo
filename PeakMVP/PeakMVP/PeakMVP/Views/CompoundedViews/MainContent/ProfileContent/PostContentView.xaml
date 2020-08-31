@@ -1,0 +1,381 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ViewCell
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.ProfileContent.PostContentView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:PeakMVP.Behaviors"
+    xmlns:control="clr-namespace:PeakMVP.Controls"
+    xmlns:converters="clr-namespace:PeakMVP.Converters"
+    xmlns:extensions="clr-namespace:PeakMVP.Extensions"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:local="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent.ProfileContent"
+    xmlns:stackList="clr-namespace:PeakMVP.Controls.Stacklist">
+
+    <control:ExtendedContentView
+        Margin="0,0,0,6"
+        Padding="0,12"
+        BackgroundColor="{StaticResource Key=WhiteColor}"
+        CornerRadius="3">
+        <control:ExtendedContentView.Resources>
+            <ResourceDictionary>
+                <converters:IntToStringConverter x:Key="intToStringConverter" />
+            </ResourceDictionary>
+        </control:ExtendedContentView.Resources>
+        <Grid RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!--  Main content scope  -->
+            <Grid RowSpacing="12">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!--  Post header scope  -->
+                <Grid Grid.Row="0" Padding="20,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!--  Avatar  -->
+                    <ffimageloading:CachedImage
+                        Grid.Column="0"
+                        Margin="0,4,0,0"
+                        Aspect="AspectFill"
+                        CacheType="All"
+                        HeightRequest="35"
+                        Source="{Binding Avatar, Converter={StaticResource StringToURLImageSourceConverter}}"
+                        VerticalOptions="StartAndExpand"
+                        WidthRequest="35">
+                        <ffimageloading:CachedImage.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Path=ViewPostAuthorCommand}" />
+                        </ffimageloading:CachedImage.GestureRecognizers>
+                        <ffimageloading:CachedImage.Transformations>
+                            <fftransformations:CircleTransformation />
+                        </ffimageloading:CachedImage.Transformations>
+                    </ffimageloading:CachedImage>
+
+                    <!--  Message header scope  -->
+                    <Grid Grid.Column="1" ColumnSpacing="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="120" />
+                        </Grid.ColumnDefinitions>
+
+                        <!--  Author name  -->
+                        <Label
+                            Grid.Column="0"
+                            FontFamily="{StaticResource MontserratBold}"
+                            HorizontalOptions="StartAndExpand"
+                            LineBreakMode="TailTruncation"
+                            Text="{Binding DisplayName}"
+                            TextColor="{StaticResource BlackColor}"
+                            VerticalTextAlignment="Start">
+                            <Label.FontSize>
+                                <OnPlatform x:TypeArguments="x:Double">
+                                    <On Platform="iOS" Value="{StaticResource MediumSize}" />
+                                </OnPlatform>
+                            </Label.FontSize>
+                        </Label>
+
+                        <Grid
+                            Grid.Column="1"
+                            ColumnSpacing="9"
+                            HorizontalOptions="End">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="15" />
+                                <ColumnDefinition Width="15" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!--  Edit button  -->
+                            <ffimageloadingsvg:SvgCachedImage
+                                Grid.Column="0"
+                                Margin="0,3,0,0"
+                                CacheType="All"
+                                HeightRequest="14"
+                                HorizontalOptions="End"
+                                IsVisible="{Binding Path=IsEditable}"
+                                Source="resource://PeakMVP.Images.Svg.ic_pencil.svg"
+                                VerticalOptions="Start"
+                                WidthRequest="14">
+                                <ffimageloadingsvg:SvgCachedImage.Behaviors>
+                                    <behaviors:FFColorScaleBehavior Brightness=".5" TargetColor="Gray" />
+                                </ffimageloadingsvg:SvgCachedImage.Behaviors>
+                                <ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=EditPostCommand}" />
+                                </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                            </ffimageloadingsvg:SvgCachedImage>
+
+                            <!--  Delete button  -->
+                            <ffimageloadingsvg:SvgCachedImage
+                                Grid.Column="1"
+                                Margin="0,3,0,0"
+                                CacheType="All"
+                                HeightRequest="15"
+                                HorizontalOptions="End"
+                                IsVisible="{Binding Path=CanBeDeleted}"
+                                Source="resource://PeakMVP.Images.Svg.ic_close.svg"
+                                VerticalOptions="Start"
+                                WidthRequest="15">
+                                <ffimageloadingsvg:SvgCachedImage.Behaviors>
+                                    <behaviors:FFColorScaleBehavior Brightness=".5" TargetColor="Gray" />
+                                </ffimageloadingsvg:SvgCachedImage.Behaviors>
+                                <ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=DeletePostCommand}" />
+                                </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                            </ffimageloadingsvg:SvgCachedImage>
+
+                            <!--  Publicity label  -->
+                            <StackLayout
+                                Grid.Column="2"
+                                Orientation="Horizontal"
+                                Spacing="2">
+                                <ffimageloadingsvg:SvgCachedImage
+                                    Margin="0,3,0,0"
+                                    CacheType="All"
+                                    HeightRequest="15"
+                                    HorizontalOptions="End"
+                                    Source="resource://PeakMVP.Images.Svg.ic_earth.svg"
+                                    VerticalOptions="Start"
+                                    WidthRequest="15">
+                                    <ffimageloadingsvg:SvgCachedImage.Behaviors>
+                                        <behaviors:FFColorScaleBehavior Brightness=".5" TargetColor="Gray" />
+                                    </ffimageloadingsvg:SvgCachedImage.Behaviors>
+                                </ffimageloadingsvg:SvgCachedImage>
+
+                                <Label
+                                    HorizontalOptions="End"
+                                    LineBreakMode="TailTruncation"
+                                    Text="{Binding Path=PublicityScopeName}"
+                                    VerticalTextAlignment="Start" />
+                            </StackLayout>
+                        </Grid>
+                    </Grid>
+                </Grid>
+
+                <!--  Post content  -->
+                <StackLayout Grid.Row="1" Spacing="12">
+                    <!--  Text message  -->
+                    <Label
+                        Grid.Row="0"
+                        Margin="20,0"
+                        LineBreakMode="WordWrap"
+                        Text="{Binding Text}" />
+
+                    <!--  Attacjed medias  -->
+                    <stackList:StackList
+                        x:Name="_attachedMedias_StackList"
+                        IsMultiRowEnabled="True"
+                        IsVisible="{Binding IsAnyMedia}"
+                        ItemsPerRow="2"
+                        ItemsSource="{Binding Medias}"
+                        MultiRowStrategy="Grid"
+                        RowHorizontalLayoutOptions="Start"
+                        Spacing="0"
+                        StretchLastOddElement="True">
+                        <stackList:StackList.ItemTemplate>
+                            <DataTemplate>
+                                <stackList:CommonStackListItem IsOnSelectionVisualChangesEnabled="False" IsSelectable="False">
+                                    <AbsoluteLayout
+                                        BackgroundColor="#70000000"
+                                        HeightRequest="380"
+                                        IsClippedToBounds="True">
+
+                                        <ffimageloadingsvg:SvgCachedImage
+                                            AbsoluteLayout.LayoutBounds=".5,.5,.1,.1"
+                                            AbsoluteLayout.LayoutFlags="All"
+                                            Aspect="AspectFill"
+                                            CacheType="All"
+                                            Source="{Binding Path=MediaType, Converter={StaticResource Key=Media_file_type_to_image_source_converter}}">
+                                            <ffimageloadingsvg:SvgCachedImage.Behaviors>
+                                                <behaviors:FFColorScaleBehavior Brightness=".3" TargetColor="Black" />
+                                            </ffimageloadingsvg:SvgCachedImage.Behaviors>
+                                        </ffimageloadingsvg:SvgCachedImage>
+
+                                        <control:CachedImageExtended
+                                            AbsoluteLayout.LayoutBounds="1,1,1,1"
+                                            AbsoluteLayout.LayoutFlags="All"
+                                            Aspect="AspectFill"
+                                            CacheType="All"
+                                            Source="{Binding ThumbnailUrl}">
+                                            <control:CachedImageExtended.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Path=BindingContext.WatchPostMediaCommand, Source={Reference Name=_attachedMedias_StackList}}" CommandParameter="{Binding}" />
+                                            </control:CachedImageExtended.GestureRecognizers>
+                                        </control:CachedImageExtended>
+
+                                        <!--<ffimageloading:CachedImage
+                                            AbsoluteLayout.LayoutBounds="1,1,1,1"
+                                            AbsoluteLayout.LayoutFlags="All"
+                                            Aspect="AspectFill"
+                                            BackgroundColor="#aa000000"
+                                            CacheType="All"
+                                            Source="{Binding ThumbnailUrl}">
+                                            <ffimageloading:CachedImage.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Path=BindingContext.WatchPostMediaCommand, Source={Reference Name=_attachedMedias_StackList}}" CommandParameter="{Binding}" />
+                                            </ffimageloading:CachedImage.GestureRecognizers>
+                                        </ffimageloading:CachedImage>-->
+
+                                        <!--  Media file type icon  -->
+                                        <AbsoluteLayout
+                                            AbsoluteLayout.LayoutBounds="0,1"
+                                            AbsoluteLayout.LayoutFlags="PositionProportional"
+                                            HeightRequest="18"
+                                            TranslationX="3"
+                                            TranslationY="-3"
+                                            WidthRequest="18">
+                                            <control:ExtendedContentView
+                                                AbsoluteLayout.LayoutBounds="1,1,1,1"
+                                                AbsoluteLayout.LayoutFlags="All"
+                                                BackgroundColor="{StaticResource Key=BlueColor}"
+                                                CornerRadius="3" />
+                                            <!--<BoxView
+                                                AbsoluteLayout.LayoutBounds="1,1,1,1"
+                                                AbsoluteLayout.LayoutFlags="All"
+                                                BackgroundColor="{StaticResource Key=BlueColor}"
+                                                CornerRadius="3" />-->
+                                            <ffimageloadingsvg:SvgCachedImage
+                                                AbsoluteLayout.LayoutBounds="1,1,1,1"
+                                                AbsoluteLayout.LayoutFlags="All"
+                                                CacheType="All"
+                                                Scale=".6"
+                                                Source="{Binding Path=MediaType, Converter={StaticResource Key=Media_file_type_to_image_source_converter}}">
+                                                <ffimageloadingsvg:SvgCachedImage.Behaviors>
+                                                    <behaviors:FFColorScaleBehavior Brightness="1" TargetColor="White" />
+                                                </ffimageloadingsvg:SvgCachedImage.Behaviors>
+                                            </ffimageloadingsvg:SvgCachedImage>
+                                        </AbsoluteLayout>
+                                    </AbsoluteLayout>
+                                </stackList:CommonStackListItem>
+                            </DataTemplate>
+                        </stackList:StackList.ItemTemplate>
+                    </stackList:StackList>
+                </StackLayout>
+
+                <!--  Message footer scope  -->
+                <StackLayout
+                    Grid.Row="2"
+                    Padding="20,0"
+                    Orientation="Horizontal">
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Command="{Binding ShowCommentsCommand}"
+                            NumberOfTapsRequired="1"
+                            Tapped="TapGestureRecognizer_Tapped" />
+                    </StackLayout.GestureRecognizers>
+                    <Label
+                        FontSize="{StaticResource MidMediumSize}"
+                        HorizontalOptions="Start"
+                        Text="{Binding CountComments, Converter={StaticResource intToStringConverter}}"
+                        TextColor="{StaticResource LightGrayColor}"
+                        VerticalOptions="Center" />
+                    <ffimageloading:CachedImage
+                        CacheType="All"
+                        DownsampleToViewSize="true"
+                        HeightRequest="20"
+                        HorizontalOptions="StartAndExpand"
+                        Source="{extensions:ImageResource PeakMVP.Images.ic_comment_blue.png}"
+                        VerticalOptions="Center"
+                        WidthRequest="20" />
+                    <Label
+                        FontSize="{StaticResource MidMediumSize}"
+                        HorizontalOptions="End"
+                        Text="{Binding PublishTime, Converter={StaticResource Key=Time_eng_twenty_hour_converter}}"
+                        TextColor="{StaticResource LightGrayColor}"
+                        VerticalOptions="Center" />
+
+                    <!--<Label
+                        FontSize="{StaticResource MidMediumSize}"
+                        HorizontalOptions="End"
+                        Text="{Binding PublishTime, StringFormat=' {0:M/d/yy h:mm tt}'}"
+                        TextColor="{StaticResource LightGrayColor}"
+                        VerticalOptions="Center" />-->
+                </StackLayout>
+            </Grid>
+
+            <!--  Comments scope  -->
+            <Grid
+                Grid.Row="1"
+                Margin="0,6,0,0"
+                IsVisible="{Binding HasDisplayComments}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="1" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <!--  Separator  -->
+                <BoxView Grid.Row="0" BackgroundColor="{StaticResource Key=GrayBorderColor}" />
+
+                <!--  Comments list  -->
+                <ContentView
+                    Grid.Row="1"
+                    Padding="20,0"
+                    HeightRequest="120"
+                    IsClippedToBounds="True"
+                    IsVisible="{Binding Path=Comments, Converter={StaticResource Key=iList_has_elements_to_bool_converter}}">
+                    <control:ExtendedScrollView>
+                        <stackList:StackList ItemsSource="{Binding Comments}" Spacing="5">
+                            <stackList:StackList.ItemTemplate>
+                                <DataTemplate>
+                                    <local:CommentContentView />
+                                </DataTemplate>
+                            </stackList:StackList.ItemTemplate>
+                        </stackList:StackList>
+                    </control:ExtendedScrollView>
+                </ContentView>
+
+                <!--  Separator  -->
+                <BoxView
+                    Grid.Row="2"
+                    BackgroundColor="{StaticResource Key=GrayBorderColor}"
+                    IsVisible="{Binding Path=Comments, Converter={StaticResource Key=iList_has_elements_to_bool_converter}}" />
+
+                <!--  Comment entry  -->
+                <ContentView
+                    Grid.Row="3"
+                    Padding="10,0"
+                    IsVisible="{Binding HasDisplayComments}">
+
+                    <control:ExtendedContentView CornerRadius="3">
+                        <StackLayout Orientation="Horizontal">
+                            <control:EntryEx
+                                FontSize="{StaticResource Key=MediumSize}"
+                                HorizontalOptions="StartAndExpand"
+                                Placeholder="Type to send a message"
+                                Text="{Binding Path=CommentMessage, Mode=TwoWay}" />
+                            <control:ExtendedContentView
+                                BackgroundColor="{StaticResource BlueColor}"
+                                HeightRequest="34"
+                                WidthRequest="34">
+                                <control:ExtendedContentView.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=PublishCommentCommand}" Tapped="SendCommentTapGestureRecognizer_Tapped" />
+                                </control:ExtendedContentView.GestureRecognizers>
+
+                                <ffimageloadingsvg:SvgCachedImage
+                                    CacheType="All"
+                                    DownsampleToViewSize="true"
+                                    HeightRequest="20"
+                                    HorizontalOptions="Center"
+                                    Source="resource://PeakMVP.Images.Svg.ic_curve_arrow_left.svg"
+                                    VerticalOptions="Center"
+                                    WidthRequest="20">
+                                    <ffimageloadingsvg:SvgCachedImage.Behaviors>
+                                        <behaviors:FFColorScaleBehavior Brightness="1" TargetColor="White" />
+                                    </ffimageloadingsvg:SvgCachedImage.Behaviors>
+                                </ffimageloadingsvg:SvgCachedImage>
+                            </control:ExtendedContentView>
+                        </StackLayout>
+                    </control:ExtendedContentView>
+                </ContentView>
+            </Grid>
+        </Grid>
+    </control:ExtendedContentView>
+</ViewCell>

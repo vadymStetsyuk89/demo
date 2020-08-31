@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.Friends.FriendsView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:mainContentCompoundedViews="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent"
+    xmlns:stackList="clr-namespace:PeakMVP.Controls.Stacklist">
+
+    <controls:PullToRefreshLayout
+        IsPullToRefreshEnabled="{Binding Path=IsNestedPullToRefreshEnabled}"
+        IsRefreshing="{Binding Path=IsNestedRefreshing, Mode=TwoWay}"
+        RefreshCommand="{Binding Path=NestedRefreshCommand}">
+        <ScrollView>
+            <StackLayout Padding="0,40" Spacing="21">
+                <Label
+                    Margin="20,0,0,0"
+                    Style="{StaticResource Key=Title_text_label_style}"
+                    Text="Friends:" />
+
+                <stackList:StackList
+                    ItemsSource="{Binding Path=Friends}"
+                    SelectedItem="{Binding Path=SelectedItem, Mode=TwoWay}"
+                    Spacing="5">
+                    <stackList:StackList.ItemTemplate>
+                        <DataTemplate>
+                            <mainContentCompoundedViews:FriendItemView
+                                HeightRequest="50"
+                                IsOnSelectionVisualChangesEnabled="False"
+                                IsSelectable="True" />
+                        </DataTemplate>
+                    </stackList:StackList.ItemTemplate>
+                </stackList:StackList>
+            </StackLayout>
+        </ScrollView>
+    </controls:PullToRefreshLayout>
+</ContentView>

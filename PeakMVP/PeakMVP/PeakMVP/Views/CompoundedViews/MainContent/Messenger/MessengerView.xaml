@@ -1,0 +1,236 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.Messenger.MessengerView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:extensions="clr-namespace:PeakMVP.Extensions"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:floatingList="clr-namespace:PeakMVP.Controls.FloatingList"
+    xmlns:messengerCommonResources="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent.Messenger.Resources"
+    xmlns:messengerCompoundedViews="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent.Messenger"
+    xmlns:stackList="clr-namespace:PeakMVP.Controls.Stacklist">
+
+    <ContentView.Resources>
+        <messengerCommonResources:MessengerCommonResourceDictionary />
+    </ContentView.Resources>
+
+    <controls:PullToRefreshLayout
+        IsPullToRefreshEnabled="{Binding Path=IsNestedPullToRefreshEnabled}"
+        IsRefreshing="{Binding Path=IsNestedRefreshing, Mode=TwoWay}"
+        RefreshCommand="{Binding Path=NestedRefreshCommand}">
+        <ScrollView>
+            <StackLayout Padding="20,40" Spacing="21">
+
+                <!--  Messenger tabs list  -->
+                <floatingList:FloatingListControl
+                    ItemsSource="{Binding Path=MessengerTabs, Mode=OneWay}"
+                    SelectedItem="{Binding Path=SelectedMessengerTab, Mode=TwoWay}"
+                    VerticalOptions="Start">
+                    <floatingList:FloatingListControl.ItemTemplate>
+                        <DataTemplate>
+                            <messengerCompoundedViews:MessengerTabStackItem />
+                        </DataTemplate>
+                    </floatingList:FloatingListControl.ItemTemplate>
+                </floatingList:FloatingListControl>
+
+                <!--  Possible companions list scope  -->
+                <ContentView x:Name="_possibleCompanionsListScope_ContentView" IsVisible="{Binding Path=SelectedMessengerTab, Mode=OneWay, Converter={StaticResource Key=is_messaging_cluster_tab}}">
+                    <ContentView
+                        Padding="12,12"
+                        BackgroundColor="{StaticResource Key=WhiteColor}"
+                        IsVisible="{Binding Path=SelectedMessengerTab.PossibleConversations, Converter={StaticResource Key=iList_has_elements_to_bool_converter}}">
+                        <stackList:StackList
+                            IsGrouped="False"
+                            IsMultiRowEnabled="False"
+                            ItemsSource="{Binding Path=SelectedMessengerTab.PossibleConversations, Mode=OneWay}"
+                            Spacing="9">
+                            <stackList:StackList.ItemTemplate>
+                                <DataTemplate>
+                                    <stackList:CommonStackListItem IsOnSelectionVisualChangesEnabled="True" IsSelectable="True">
+                                        <Grid>
+                                            <Grid.Resources>
+                                                <ResourceDictionary>
+                                                    <Style TargetType="Label">
+                                                        <Setter Property="FontSize" Value="{StaticResource Key=MidMediumSize}" />
+                                                        <Setter Property="FontFamily" Value="{StaticResource Key=MontserratRegular}" />
+                                                        <Setter Property="VerticalOptions" Value="Center" />
+                                                    </Style>
+                                                </ResourceDictionary>
+                                            </Grid.Resources>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Path=BindingContext.SelectedMessengerTab.StartConversationCommand, Mode=OneWay, Source={Reference Name=_possibleCompanionsListScope_ContentView}}" CommandParameter="{Binding}" />
+                                            </Grid.GestureRecognizers>
+
+                                            <!--  Companion icon  -->
+                                            <ffimageloading:CachedImage
+                                                Grid.Column="0"
+                                                CacheType="All"
+                                                HeightRequest="34"
+                                                HorizontalOptions="Center"
+                                                Source="{Binding Path=IconPath, Converter={StaticResource Key=User_avatar_converter}}"
+                                                VerticalOptions="Center"
+                                                WidthRequest="34">
+                                                <ffimageloading:CachedImage.Transformations>
+                                                    <fftransformations:CircleTransformation />
+                                                </ffimageloading:CachedImage.Transformations>
+                                            </ffimageloading:CachedImage>
+
+                                            <!--  Companion name  -->
+                                            <Label Grid.Column="1" Text="{Binding Path=CompanionName}" />
+
+                                            <Label
+                                                Grid.Column="2"
+                                                IsVisible="{Binding Path=UnreadMessagesCount, Converter={StaticResource Key=is_bigger_than_zero_Integer_value_comparing_to_bool_converter}}"
+                                                Text="{Binding Path=UnreadMessagesCount, StringFormat='({0})', Converter={StaticResource Key=Ninety_nine_limited_int_converter}}" />
+
+                                            <!--  Companion type  -->
+                                            <Label Grid.Column="3" Text="{Binding Path=ProfileType}" />
+
+                                            <!--  Availability only for friends  -->
+                                            <Label
+                                                Grid.Column="4"
+                                                IsVisible="{Binding Path=IsAvailable}"
+                                                Text="{Binding Path=Companion.Availability}"
+                                                TextColor="{StaticResource Key=GrayColor}" />
+                                        </Grid>
+                                    </stackList:CommonStackListItem>
+                                </DataTemplate>
+                            </stackList:StackList.ItemTemplate>
+                        </stackList:StackList>
+                    </ContentView>
+                </ContentView>
+
+                <!--  Chat content view scope  -->
+                <controls:ExtendedContentView BackgroundColor="{StaticResource Key=WhiteColor}" IsVisible="{Binding Path=SelectedMessengerTab, Mode=OneWay, Converter={StaticResource Key=is_conversation_tab}}">
+                    <Grid BindingContext="{Binding Path=SelectedMessengerTab}" RowSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <!--  Header  -->
+                        <ContentView Grid.Row="0" Padding="14,10">
+                            <Grid>
+                                <Grid.Resources>
+                                    <ResourceDictionary>
+                                        <Style TargetType="Label">
+                                            <Setter Property="FontSize" Value="{StaticResource Key=MidMediumSize}" />
+                                            <Setter Property="FontFamily" Value="{StaticResource Key=MontserratRegular}" />
+                                            <Setter Property="VerticalOptions" Value="Center" />
+                                        </Style>
+                                    </ResourceDictionary>
+                                </Grid.Resources>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <!--  Companion icon  -->
+                                <ffimageloading:CachedImage
+                                    Grid.Column="0"
+                                    CacheType="All"
+                                    HeightRequest="34"
+                                    HorizontalOptions="Center"
+                                    Source="{Binding Path=TargetCompanion.IconPath, Converter={StaticResource Key=User_avatar_converter}}"
+                                    VerticalOptions="Center"
+                                    WidthRequest="34">
+                                    <ffimageloading:CachedImage.Transformations>
+                                        <fftransformations:CircleTransformation />
+                                    </ffimageloading:CachedImage.Transformations>
+                                </ffimageloading:CachedImage>
+
+                                <!--  Companion name  -->
+                                <Label Grid.Column="1" Text="{Binding Path=TargetCompanion.CompanionName}" />
+                            </Grid>
+                        </ContentView>
+
+                        <!--  Messages list  -->
+                        <controls:ExtendedContentView
+                            Grid.Row="1"
+                            Padding="14,10"
+                            BorderColor="{StaticResource Key=GrayBorderColor}"
+                            BorderThickness="1"
+                            HeightRequest="270">
+                            <!--<controls:ExtendedScrollView AutoScrollDownWhenContentChanged="True">
+                                <stackList:StackList
+                                    InputTransparent="True"
+                                    IsGrouped="False"
+                                    IsMultiRowEnabled="False"
+                                    ItemTemplate="{StaticResource Key=MessageTemplateSelector}"
+                                    ItemsSource="{Binding Path=MessagesHistory, Mode=OneWay}"
+                                    Orientation="Vertical"
+                                    Spacing="6"
+                                    VerticalOptions="Start" />
+                            </controls:ExtendedScrollView>-->
+                            <controls:ListViewExtended
+                                AutoScrollDownWhenContentChanged="True"
+                                BackgroundColor="Transparent"
+                                HasUnevenRows="True"
+                                ItemTemplate="{StaticResource Key=MessageTemplateSelector}"
+                                ItemsSource="{Binding Path=MessagesHistory}"
+                                SelectionMode="None"
+                                SeparatorVisibility="None" />
+                        </controls:ExtendedContentView>
+
+                        <!--  Input scope  -->
+                        <ContentView Grid.Row="2" Padding="14,10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <!--<ColumnDefinition Width="Auto" />-->
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <!--  Input  -->
+                                <!--<controls:ExtendedEditor
+                                    Grid.Column="0"
+                                    Padding="6,0,6,6"
+                                    FontFamily="{StaticResource Key=MontserratRegular}"
+                                    FontSize="{StaticResource Key=MidMediumSize}"
+                                    HeightRequest="60"
+                                    Placeholder="Message text"
+                                    Text="{Binding Path=InputMessageToSend, Mode=TwoWay}" />-->
+                                <controls:EditorCompounded
+                                    Grid.Column="0"
+                                    HeightRequest="60"
+                                    InputText="{Binding Path=InputMessageToSend, Mode=TwoWay}"
+                                    Placeholder="Message text" />
+
+                                <!--  Send button  -->
+                                <controls:ExtendedContentView
+                                    Grid.Column="1"
+                                    Padding="7"
+                                    BackgroundColor="{StaticResource Key=BlueColor}"
+                                    CornerRadius="3"
+                                    VerticalOptions="Start">
+                                    <controls:ExtendedContentView.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Path=SendMessageCommand}" />
+                                    </controls:ExtendedContentView.GestureRecognizers>
+                                    <ffimageloading:CachedImage
+                                        CacheType="All"
+                                        HeightRequest="17"
+                                        Source="{extensions:ImageResource Source=PeakMVP.Images.ic_comment_white.png}"
+                                        WidthRequest="17">
+                                        <ffimageloading:CachedImage.Transformations>
+                                            <fftransformations:CircleTransformation />
+                                        </ffimageloading:CachedImage.Transformations>
+                                    </ffimageloading:CachedImage>
+                                </controls:ExtendedContentView>
+                            </Grid>
+                        </ContentView>
+                    </Grid>
+                </controls:ExtendedContentView>
+            </StackLayout>
+        </ScrollView>
+    </controls:PullToRefreshLayout>
+</ContentView>

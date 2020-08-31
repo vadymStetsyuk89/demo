@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<viewBase:ContentPageBase
+    x:Class="PeakMVP.Views.MainContent.ProfileSettings.ChildSettingsUpdateView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:PeakMVP.Behaviors"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:extensions="clr-namespace:PeakMVP.Extensions"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:items="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent.Invites"
+    xmlns:mainContentCompoundedViews="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent"
+    xmlns:stackList="clr-namespace:PeakMVP.Controls.Stacklist"
+    xmlns:teamsResources="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent.Teams.Resources"
+    xmlns:viewBase="clr-namespace:PeakMVP.Views.Base"
+    xmlns:viewModelBase="clr-namespace:PeakMVP.ViewModels.Base"
+    viewModelBase:ViewModelLocator.AutoWireViewModel="True">
+
+    <viewBase:ContentPageBase.ActionBar>
+        <mainContentCompoundedViews:ModeActionBar />
+    </viewBase:ContentPageBase.ActionBar>
+
+    <viewBase:ContentPageBase.MainContent>
+        <ScrollView>
+            <StackLayout Padding="20,40" Spacing="31">
+                <!--  Scope header  -->
+                <StackLayout>
+                    <Label
+                        Style="{StaticResource Key=Title_text_label_style}"
+                        Text="{Binding Path=Title}"
+                        VerticalOptions="Center" />
+                </StackLayout>
+
+                <!--  Whole form  -->
+                <controls:ExtendedContentView
+                    Padding="20,20"
+                    BackgroundColor="{StaticResource Key=WhiteColor}"
+                    CornerRadius="3">
+                    <StackLayout Spacing="31">
+
+                        <!--  Avatar scope  -->
+                        <AbsoluteLayout
+                            HeightRequest="120"
+                            HorizontalOptions="Center"
+                            IsClippedToBounds="True"
+                            WidthRequest="120">
+                            <ffimageloading:CachedImage
+                                AbsoluteLayout.LayoutBounds="1,1,1,1"
+                                AbsoluteLayout.LayoutFlags="All"
+                                Aspect="AspectFit"
+                                Source="{Binding Path=Avatar, Converter={StaticResource Key=User_avatar_converter}, Mode=OneWay}">
+                                <ffimageloading:CachedImage.Transformations>
+                                    <fftransformations:CircleTransformation />
+                                </ffimageloading:CachedImage.Transformations>
+                            </ffimageloading:CachedImage>
+
+                            <ffimageloadingsvg:SvgCachedImage
+                                AbsoluteLayout.LayoutBounds="1,1,1,1"
+                                AbsoluteLayout.LayoutFlags="All"
+                                CacheType="All"
+                                Scale="2.4"
+                                Source="resource://PeakMVP.Images.Svg.ic_mask_circle.svg" />
+
+                            <ContentView
+                                Padding="12,12,0,0"
+                                AbsoluteLayout.LayoutBounds="1,1"
+                                AbsoluteLayout.LayoutFlags="PositionProportional">
+                                <ContentView.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=PickAvatarPopupViewModel.ShowPopupCommand}" CommandParameter="{Binding Path=TargetChildProfile}" />
+                                </ContentView.GestureRecognizers>
+                                <controls:ExtendedContentView
+                                    BackgroundColor="#26d38d"
+                                    HeightRequest="40"
+                                    WidthRequest="40">
+                                    <controls:ExtendedContentView.CornerRadius>
+                                        <OnPlatform x:TypeArguments="x:Int32">
+                                            <On Platform="iOS" Value="20" />
+                                            <On Platform="Android" Value="40" />
+                                        </OnPlatform>
+                                    </controls:ExtendedContentView.CornerRadius>
+                                    <ffimageloading:CachedImage
+                                        CacheType="All"
+                                        Scale=".4"
+                                        Source="{extensions:ImageResource Source=PeakMVP.Images.ic_add_white.png}" />
+                                </controls:ExtendedContentView>
+                            </ContentView>
+                        </AbsoluteLayout>
+
+                        <StackLayout Spacing="16">
+                            <!--  First name input group  -->
+                            <StackLayout Spacing="3">
+                                <Label Style="{StaticResource Key=Input_group_title_label}" Text="First Name" />
+                                <controls:ExtendedContentView BorderColor="{Binding Path=FirstName.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}" Style="{StaticResource Key=Input_group_entry_wraper}">
+                                    <controls:EntryEx
+                                        Placeholder="First Name"
+                                        Style="{StaticResource Key=Input_group_entry}"
+                                        Text="{Binding Path=FirstName.Value, Mode=TwoWay}" />
+                                </controls:ExtendedContentView>
+                                <Label
+                                    IsVisible="{Binding Path=FirstName.IsValid, Converter={StaticResource Key=Reverce_bool_converter}}"
+                                    Style="{StaticResource Key=ValidationErrorLabelStyle}"
+                                    Text="{Binding Path=FirstName.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+                            </StackLayout>
+
+                            <!--  Last name input group  -->
+                            <StackLayout Spacing="3">
+                                <Label Style="{StaticResource Key=Input_group_title_label}" Text="Last Name" />
+                                <controls:ExtendedContentView BorderColor="{Binding Path=LastName.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}" Style="{StaticResource Key=Input_group_entry_wraper}">
+                                    <controls:EntryEx
+                                        Placeholder="Last Name"
+                                        Style="{StaticResource Key=Input_group_entry}"
+                                        Text="{Binding Path=LastName.Value, Mode=TwoWay}" />
+                                </controls:ExtendedContentView>
+                                <Label
+                                    IsVisible="{Binding Path=LastName.IsValid, Converter={StaticResource Key=Reverce_bool_converter}}"
+                                    Style="{StaticResource Key=ValidationErrorLabelStyle}"
+                                    Text="{Binding Path=LastName.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+                            </StackLayout>
+
+                            <!--  Phone number input group  -->
+                            <StackLayout Spacing="3">
+                                <Label Style="{StaticResource Key=Input_group_title_label}" Text="Phone Number" />
+                                <controls:ExtendedContentView BorderColor="{Binding Path=PhoneNumber.IsValid, Converter={StaticResource Key=Bool_to_entry_wraper_error_border_color_converter}}" Style="{StaticResource Key=Input_group_entry_wraper}">
+                                    <controls:EntryEx
+                                        Placeholder="Enter phone number"
+                                        Style="{StaticResource Key=Input_group_entry}"
+                                        Text="{Binding Path=PhoneNumber.Value, Mode=TwoWay}" />
+                                </controls:ExtendedContentView>
+                                <Label
+                                    IsVisible="{Binding Path=PhoneNumber.IsValid, Converter={StaticResource Key=Reverce_bool_converter}}"
+                                    Style="{StaticResource Key=ValidationErrorLabelStyle}"
+                                    Text="{Binding Path=PhoneNumber.Errors, Converter={StaticResource FirstValidationErrorConverter}}" />
+                            </StackLayout>
+
+                            <!--  About you input group  -->
+                            <StackLayout Spacing="3">
+                                <Label Style="{StaticResource Key=Input_group_title_label}" Text="About" />
+                                <controls:ExtendedContentView HeightRequest="80" Style="{StaticResource Key=Input_group_entry_wraper}">
+                                    <controls:EditorCompounded InputText="{Binding Path=AboutYou.Value, Mode=TwoWay}" Placeholder="About You" />
+                                </controls:ExtendedContentView>
+                            </StackLayout>
+
+                            <!--  My sports input group  -->
+                            <StackLayout Spacing="3">
+                                <Label Style="{StaticResource Key=Input_group_title_label}" Text="My Sports" />
+                                <controls:ExtendedContentView HeightRequest="80" Style="{StaticResource Key=Input_group_entry_wraper}">
+                                    <controls:EditorCompounded InputText="{Binding Path=MySports.Value, Mode=TwoWay}" Placeholder="Your sports" />
+                                </controls:ExtendedContentView>
+                            </StackLayout>
+                        </StackLayout>
+
+                        <!--  Controls spot  -->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!--  Save settings button  -->
+                            <controls:ExtendedContentView
+                                Grid.Column="0"
+                                Padding="0,9"
+                                BackgroundColor="{StaticResource Key=BlueColor}"
+                                CornerRadius="3"
+                                HorizontalOptions="Center"
+                                WidthRequest="130">
+                                <controls:ExtendedContentView.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=SaveCommand}" />
+                                </controls:ExtendedContentView.GestureRecognizers>
+                                <Label
+                                    FontFamily="{StaticResource Key=MontserratBold}"
+                                    HorizontalOptions="Center"
+                                    Text="SAVE"
+                                    TextColor="{StaticResource WhiteColor}"
+                                    VerticalOptions="Center" />
+                            </controls:ExtendedContentView>
+
+                            <!--  Reset settings button  -->
+                            <controls:ExtendedContentView
+                                Grid.Column="1"
+                                Padding="0,9"
+                                BackgroundColor="{StaticResource Key=RedColor}"
+                                CornerRadius="3"
+                                HorizontalOptions="Center"
+                                WidthRequest="130">
+                                <controls:ExtendedContentView.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=ResetCommand}" />
+                                </controls:ExtendedContentView.GestureRecognizers>
+                                <Label
+                                    FontFamily="{StaticResource Key=MontserratBold}"
+                                    HorizontalOptions="Center"
+                                    Text="RESET"
+                                    TextColor="{StaticResource WhiteColor}"
+                                    VerticalOptions="Center" />
+                            </controls:ExtendedContentView>
+                        </Grid>
+                    </StackLayout>
+                </controls:ExtendedContentView>
+            </StackLayout>
+        </ScrollView>
+    </viewBase:ContentPageBase.MainContent>
+</viewBase:ContentPageBase>

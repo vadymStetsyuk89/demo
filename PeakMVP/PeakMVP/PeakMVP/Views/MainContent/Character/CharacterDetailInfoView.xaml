@@ -1,0 +1,397 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<viewBase:ContentPageBase
+    x:Class="PeakMVP.Views.MainContent.Character.CharacterDetailInfoView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:PeakMVP.Behaviors"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:converters="clr-namespace:PeakMVP.Converters"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:stackList="clr-namespace:PeakMVP.Controls.Stacklist"
+    xmlns:viewBase="clr-namespace:PeakMVP.Views.Base"
+    xmlns:viewModelBase="clr-namespace:PeakMVP.ViewModels.Base"
+    viewModelBase:ViewModelLocator.AutoWireViewModel="True">
+
+    <viewBase:ContentPageBase.Resources>
+        <ResourceDictionary>
+            <converters:StringConditionConverter x:Key="name_string_condition_converter" StubForNovalue="Name not specified" />
+            <converters:StringConditionConverter x:Key="email_string_condition_converter" StubForNovalue="Email not specified" />
+            <converters:StringConditionConverter x:Key="phone_string_condition_converter" StubForNovalue="Phone not specified" />
+            <converters:StringConditionConverter x:Key="address_string_condition_converter" StubForNovalue="Address not specified" />
+        </ResourceDictionary>
+    </viewBase:ContentPageBase.Resources>
+
+    <viewBase:ContentPageBase.MainContent>
+        <ScrollView>
+            <controls:PullToRefreshLayout
+                IsPullToRefreshEnabled="True"
+                IsRefreshing="{Binding Path=IsRefreshing, Mode=TwoWay}"
+                RefreshCommand="{Binding Path=RefreshCommand}">
+
+                <Grid RowSpacing="18">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <!--  Profile info and controls scope  -->
+                    <StackLayout Grid.Row="0" Spacing="9">
+
+                        <!--  Avatar scope  -->
+                        <AbsoluteLayout HeightRequest="150">
+                            <ffimageloading:CachedImage
+                                AbsoluteLayout.LayoutBounds=".5,.5"
+                                AbsoluteLayout.LayoutFlags="PositionProportional"
+                                CacheType="All"
+                                HeightRequest="90"
+                                Source="{Binding Path=AvatarURL, Converter={StaticResource Key=User_avatar_converter}}"
+                                WidthRequest="90">
+                                <ffimageloading:CachedImage.Transformations>
+                                    <fftransformations:CircleTransformation />
+                                </ffimageloading:CachedImage.Transformations>
+                            </ffimageloading:CachedImage>
+
+                            <ffimageloadingsvg:SvgCachedImage
+                                AbsoluteLayout.LayoutBounds=".05,.05"
+                                AbsoluteLayout.LayoutFlags="PositionProportional"
+                                CacheType="All"
+                                HeightRequest="32"
+                                Scale="1"
+                                Source="resource://PeakMVP.Images.Svg.ic_arrow_left.svg"
+                                WidthRequest="32">
+                                <ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=BackCommand}" />
+                                </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                            </ffimageloadingsvg:SvgCachedImage>
+
+                            <ffimageloadingsvg:SvgCachedImage
+                                AbsoluteLayout.LayoutBounds="0.95,.95"
+                                AbsoluteLayout.LayoutFlags="PositionProportional"
+                                CacheType="All"
+                                HeightRequest="22"
+                                IsVisible="{Binding Path=EditPermission}"
+                                Scale="1"
+                                Source="resource://PeakMVP.Images.Svg.ic_pencil.svg"
+                                WidthRequest="22">
+                                <ffimageloadingsvg:SvgCachedImage.Behaviors>
+                                    <behaviors:FFColorScaleBehavior Brightness=".5" TargetColor="Gray" />
+                                </ffimageloadingsvg:SvgCachedImage.Behaviors>
+                                <ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=EditCharacterCommand}" />
+                                </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                            </ffimageloadingsvg:SvgCachedImage>
+                        </AbsoluteLayout>
+
+                        <!--  Separator  -->
+                        <BoxView BackgroundColor="{StaticResource Key=GrayBorderColor}" HeightRequest="1" />
+
+                        <Label
+                            HorizontalOptions="Center"
+                            LineBreakMode="WordWrap"
+                            Style="{StaticResource Key=Plain_text_label_style}"
+                            Text="{Binding Path=TitleInfo, Converter={StaticResource Key=Default_string_condition_converter}}"
+                            VerticalOptions="Center" />
+
+                        <!--  Separator  -->
+                        <BoxView BackgroundColor="{StaticResource Key=GrayBorderColor}" HeightRequest="1" />
+
+                    </StackLayout>
+
+                    <!--  Profile details scope  -->
+                    <Grid
+                        Grid.Row="1"
+                        Margin="0,0,0,18"
+                        Padding="20,0"
+                        RowSpacing="9">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="1" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="1" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="1" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="1" />
+                        </Grid.RowDefinitions>
+
+                        <!--  Separator  -->
+                        <BoxView Grid.Row="1" BackgroundColor="{StaticResource Key=GrayBorderColor}" />
+                        <!--  Separator  -->
+                        <BoxView Grid.Row="3" BackgroundColor="{StaticResource Key=GrayBorderColor}" />
+                        <!--  Separator  -->
+                        <BoxView Grid.Row="5" BackgroundColor="{StaticResource Key=GrayBorderColor}" />
+                        <!--  Separator  -->
+                        <BoxView Grid.Row="7" BackgroundColor="{StaticResource Key=GrayBorderColor}" />
+
+                        <!--  Identity scope  -->
+                        <Grid Grid.Row="0" ColumnSpacing="9">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="24" />
+                                <ColumnDefinition Width="24" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label
+                                Grid.Column="0"
+                                LineBreakMode="WordWrap"
+                                Style="{StaticResource Key=Plain_text_label_style}"
+                                Text="{Binding Path=FullName, Converter={StaticResource Key=name_string_condition_converter}}" />
+
+                            <ffimageloadingsvg:SvgCachedImage
+                                Grid.Column="1"
+                                CacheType="All"
+                                HeightRequest="18"
+                                Source="resource://PeakMVP.Images.Svg.ic_hearrt.svg"
+                                WidthRequest="18">
+                                <ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=HeartCommand}" />
+                                </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                            </ffimageloadingsvg:SvgCachedImage>
+
+                            <ffimageloadingsvg:SvgCachedImage
+                                Grid.Column="2"
+                                CacheType="All"
+                                HeightRequest="18"
+                                Source="resource://PeakMVP.Images.Svg.ic_message_empty.svg"
+                                WidthRequest="18">
+                                <ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=MessageCommand}" />
+                                </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                            </ffimageloadingsvg:SvgCachedImage>
+                        </Grid>
+
+                        <!--  Email scope  -->
+                        <Grid Grid.Row="2" ColumnSpacing="9">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="24" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label
+                                Grid.Column="0"
+                                LineBreakMode="WordWrap"
+                                Style="{StaticResource Key=Plain_text_label_style}"
+                                Text="{Binding Path=Email, Converter={StaticResource Key=email_string_condition_converter}}" />
+
+                            <ffimageloadingsvg:SvgCachedImage
+                                Grid.Column="1"
+                                CacheType="All"
+                                HeightRequest="18"
+                                Source="resource://PeakMVP.Images.Svg.ic_mail.svg"
+                                WidthRequest="18">
+                                <ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=MailToCommand}" />
+                                </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                            </ffimageloadingsvg:SvgCachedImage>
+                        </Grid>
+
+                        <!--  Phone scope  -->
+                        <Grid Grid.Row="4" ColumnSpacing="9">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="24" />
+                                <ColumnDefinition Width="24" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label
+                                Grid.Column="0"
+                                LineBreakMode="WordWrap"
+                                Style="{StaticResource Key=Plain_text_label_style}"
+                                Text="{Binding Path=Phone, Converter={StaticResource Key=phone_string_condition_converter}}" />
+
+                            <ffimageloadingsvg:SvgCachedImage
+                                Grid.Column="1"
+                                CacheType="All"
+                                HeightRequest="18"
+                                Source="resource://PeakMVP.Images.Svg.ic_message.svg"
+                                WidthRequest="18">
+                                <ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=SMSCommand}" />
+                                </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                            </ffimageloadingsvg:SvgCachedImage>
+
+                            <ffimageloadingsvg:SvgCachedImage
+                                Grid.Column="2"
+                                CacheType="All"
+                                HeightRequest="18"
+                                Source="resource://PeakMVP.Images.Svg.ic_phone.svg"
+                                WidthRequest="18">
+                                <ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=PhoneCallCommand}" />
+                                </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                            </ffimageloadingsvg:SvgCachedImage>
+                        </Grid>
+
+                        <Label
+                            Grid.Row="6"
+                            LineBreakMode="WordWrap"
+                            Style="{StaticResource Key=Plain_text_label_style}"
+                            Text="{Binding Path=Address, Converter={StaticResource Key=address_string_condition_converter}}" />
+                    </Grid>
+
+                    <stackList:StackList
+                        x:Name="_contactInfoList_StackList"
+                        Grid.Row="2"
+                        ItemsSource="{Binding Path=ContactInfos, Mode=OneWay}"
+                        Spacing="24">
+
+                        <stackList:StackList.ItemTemplate>
+                            <DataTemplate>
+                                <stackList:CommonStackListItem IsOnSelectionVisualChangesEnabled="False" IsSelectable="False">
+                                    <Grid
+                                        Grid.Row="1"
+                                        Padding="20,0"
+                                        RowSpacing="9">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="1" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="1" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="1" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="1" />
+                                        </Grid.RowDefinitions>
+
+                                        <!--  Separator  -->
+                                        <BoxView Grid.Row="1" BackgroundColor="{StaticResource Key=GrayBorderColor}" />
+                                        <!--  Separator  -->
+                                        <BoxView Grid.Row="3" BackgroundColor="{StaticResource Key=GrayBorderColor}" />
+                                        <!--  Separator  -->
+                                        <BoxView Grid.Row="5" BackgroundColor="{StaticResource Key=GrayBorderColor}" />
+                                        <!--  Separator  -->
+                                        <BoxView Grid.Row="7" BackgroundColor="{StaticResource Key=GrayBorderColor}" />
+
+                                        <!--  Identity scope  -->
+                                        <Grid Grid.Row="0" ColumnSpacing="9">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="24" />
+                                                <ColumnDefinition Width="24" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <Label
+                                                Grid.Column="0"
+                                                LineBreakMode="WordWrap"
+                                                Style="{StaticResource Key=Plain_text_label_style}">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{Binding Path=FirstName}" />
+                                                        <Span Text="{Binding Path=FirstName, StringFormat=' {0} |'}" />
+                                                        <Span Text="{Binding Path=GuardianType}" />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+
+                                            <!--<ffimageloadingsvg:SvgCachedImage
+                                                Grid.Column="1"
+                                                CacheType="All"
+                                                HeightRequest="18"
+                                                Source="resource://PeakMVP.Images.Svg.ic_hearrt.svg"
+                                                WidthRequest="18">
+                                                <ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding Path=HeartCommand}" />
+                                                </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                                            </ffimageloadingsvg:SvgCachedImage>-->
+
+                                            <!--<ffimageloadingsvg:SvgCachedImage
+                                                Grid.Column="2"
+                                                CacheType="All"
+                                                HeightRequest="18"
+                                                Source="resource://PeakMVP.Images.Svg.ic_message_empty.svg"
+                                                WidthRequest="18">
+                                                <ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding Path=RemoveContactInfoCommand}" />
+                                                </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                                            </ffimageloadingsvg:SvgCachedImage>-->
+                                        </Grid>
+
+                                        <!--  Email scope  -->
+                                        <Grid Grid.Row="2" ColumnSpacing="9">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="24" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <Label
+                                                Grid.Column="0"
+                                                LineBreakMode="WordWrap"
+                                                Style="{StaticResource Key=Plain_text_label_style}"
+                                                Text="{Binding Path=Email}" />
+
+                                            <ffimageloadingsvg:SvgCachedImage
+                                                Grid.Column="1"
+                                                CacheType="All"
+                                                HeightRequest="18"
+                                                Source="resource://PeakMVP.Images.Svg.ic_mail.svg"
+                                                WidthRequest="18">
+                                                <ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.MailToByContactInfoCommand, Source={Reference Name=_contactInfoList_StackList}}" CommandParameter="{Binding}" />
+                                                </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                                            </ffimageloadingsvg:SvgCachedImage>
+                                        </Grid>
+
+                                        <!--  Phone scope  -->
+                                        <Grid Grid.Row="4" ColumnSpacing="9">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="24" />
+                                                <ColumnDefinition Width="24" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <Label
+                                                Grid.Column="0"
+                                                LineBreakMode="WordWrap"
+                                                Style="{StaticResource Key=Plain_text_label_style}"
+                                                Text="{Binding Path=FirstPhoneNumber}" />
+
+                                            <ffimageloadingsvg:SvgCachedImage
+                                                Grid.Column="1"
+                                                CacheType="All"
+                                                HeightRequest="18"
+                                                Source="resource://PeakMVP.Images.Svg.ic_message.svg"
+                                                WidthRequest="18">
+                                                <ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.SMSByContactInfoCommand, Source={Reference Name=_contactInfoList_StackList}}" CommandParameter="{Binding}" />
+                                                </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                                            </ffimageloadingsvg:SvgCachedImage>
+
+                                            <ffimageloadingsvg:SvgCachedImage
+                                                Grid.Column="2"
+                                                CacheType="All"
+                                                HeightRequest="18"
+                                                Source="resource://PeakMVP.Images.Svg.ic_phone.svg"
+                                                WidthRequest="18">
+                                                <ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.PhoneCallByContactInfoCommand, Source={Reference Name=_contactInfoList_StackList}}" CommandParameter="{Binding}" />
+                                                </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                                            </ffimageloadingsvg:SvgCachedImage>
+                                        </Grid>
+
+                                        <Label
+                                            Grid.Row="6"
+                                            LineBreakMode="WordWrap"
+                                            Style="{StaticResource Key=Plain_text_label_style}">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding Path=Street}" />
+                                                    <Span Text="{Binding Path=City, StringFormat=', {0} '}" />
+                                                    <Span Text="{Binding Path=State, StringFormat=', {0} '}" />
+                                                    <Span Text="{Binding Path=ZipCode, StringFormat=', {0} '}" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                    </Grid>
+                                </stackList:CommonStackListItem>
+                            </DataTemplate>
+                        </stackList:StackList.ItemTemplate>
+                    </stackList:StackList>
+                </Grid>
+            </controls:PullToRefreshLayout>
+
+        </ScrollView>
+    </viewBase:ContentPageBase.MainContent>
+</viewBase:ContentPageBase>

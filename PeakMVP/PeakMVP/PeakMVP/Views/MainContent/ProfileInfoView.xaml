@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<viewBase:ContentPageBase
+    x:Class="PeakMVP.Views.MainContent.ProfileInfoView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:compoundedCarousel="clr-namespace:PeakMVP.Controls.Carousels.CompoundedCarousel"
+    xmlns:compoundedCarouselButtons="clr-namespace:PeakMVP.Controls.Carousels.CompoundedCarousel.Buttons"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:extensions="clr-namespace:PeakMVP.Extensions"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:local="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent.ProfileContent"
+    xmlns:mainContentCompoundedViews="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent"
+    xmlns:viewBase="clr-namespace:PeakMVP.Views.Base"
+    xmlns:viewModelBase="clr-namespace:PeakMVP.ViewModels.Base"
+    viewModelBase:ViewModelLocator.AutoWireViewModel="True">
+
+    <viewBase:ContentPageBase.ActionBar>
+        <mainContentCompoundedViews:ModeActionBar />
+    </viewBase:ContentPageBase.ActionBar>
+
+    <viewBase:ContentPageBase.MainContent>
+        <controls:PullToRefreshLayout
+            IsPullToRefreshEnabled="True"
+            IsRefreshing="{Binding Path=IsRefreshing, Mode=TwoWay}"
+            RefreshCommand="{Binding Path=RefreshCommand}">
+            <Grid Padding="20,40">
+                <controls:ListViewExtended
+                    BackgroundColor="Transparent"
+                    HasUnevenRows="True"
+                    Header="{Binding}"
+                    ItemsSource="{Binding Path=Posts}"
+                    SelectionMode="None"
+                    SeparatorVisibility="None">
+                    <x:Arguments>
+                        <ListViewCachingStrategy>RecycleElement</ListViewCachingStrategy>
+                    </x:Arguments>
+                    <ListView.HeaderTemplate>
+                        <DataTemplate>
+                            <StackLayout Padding="0,0,0,6" Spacing="16">
+
+                                <!--  Common self info  -->
+                                <StackLayout Orientation="Horizontal" Spacing="12">
+                                    <ffimageloading:CachedImage
+                                        CacheType="All"
+                                        HeightRequest="70"
+                                        Source="{Binding Path=Profile, Converter={StaticResource Key=User_avatar_converter}}"
+                                        WidthRequest="70">
+                                        <ffimageloading:CachedImage.Transformations>
+                                            <fftransformations:CircleTransformation />
+                                        </ffimageloading:CachedImage.Transformations>
+                                    </ffimageloading:CachedImage>
+                                    <StackLayout>
+                                        <Label
+                                            LineBreakMode="TailTruncation"
+                                            Style="{StaticResource Key=Title_text_label_style}"
+                                            Text="{Binding Path=Profile.DisplayName}" />
+                                        <Label
+                                            FontSize="{StaticResource MidMediumSize}"
+                                            Text="{Binding Path=AboutProfile}"
+                                            TextColor="{StaticResource BlackColor}" />
+                                    </StackLayout>
+                                </StackLayout>
+
+                                <!--  My sports output  -->
+                                <StackLayout Spacing="2">
+                                    <Label Style="{StaticResource Key=Title_text_label_style}" Text="My Sports" />
+                                    <Label
+                                        IsVisible="{Binding Path=ProfileSports, Converter={StaticResource Key=StringEmptinessToBoolConverter}}"
+                                        Style="{StaticResource Key=Plain_text_label_style}"
+                                        Text="{Binding Path=ProfileSports}" />
+                                </StackLayout>
+
+                                <!--  Status button  -->
+                                <controls:ExtendedContentView
+                                    BackgroundColor="{StaticResource Key=GrayButtonColor}"
+                                    CornerRadius="5"
+                                    HeightRequest="40"
+                                    HorizontalOptions="Start"
+                                    IsVisible="{Binding Path=IsFriendStatusButtonAvailable}"
+                                    WidthRequest="200">
+                                    <controls:ExtendedContentView.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Path=FriendshipStatusCommand}" />
+                                    </controls:ExtendedContentView.GestureRecognizers>
+                                    <Label
+                                        FontFamily="{StaticResource Key=MontserratBold}"
+                                        HorizontalOptions="Center"
+                                        Text="{Binding Path=FriendshipStatus}"
+                                        TextColor="{StaticResource Key=BlackColor}"
+                                        VerticalOptions="Center" />
+                                </controls:ExtendedContentView>
+
+                                <StackLayout Spacing="16" />
+
+                                <!--  Pictures scope  -->
+                                <ContentView IsVisible="{Binding Path=IsProfileFriend}">
+                                    <StackLayout>
+                                        <!--  Scope pictures header  -->
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label
+                                                Style="{StaticResource Key=Title_text_label_style}"
+                                                Text="Pictures"
+                                                VerticalOptions="Center" />
+                                        </StackLayout>
+                                        <!--  Scope content  -->
+                                        <Grid>
+                                            <!--  No elements hint  -->
+                                            <ContentView IsVisible="{Binding Path=ProfilePictures, Converter={StaticResource Key=iList_no_elements_to_bool_converter}}">
+                                                <Label
+                                                    FontFamily="{StaticResource Key=MontserratRegular}"
+                                                    Style="{StaticResource Key=Subtitle_text_label_style}"
+                                                    Text="No items."
+                                                    TextColor="{StaticResource Key=GrayColor}"
+                                                    VerticalTextAlignment="Center" />
+                                            </ContentView>
+                                            <!--  Carousel content  -->
+                                            <Grid Padding="5,0">
+                                                <!--  Carousel  -->
+                                                <compoundedCarousel:CompoundedCarousel
+                                                    x:Name="_picturesCarousel_CompoundedCarousel"
+                                                    ContentHeight="170"
+                                                    IsContentVisible="{Binding Path=ProfilePictures, Converter={StaticResource Key=iList_has_elements_to_bool_converter}}"
+                                                    ItemsSource="{Binding Path=ProfilePictures}">
+                                                    <compoundedCarousel:CompoundedCarousel.ItemDataTemplate>
+                                                        <DataTemplate>
+                                                            <ContentView Padding="15,0">
+                                                                <ContentView.GestureRecognizers>
+                                                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.WatchPicturesCommand, Source={Reference Name=_picturesCarousel_CompoundedCarousel}}" CommandParameter="{Binding}" />
+                                                                </ContentView.GestureRecognizers>
+                                                                <Grid Padding="30,20" BackgroundColor="{StaticResource Key=WhiteColor}">
+                                                                    <AbsoluteLayout HeightRequest="150">
+                                                                        <!--  Image  -->
+                                                                        <ffimageloading:CachedImage
+                                                                            AbsoluteLayout.LayoutBounds="1,1,1,1"
+                                                                            AbsoluteLayout.LayoutFlags="All"
+                                                                            Aspect="AspectFill"
+                                                                            CacheType="All"
+                                                                            Source="{Binding Path=Url}" />
+                                                                    </AbsoluteLayout>
+                                                                </Grid>
+                                                            </ContentView>
+                                                        </DataTemplate>
+                                                    </compoundedCarousel:CompoundedCarousel.ItemDataTemplate>
+                                                    <compoundedCarousel:CompoundedCarousel.ButtonsTemplate>
+                                                        <compoundedCarouselButtons:SquareButton />
+                                                    </compoundedCarousel:CompoundedCarousel.ButtonsTemplate>
+                                                </compoundedCarousel:CompoundedCarousel>
+                                            </Grid>
+                                        </Grid>
+                                    </StackLayout>
+                                </ContentView>
+
+                                <!--  Videos scope  -->
+                                <ContentView IsVisible="{Binding Path=IsProfileFriend}">
+                                    <StackLayout>
+                                        <!--  Scope videos header  -->
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label
+                                                Style="{StaticResource Key=Title_text_label_style}"
+                                                Text="Videos"
+                                                VerticalOptions="Center" />
+                                        </StackLayout>
+                                        <!--  Scope content  -->
+                                        <Grid>
+                                            <!--  No elements hint  -->
+                                            <ContentView IsVisible="{Binding Path=ProfileVideos, Converter={StaticResource Key=iList_no_elements_to_bool_converter}}">
+                                                <Label
+                                                    FontFamily="{StaticResource Key=MontserratRegular}"
+                                                    Style="{StaticResource Key=Subtitle_text_label_style}"
+                                                    Text="No items."
+                                                    TextColor="{StaticResource Key=GrayColor}"
+                                                    VerticalTextAlignment="Center" />
+                                            </ContentView>
+                                            <!--  Videos list  -->
+                                            <Grid Padding="5,0">
+                                                <!--  Carousel  -->
+                                                <compoundedCarousel:CompoundedCarousel
+                                                    x:Name="_videoCarousel_CompoundedCarousel"
+                                                    ContentHeight="170"
+                                                    IsContentVisible="{Binding Path=ProfileVideos, Converter={StaticResource Key=iList_has_elements_to_bool_converter}}"
+                                                    ItemsSource="{Binding Path=ProfileVideos}">
+                                                    <compoundedCarousel:CompoundedCarousel.ItemDataTemplate>
+                                                        <DataTemplate>
+                                                            <ContentView Padding="15,0">
+                                                                <ContentView.GestureRecognizers>
+                                                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.WatchVideoCommand, Source={Reference Name=_videoCarousel_CompoundedCarousel}}" CommandParameter="{Binding}" />
+                                                                </ContentView.GestureRecognizers>
+                                                                <Grid Padding="30,20" BackgroundColor="{StaticResource Key=WhiteColor}">
+                                                                    <AbsoluteLayout HeightRequest="150">
+                                                                        <!--  Image  -->
+                                                                        <ffimageloading:CachedImage
+                                                                            AbsoluteLayout.LayoutBounds="1,1,1,1"
+                                                                            AbsoluteLayout.LayoutFlags="All"
+                                                                            Aspect="AspectFill"
+                                                                            CacheType="All"
+                                                                            Source="{Binding ThumbnailUrl}" />
+                                                                    </AbsoluteLayout>
+                                                                </Grid>
+                                                            </ContentView>
+                                                        </DataTemplate>
+                                                    </compoundedCarousel:CompoundedCarousel.ItemDataTemplate>
+                                                    <compoundedCarousel:CompoundedCarousel.ButtonsTemplate>
+                                                        <compoundedCarouselButtons:SquareButton />
+                                                    </compoundedCarousel:CompoundedCarousel.ButtonsTemplate>
+                                                </compoundedCarousel:CompoundedCarousel>
+                                            </Grid>
+                                        </Grid>
+                                    </StackLayout>
+                                </ContentView>
+
+                                <!--  Profile posts header  -->
+                                <Label
+                                    Margin="0,50,0,0"
+                                    IsVisible="{Binding Path=IsProfileFriend}"
+                                    Style="{StaticResource Key=Title_text_label_style}"
+                                    Text="{Binding Path=Profile.DisplayName, StringFormat=' {0}\'s Posts'}" />
+                            </StackLayout>
+                        </DataTemplate>
+                    </ListView.HeaderTemplate>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <local:PostContentView />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </controls:ListViewExtended>
+            </Grid>
+        </controls:PullToRefreshLayout>
+    </viewBase:ContentPageBase.MainContent>
+</viewBase:ContentPageBase>

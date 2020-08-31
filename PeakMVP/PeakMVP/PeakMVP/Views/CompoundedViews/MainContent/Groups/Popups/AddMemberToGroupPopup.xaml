@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<popups:SinglePopup
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.Groups.Popups.AddMemberToGroupPopup"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:extensions="clr-namespace:PeakMVP.Extensions"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:groupsResources="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent.Groups.Resources"
+    xmlns:mainContentCompoundedViews="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent"
+    xmlns:popups="clr-namespace:PeakMVP.Controls.Popups"
+    xmlns:stackList="clr-namespace:PeakMVP.Controls.Stacklist"
+    xmlns:suggestInput="clr-namespace:PeakMVP.Controls.SuggestInput"
+    VerticalOptions="Start">
+
+    <popups:SinglePopup.Resources>
+        <groupsResources:GroupsCommonResourceDictionary />
+    </popups:SinglePopup.Resources>
+
+    <popups:SinglePopup.Content>
+        <mainContentCompoundedViews:PopupContentWrapper
+            CancelButtonText="CANCEL"
+            CancelCommand="{Binding Path=ClosePopupCommand}"
+            CloseCommand="{Binding Path=ClosePopupCommand}"
+            IsCancelButtonVisible="True"
+            IsSucceedButtonVisible="True"
+            SucceedButtonText="SAVE"
+            SucceedCommand="{Binding Path=AttachMemberToTheCliqueCommand}"
+            TitleText="{Binding Path=Title}"
+            VerticalOptions="Start">
+            <mainContentCompoundedViews:PopupContentWrapper.MainContent>
+
+                <!--  Inputs scope  -->
+                <StackLayout Padding="20,16" Spacing="16">
+
+                    <!--  Suggest input  -->
+                    <suggestInput:SuggestInput
+                        BindingContext="{Binding Path=CommonSearchViewModel, Mode=OneWay}"
+                        BorderColor="{StaticResource Key=GrayBorderColor}"
+                        IsHintEnabled="True"
+                        IsPopoverVisible="{Binding Path=IsMembersSearchPopoverVisible, Mode=TwoWay}"
+                        IsSuggestButtonVisible="True"
+                        ItemSource="{Binding Path=FoundUsersGroups}"
+                        Placeholder="Search Players, Coaches"
+                        PopoverLayouting="LeftBottom"
+                        SelectedItem="{Binding Path=SelectedUsersGroup, Mode=TwoWay}"
+                        StartSuggestionCommand="{Binding Path=StartSuggestionCommand}"
+                        Text="{Binding Path=SearchValue, Mode=TwoWay}">
+                        <suggestInput:SuggestInput.Popover>
+                            <mainContentCompoundedViews:SearchPopover IsHaveSameWidth="True" />
+                        </suggestInput:SuggestInput.Popover>
+                    </suggestInput:SuggestInput>
+
+                    <controls:ExtendedContentView
+                        Padding="0,11"
+                        BackgroundColor="{StaticResource Key=BlueColor}"
+                        CornerRadius="3"
+                        IsVisible="{Binding Path=IsExternalInviteAvailable}">
+                        <controls:ExtendedContentView.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Path=InviteExternalMemberCommand}" />
+                        </controls:ExtendedContentView.GestureRecognizers>
+                        <Label
+                            FontFamily="{StaticResource Key=MontserratBold}"
+                            HorizontalOptions="Center"
+                            Text="Invite external players"
+                            TextColor="{StaticResource WhiteColor}"
+                            VerticalOptions="Center" />
+                    </controls:ExtendedContentView>
+
+                    <stackList:StackList
+                        x:Name="possibleGroupMembers_StackList"
+                        IsVisible="{Binding Path=IsAnyPossibleMembers}"
+                        ItemsSource="{Binding Path=PossibleGroupMembers, Mode=OneWay}"
+                        Spacing="12">
+                        <stackList:StackList.ItemTemplate>
+                            <DataTemplate>
+                                <stackList:CommonStackListItem IsOnSelectionVisualChangesEnabled="False" IsSelectable="False">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <!--  User avatar  -->
+                                        <ffimageloading:CachedImage
+                                            Grid.Column="0"
+                                            CacheType="All"
+                                            HeightRequest="34"
+                                            HorizontalOptions="Center"
+                                            Source="{Binding Path=Avatars, Mode=OneWay, Converter={StaticResource Key=Profile_avatars_to_image_source_converter}}"
+                                            VerticalOptions="Center"
+                                            WidthRequest="34">
+                                            <ffimageloading:CachedImage.Transformations>
+                                                <fftransformations:CircleTransformation />
+                                            </ffimageloading:CachedImage.Transformations>
+                                        </ffimageloading:CachedImage>
+
+                                        <!--  User name, common info  -->
+                                        <StackLayout Grid.Column="1" Spacing="2">
+                                            <StackLayout.Resources>
+                                                <ResourceDictionary>
+                                                    <Style TargetType="Label">
+                                                        <Setter Property="LineBreakMode" Value="TailTruncation" />
+                                                        <Setter Property="FontSize" Value="{StaticResource Key=MidMediumSize}" />
+                                                        <Setter Property="TextColor" Value="{StaticResource Key=MainBlackColor}" />
+                                                    </Style>
+                                                </ResourceDictionary>
+                                            </StackLayout.Resources>
+                                            <Label Text="{Binding Path=DisplayName, Mode=OneWay}" />
+                                            <Label Text="{Binding Path=Type, Mode=OneWay}" TextColor="{StaticResource Key=GrayColor}" />
+                                        </StackLayout>
+
+                                        <!--  Remove button  -->
+                                        <ContentView
+                                            Grid.Column="2"
+                                            HeightRequest="34"
+                                            HorizontalOptions="Center"
+                                            VerticalOptions="Center"
+                                            WidthRequest="34">
+                                            <ContentView.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Source={Reference Name=possibleGroupMembers_StackList}, Path=BindingContext.RemovePossibleGroupMemberCommand, Mode=OneWay}" CommandParameter="{Binding}" />
+                                            </ContentView.GestureRecognizers>
+                                            <ffimageloading:CachedImage CacheType="All" Source="{extensions:ImageResource Source=PeakMVP.Images.ic_delete_bucket.png}" />
+                                        </ContentView>
+                                    </Grid>
+                                </stackList:CommonStackListItem>
+                            </DataTemplate>
+                        </stackList:StackList.ItemTemplate>
+                    </stackList:StackList>
+                </StackLayout>
+            </mainContentCompoundedViews:PopupContentWrapper.MainContent>
+        </mainContentCompoundedViews:PopupContentWrapper>
+    </popups:SinglePopup.Content>
+</popups:SinglePopup>

@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="PeakMVP.Controls.Carousels.CompoundedCarousel.CompoundedCarousel"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:extensions="clr-namespace:PeakMVP.Extensions"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:rainManCarousel="clr-namespace:CarouselView.FormsPlugin.Abstractions;assembly=CarouselView.FormsPlugin.Abstractions"
+    xmlns:xCarousel="clr-namespace:Xamarin.Forms;assembly=Xamarin.Forms.CarouselView">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <AbsoluteLayout x:Name="_mainContent_AbsoluteLayout" Grid.Row="1">
+
+            <!--  Carousel  -->
+            <rainManCarousel:CarouselViewControl
+                x:Name="_carousel_CarouselView"
+                AbsoluteLayout.LayoutBounds="1,1,1,1"
+                AbsoluteLayout.LayoutFlags="All"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand" />
+
+            <!--  Prev button spot  -->
+            <ContentView
+                x:Name="_prevButtonSpot_ContentView"
+                AbsoluteLayout.LayoutBounds="0.01,.5"
+                AbsoluteLayout.LayoutFlags="PositionProportional" />
+
+
+            <!--  Next button spot  -->
+            <ContentView
+                x:Name="_nextButtonSpot_ContentView"
+                AbsoluteLayout.LayoutBounds="0.99,.5"
+                AbsoluteLayout.LayoutFlags="PositionProportional" />
+        </AbsoluteLayout>
+    </Grid>
+</ContentView>

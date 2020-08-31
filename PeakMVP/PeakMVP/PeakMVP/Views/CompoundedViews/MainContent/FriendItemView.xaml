@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<stackListItem:CommonStackListItem
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.FriendItemView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:stackListItem="clr-namespace:PeakMVP.Controls.Stacklist">
+
+    <ContentView Padding="20,5,5,5" BackgroundColor="{StaticResource ExtraLightGrayColor}">
+        <Grid BackgroundColor="{StaticResource WhiteColor}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <ffimageloading:CachedImage
+                Grid.Column="0"
+                Aspect="AspectFill"
+                CacheType="All"
+                Source="{Binding Avatar, Converter={StaticResource StringToURLImageSourceConverter}}">
+                <ffimageloading:CachedImage.Transformations>
+                    <fftransformations:CircleTransformation />
+                </ffimageloading:CachedImage.Transformations>
+            </ffimageloading:CachedImage>
+            <StackLayout Grid.Column="1" Orientation="Horizontal">
+                <Label
+                    FontSize="{StaticResource MidMediumSize}"
+                    Text="{Binding FullName}"
+                    TextColor="{StaticResource BlackColor}"
+                    VerticalOptions="Center" />
+                <Label
+                    FontSize="{StaticResource MidMediumSize}"
+                    Text="{Binding ProfileType}"
+                    TextColor="{StaticResource BlackColor}"
+                    VerticalOptions="Center" />
+            </StackLayout>
+
+        </Grid>
+    </ContentView>
+</stackListItem:CommonStackListItem>

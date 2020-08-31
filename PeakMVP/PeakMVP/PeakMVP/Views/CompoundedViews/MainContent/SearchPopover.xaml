@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<popoversBase:PopoverBase
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.SearchPopover"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:extensions="clr-namespace:PeakMVP.Extensions"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:popoversBase="clr-namespace:PeakMVP.Controls.Popovers.Base"
+    xmlns:stackList="clr-namespace:PeakMVP.Controls.Stacklist"
+    x:Name="_root_PopoverBase">
+
+    <controls:ExtendedContentView
+        BackgroundColor="{StaticResource Key=WhiteColor}"
+        BorderColor="{StaticResource Key=GrayBorderColor}"
+        BorderThickness="1"
+        CornerRadius="3">
+
+        <Grid ColumnSpacing="0" RowSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!--  Hint text  -->
+            <ContentView
+                Grid.Row="0"
+                Padding="15,5"
+                IsVisible="{Binding Source={Reference Name=_root_PopoverBase}, Path=HintText, Converter={StaticResource Key=StringEmptinessToBoolConverter}}">
+                <Label
+                    FontFamily="{StaticResource Key=MontserratRegular}"
+                    FontSize="{StaticResource Key=MidMediumSize}"
+                    Text="{Binding Source={Reference Name=_root_PopoverBase}, Path=HintText, Mode=TwoWay}"
+                    TextColor="{StaticResource Key=GrayColor}" />
+            </ContentView>
+
+            <!--  User groups search output scope  -->
+            <Grid
+                Grid.Row="1"
+                ColumnSpacing="0"
+                IsVisible="{Binding Path=IsFoundGroupSelected, Converter={StaticResource Reverce_bool_converter}}"
+                RowSpacing="0">
+
+                <!--  Found results  -->
+                <stackList:StackList ItemsSource="{Binding Source={Reference Name=_root_PopoverBase}, Path=ItemContext}" SelectedItem="{Binding Source={Reference Name=_root_PopoverBase}, Path=SelectedItem, Mode=TwoWay}">
+                    <stackList:StackList.Resources>
+                        <ResourceDictionary>
+                            <Style x:Key="found_result_label" TargetType="Label">
+                                <Setter Property="FontSize" Value="{StaticResource Key=MidMediumSize}" />
+                                <Setter Property="VerticalTextAlignment" Value="Center" />
+                            </Style>
+                        </ResourceDictionary>
+                    </stackList:StackList.Resources>
+                    <stackList:StackList.ItemTemplate>
+                        <DataTemplate>
+                            <stackList:CommonStackListItem IsOnSelectionVisualChangesEnabled="True" IsSelectable="True">
+                                <Grid ColumnSpacing="0" RowSpacing="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <!--  Separator  -->
+                                    <BoxView
+                                        Grid.Row="0"
+                                        BackgroundColor="{StaticResource Key=GrayBorderColor}"
+                                        HeightRequest="1"
+                                        IsVisible="{Binding Path=IsHaveSeparator}" />
+
+                                    <!--  Found user content  -->
+                                    <StackLayout
+                                        Grid.Row="1"
+                                        Padding="15,5"
+                                        Orientation="Horizontal">
+                                        <ffimageloading:CachedImage
+                                            CacheType="All"
+                                            HeightRequest="21"
+                                            Source="{Binding Path=IconSourcePath, Converter={StaticResource StringToImageSourceConverter}}"
+                                            WidthRequest="16" />
+                                        <Label
+                                            LineBreakMode="TailTruncation"
+                                            Style="{StaticResource Key=found_result_label}"
+                                            Text="{Binding Path=GroupType}" />
+                                        <Label Style="{StaticResource Key=found_result_label}" Text="{Binding Path=UsersCount, StringFormat=' - {0} found'}" />
+                                    </StackLayout>
+                                </Grid>
+                            </stackList:CommonStackListItem>
+                        </DataTemplate>
+                    </stackList:StackList.ItemTemplate>
+                </stackList:StackList>
+            </Grid>
+
+            <!--  Single users list  -->
+            <Grid
+                Grid.Row="2"
+                ColumnSpacing="0"
+                IsVisible="{Binding Path=IsFoundGroupSelected}"
+                RowSpacing="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!--  Step back  -->
+                <StackLayout
+                    Grid.Row="0"
+                    Padding="15,8"
+                    IsVisible="{Binding Path=IsStepBackVisible}"
+                    Orientation="Horizontal">
+                    <ContentView>
+                        <ContentView.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Path=BackToFoundUserGroupsCommand}" />
+                        </ContentView.GestureRecognizers>
+                        <ffimageloading:CachedImage
+                            CacheType="All"
+                            HeightRequest="21"
+                            Source="{extensions:ImageResource PeakMVP.Images.ic_arrow_back.png}"
+                            WidthRequest="21" />
+                    </ContentView>
+                    <Label
+                        FontFamily="{StaticResource Key=MontserratRegular}"
+                        FontSize="{StaticResource Key=MidMediumSize}"
+                        Text="Go back"
+                        TextColor="{StaticResource Key=GrayColor}" />
+                </StackLayout>
+
+                <!--  List of concrete users  -->
+                <stackList:StackList
+                    Grid.Row="1"
+                    ItemsSource="{Binding Path=SelectedUsersGroup.FoundUsers}"
+                    SelectedItem="{Binding Path=SelectedSingleUser, Mode=TwoWay}">
+                    <stackList:StackList.Resources>
+                        <ResourceDictionary>
+                            <Style TargetType="Label">
+                                <Setter Property="FontSize" Value="{StaticResource Key=MidMediumSize}" />
+                                <Setter Property="TextColor" Value="{StaticResource Key=MainBlackColor}" />
+                            </Style>
+                        </ResourceDictionary>
+                    </stackList:StackList.Resources>
+                    <stackList:StackList.ItemTemplate>
+                        <DataTemplate>
+                            <stackList:CommonStackListItem IsOnSelectionVisualChangesEnabled="True" IsSelectable="True">
+                                <Grid ColumnSpacing="6" RowSpacing="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <!--  Separator  -->
+                                    <BoxView
+                                        Grid.Row="0"
+                                        BackgroundColor="{StaticResource Key=GrayBorderColor}"
+                                        HeightRequest="1"
+                                        IsVisible="{Binding Path=IsHaveSeparator}" />
+
+                                    <!--  Single user content  -->
+                                    <Grid
+                                        Grid.Row="1"
+                                        Padding="9,5,15,5"
+                                        ColumnSpacing="0"
+                                        RowSpacing="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <!--  User avatar  -->
+                                        <ContentView Grid.Column="0" Padding="6">
+                                            <ffimageloading:CachedImage
+                                                CacheType="All"
+                                                HeightRequest="34"
+                                                HorizontalOptions="Center"
+                                                Source="{Binding Path=Icon, Converter={StaticResource Key=StringToURLImageSourceConverter}}"
+                                                VerticalOptions="Center"
+                                                WidthRequest="34">
+                                                <ffimageloading:CachedImage.Transformations>
+                                                    <fftransformations:CircleTransformation />
+                                                </ffimageloading:CachedImage.Transformations>
+                                            </ffimageloading:CachedImage>
+                                        </ContentView>
+                                        <StackLayout Grid.Column="1">
+                                            <!--  User display name  -->
+                                            <Label
+                                                LineBreakMode="TailTruncation"
+                                                Text="{Binding Path=DisplayText}"
+                                                VerticalOptions="Start" />
+                                            <!--  User app type  -->
+                                            <Label
+                                                Text="{Binding Path=Type}"
+                                                TextColor="{StaticResource Key=GrayColor}"
+                                                VerticalOptions="End" />
+                                        </StackLayout>
+                                    </Grid>
+                                </Grid>
+                            </stackList:CommonStackListItem>
+                        </DataTemplate>
+                    </stackList:StackList.ItemTemplate>
+                </stackList:StackList>
+            </Grid>
+        </Grid>
+    </controls:ExtendedContentView>
+</popoversBase:PopoverBase>

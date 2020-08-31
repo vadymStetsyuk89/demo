@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<viewBase:ContentPageBase
+    x:Class="PeakMVP.Views.MainContent.Groups.GroupInfoView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:extensions="clr-namespace:PeakMVP.Extensions"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+    xmlns:groupsResources="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent.Groups.Resources"
+    xmlns:mainContentCompoundedViews="clr-namespace:PeakMVP.Views.CompoundedViews.MainContent"
+    xmlns:stackList="clr-namespace:PeakMVP.Controls.Stacklist"
+    xmlns:viewBase="clr-namespace:PeakMVP.Views.Base"
+    xmlns:viewModelBase="clr-namespace:PeakMVP.ViewModels.Base"
+    viewModelBase:ViewModelLocator.AutoWireViewModel="True">
+
+    <viewBase:ContentPageBase.Resources>
+        <groupsResources:GroupsCommonResourceDictionary />
+    </viewBase:ContentPageBase.Resources>
+
+    <viewBase:ContentPageBase.ActionBar>
+        <mainContentCompoundedViews:ModeActionBar />
+    </viewBase:ContentPageBase.ActionBar>
+
+    <viewBase:ContentPageBase.MainContent>
+        <controls:PullToRefreshLayout
+            IsPullToRefreshEnabled="True"
+            IsRefreshing="{Binding Path=IsRefreshing, Mode=TwoWay}"
+            RefreshCommand="{Binding Path=RefreshCommand}">
+            <ScrollView>
+                <StackLayout Padding="0,40" Spacing="21">
+
+                    <!--  Group info  -->
+                    <StackLayout Padding="20,0" Spacing="16">
+                        <StackLayout Orientation="Horizontal" Spacing="12">
+                            <ffimageloading:CachedImage
+                                CacheType="All"
+                                HeightRequest="70"
+                                Source="{extensions:ImageResource Source=PeakMVP.Images.ic_profile-avatar_white.png}"
+                                WidthRequest="70">
+                                <ffimageloading:CachedImage.Transformations>
+                                    <fftransformations:CircleTransformation />
+                                </ffimageloading:CachedImage.Transformations>
+                            </ffimageloading:CachedImage>
+                            <StackLayout>
+                                <Label Style="{StaticResource Key=Title_text_label_style}" Text="{Binding Path=TargetGroup.Name}" />
+                                <Label Style="{StaticResource Key=Plain_text_label_style}" Text="{Binding Path=TargetGroup.GroupType}" />
+
+                                <!--  Remove group button  -->
+                                <controls:ExtendedContentView
+                                    Padding="10,8"
+                                    BackgroundColor="{StaticResource RedDeepColor}"
+                                    CornerRadius="3"
+                                    HorizontalOptions="Start"
+                                    IsVisible="{Binding Path=IsRemoveButtonEnabled}"
+                                    VerticalOptions="Center">
+                                    <controls:ExtendedContentView.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Path=RemoveGroupCommand}" />
+                                    </controls:ExtendedContentView.GestureRecognizers>
+                                    <Label
+                                        FontFamily="{StaticResource Key=MontserratBold}"
+                                        FontSize="{StaticResource MediumSize}"
+                                        Text="REMOVE GROUP"
+                                        TextColor="{StaticResource WhiteColor}" />
+                                </controls:ExtendedContentView>
+                            </StackLayout>
+                        </StackLayout>
+                    </StackLayout>
+
+                    <StackLayout>
+                        <!--  Scope group members header  -->
+                        <StackLayout Padding="20,0" Orientation="Horizontal">
+                            <Label
+                                Style="{StaticResource Key=Title_text_label_style}"
+                                Text="Group members"
+                                VerticalOptions="Center" />
+                            <!--  ADD BUTTON  -->
+                            <ffimageloading:CachedImage
+                                CacheType="All"
+                                HeightRequest="25"
+                                IsVisible="{Binding Path=IsRemoveButtonEnabled, Mode=OneWay}"
+                                Source="{extensions:ImageResource PeakMVP.Images.ic_plus_2.png}"
+                                WidthRequest="25">
+                                <ffimageloading:CachedImage.Transformations>
+                                    <fftransformations:CircleTransformation BorderHexColor="#798897" BorderSize="6" />
+                                </ffimageloading:CachedImage.Transformations>
+                                <ffimageloading:CachedImage.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=ShowAddMemberToGroupPopupCommand}" />
+                                </ffimageloading:CachedImage.GestureRecognizers>
+                            </ffimageloading:CachedImage>
+                        </StackLayout>
+
+                        <!--<ScrollView Orientation="Horizontal">-->
+                        <controls:ExtendedContentView BackgroundColor="{StaticResource Key=WhiteColor}" CornerRadius="3">
+
+                            <!--  Wraper grid  -->
+                            <Grid ColumnSpacing="0" RowSpacing="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="2" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <!--  Headers grid  -->
+                                <Grid Grid.Row="0" Padding="6,7">
+                                    <Grid.Resources>
+                                        <ResourceDictionary>
+                                            <Style BasedOn="{StaticResource Key=Subtitle_text_label_style}" TargetType="Label">
+                                                <Setter Property="VerticalOptions" Value="Center" />
+                                                <Setter Property="LineBreakMode" Value="TailTruncation" />
+                                            </Style>
+                                        </ResourceDictionary>
+                                    </Grid.Resources>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="73" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label
+                                        Grid.Column="0"
+                                        LineBreakMode="CharacterWrap"
+                                        Text="Name" />
+                                    <Label
+                                        Grid.Column="1"
+                                        LineBreakMode="CharacterWrap"
+                                        Text="Role" />
+                                    <Label
+                                        Grid.Column="2"
+                                        LineBreakMode="CharacterWrap"
+                                        Text="Last seen" />
+
+                                    <Label Grid.Column="3" Text="Actions" />
+                                </Grid>
+                                <!--  Separator  -->
+                                <BoxView Grid.Row="1" BackgroundColor="{StaticResource Key=GrayBorderColor}" />
+
+                                <!--  Values grid  -->
+                                <stackList:StackList
+                                    x:Name="_listOfGroupMembers_StackList"
+                                    Grid.Row="2"
+                                    ItemsSource="{Binding Path=GroupMembers, Mode=OneWay}">
+                                    <stackList:StackList.Resources>
+                                        <ResourceDictionary>
+                                            <Style BasedOn="{StaticResource Key=Plain_text_label_style}" TargetType="Label">
+                                                <Setter Property="VerticalOptions" Value="Center" />
+                                                <Setter Property="LineBreakMode" Value="TailTruncation" />
+                                            </Style>
+                                        </ResourceDictionary>
+                                    </stackList:StackList.Resources>
+                                    <stackList:StackList.ItemTemplate>
+                                        <DataTemplate>
+                                            <stackList:CommonStackListItem IsOnSelectionVisualChangesEnabled="False" IsSelectable="False">
+                                                <!--  Grid values  -->
+                                                <Grid Padding="6,7">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="2*" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="73" />
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <Label
+                                                        Grid.Column="0"
+                                                        FormattedText="{Binding Converter={StaticResource Key=group_member_to_formated_string_converter}}"
+                                                        LineBreakMode="CharacterWrap" />
+                                                    <Label
+                                                        Grid.Column="1"
+                                                        LineBreakMode="CharacterWrap"
+                                                        Text="{Binding Path=Profile.Type, Mode=OneWay}" />
+                                                    <Label
+                                                        Grid.Column="2"
+                                                        LineBreakMode="CharacterWrap"
+                                                        Text="{Binding Path=Profile.LastSeen, StringFormat='{0:MMMM d, yyyy}'}" />
+                                                    <Label
+                                                        Grid.Column="3"
+                                                        FontFamily="{StaticResource Key=MontserratBold}"
+                                                        IsVisible="{Binding Path=IsCanBeRemoved}"
+                                                        LineBreakMode="CharacterWrap"
+                                                        Text="Remove"
+                                                        TextColor="{StaticResource Key=RedColor}">
+                                                        <Label.GestureRecognizers>
+                                                            <TapGestureRecognizer Command="{Binding Path=BindingContext.RemoveGroupMemberCommand, Source={Reference Name=_listOfGroupMembers_StackList}}" CommandParameter="{Binding}" />
+                                                        </Label.GestureRecognizers>
+                                                    </Label>
+                                                </Grid>
+                                            </stackList:CommonStackListItem>
+                                        </DataTemplate>
+                                    </stackList:StackList.ItemTemplate>
+                                </stackList:StackList>
+                            </Grid>
+                        </controls:ExtendedContentView>
+                        <!--</ScrollView>-->
+                    </StackLayout>
+                </StackLayout>
+            </ScrollView>
+        </controls:PullToRefreshLayout>
+    </viewBase:ContentPageBase.MainContent>
+</viewBase:ContentPageBase>

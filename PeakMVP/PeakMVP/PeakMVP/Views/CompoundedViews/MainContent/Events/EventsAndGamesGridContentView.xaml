@@ -1,0 +1,614 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.Events.EventsAndGamesGridContentView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:PeakMVP.Behaviors"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:extensions="clr-namespace:PeakMVP.Extensions"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:stackList="clr-namespace:PeakMVP.Controls.Stacklist"
+    x:Name="_root_EventsAndGamesGridContentView">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <Style x:Key="grid_header_label" TargetType="Label">
+                <Setter Property="FontFamily" Value="{StaticResource Key=MontserratBold}" />
+                <Setter Property="FontSize" Value="{StaticResource MidMediumSize}" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="TextColor" Value="{StaticResource Key=GrayColor}" />
+                <Setter Property="VerticalOptions" Value="Center" />
+            </Style>
+
+            <Style x:Key="grid_value_common_label" TargetType="Label">
+                <Setter Property="FontFamily" Value="{StaticResource Key=MontserratRegular}" />
+                <Setter Property="FontSize" Value="{StaticResource LittleSize}" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="TextColor" Value="{StaticResource Key=MainBlackColor}" />
+                <Setter Property="LineBreakMode" Value="TailTruncation" />
+            </Style>
+
+            <Style x:Key="managing_button" TargetType="controls:ButtonControll">
+                <Setter Property="ButtonBorderThickness" Value="1" />
+                <Setter Property="ButtonCornerRadius" Value="3" />
+                <Setter Property="ButtonFontFamily" Value="{StaticResource Key=MontserratBold}" />
+                <Setter Property="ButtonFontSize" Value="{StaticResource Key=MidMediumSize}" />
+                <Setter Property="ButtonTextColor" Value="{StaticResource Key=WhiteColor}" />
+            </Style>
+
+            <x:String x:Key="FormattedDate">{0:MMM dd yyyy}</x:String>
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <Grid RowSpacing="3">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="1" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <BoxView Grid.Row="0" BackgroundColor="{StaticResource Key=GrayBorderColor}" />
+
+        <!--  Column headers scope  -->
+        <Grid
+            Grid.Row="1"
+            Padding="6"
+            ColumnSpacing="0"
+            RowSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <!--<RowDefinition Height="1" />-->
+            </Grid.RowDefinitions>
+
+            <!--  Date  -->
+            <Label
+                Grid.Row="0"
+                Grid.Column="0"
+                Style="{StaticResource grid_header_label}"
+                Text="Date" />
+
+            <!--  Name, details info  -->
+            <Grid
+                Grid.Row="0"
+                Grid.Column="1"
+                ColumnSpacing="0"
+                HorizontalOptions="Center"
+                RowSpacing="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <ffimageloading:CachedImage
+                    Grid.Column="0"
+                    CacheType="All"
+                    HeightRequest="15"
+                    HorizontalOptions="Center"
+                    Source="{extensions:ImageResource Source=PeakMVP.Images.ic_flag.png}"
+                    VerticalOptions="Center"
+                    WidthRequest="15">
+                    <ffimageloading:CachedImage.Behaviors>
+                        <behaviors:FFColorScaleBehavior Brightness=".5" TargetColor="Gray" />
+                    </ffimageloading:CachedImage.Behaviors>
+                </ffimageloading:CachedImage>
+
+                <StackLayout
+                    Grid.Column="1"
+                    Orientation="Horizontal"
+                    Spacing="2"
+                    VerticalOptions="Center">
+                    <Label Style="{StaticResource grid_header_label}" Text="Game/" />
+                    <Label Style="{StaticResource grid_header_label}" Text="Event" />
+                </StackLayout>
+            </Grid>
+        </Grid>
+
+        <!--  Separator  -->
+        <BoxView Grid.Row="2" BackgroundColor="{StaticResource GrayBorderColor}" />
+
+        <!--  Values  scope  -->
+        <stackList:StackList
+            x:Name="_gamesEvensListValues_StackList"
+            Grid.Row="3"
+            Spacing="9">
+            <stackList:StackList.ItemTemplate>
+                <DataTemplate>
+                    <stackList:CommonStackListItem IsOnSelectionVisualChangesEnabled="False" IsSelectable="False">
+                        <Grid
+                            Padding="6"
+                            ColumnSpacing="0"
+                            RowSpacing="3">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="60" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!--  Date  -->
+                            <controls:ExtendedContentView
+                                Grid.Column="0"
+                                Padding="3"
+                                BackgroundColor="{StaticResource Key=ExtraLightGrayColor}"
+                                CornerRadius="5"
+                                VerticalOptions="Start">
+                                <Grid RowSpacing="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Label
+                                        Grid.Row="0"
+                                        FontFamily="{StaticResource Key=MontserratBold}"
+                                        FontSize="{StaticResource Key=LargeSize}"
+                                        HorizontalOptions="Center"
+                                        Text="{Binding ScheduledAction.StartDate, StringFormat='{0:dd}'}"
+                                        TextColor="{StaticResource BlackColor}" />
+
+                                    <Label
+                                        Grid.Row="1"
+                                        FontFamily="{StaticResource Key=MontserratBold}"
+                                        FontSize="{StaticResource MidMediumSize}"
+                                        HorizontalOptions="Center"
+                                        Text="{Binding ScheduledAction.StartDate, StringFormat='{0:MMM}'}"
+                                        TextColor="{StaticResource Key=GrayColor}" />
+                                </Grid>
+                            </controls:ExtendedContentView>
+
+                            <!--  Name, details info  -->
+                            <Grid
+                                Grid.Column="1"
+                                Padding="3"
+                                RowSpacing="3">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackLayout Grid.Column="0" Spacing="3">
+                                    <!--  Time  -->
+                                    <Label
+                                        Grid.Row="0"
+                                        FontFamily="{StaticResource Key=MontserratBold}"
+                                        FontSize="18"
+                                        FormattedText="{Binding Path=Time}"
+                                        TextColor="{StaticResource Key=BlackColor}" />
+
+                                    <!--  Name  -->
+                                    <StackLayout
+                                        Grid.Row="1"
+                                        Orientation="Horizontal"
+                                        Spacing="3">
+                                        <ffimageloading:CachedImage
+                                            CacheType="All"
+                                            HeightRequest="10"
+                                            Source="{extensions:ImageResource Source=PeakMVP.Images.ic_flag.png}"
+                                            WidthRequest="10" />
+
+                                        <ffimageloading:CachedImage
+                                            CacheType="All"
+                                            HeightRequest="8"
+                                            IsVisible="{Binding IsRepeatable}"
+                                            Source="{extensions:ImageResource Source=PeakMVP.Images.ic_spinner_arrow.png}"
+                                            WidthRequest="8" />
+                                        <Label
+                                            FontFamily="{StaticResource Key=MontserratRegular}"
+                                            FontSize="13"
+                                            TextColor="{StaticResource Key=GrayColor}">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding Path=Header}" TextColor="{StaticResource Key=BlackColor}" />
+                                                    <Span Text="{Binding Path=ActionType, StringFormat=' ({0})'}" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                    </StackLayout>
+
+                                    <!--  Location  -->
+                                    <StackLayout
+                                        Grid.Row="2"
+                                        Orientation="Horizontal"
+                                        Spacing="3">
+                                        <ffimageloading:CachedImage
+                                            CacheType="All"
+                                            HeightRequest="12"
+                                            Source="{extensions:ImageResource Source=PeakMVP.Images.ic_location.png}"
+                                            WidthRequest="12">
+                                            <ffimageloading:CachedImage.Behaviors>
+                                                <behaviors:FFColorScaleBehavior Brightness=".5" TargetColor="Gray" />
+                                            </ffimageloading:CachedImage.Behaviors>
+                                        </ffimageloading:CachedImage>
+
+                                        <Label
+                                            FontFamily="{StaticResource Key=MontserratBold}"
+                                            FontSize="13"
+                                            LineBreakMode="TailTruncation"
+                                            Text="{Binding Path=ScheduledAction.Location.Name}"
+                                            TextColor="{StaticResource Key=BlueColor}" />
+                                    </StackLayout>
+
+                                    <Label
+                                        Grid.Row="3"
+                                        FontFamily="{StaticResource Key=MontserratRegular}"
+                                        FontSize="13"
+                                        LineBreakMode="WordWrap"
+                                        Text="{Binding Path=ScheduledAction.LocationDetails}"
+                                        TextColor="{StaticResource Key=GrayColor}" />
+                                </StackLayout>
+
+                                <StackLayout
+                                    Grid.Column="1"
+                                    IsVisible="{Binding IsManagementAvailable, Source={Reference Name=_root_EventsAndGamesGridContentView}}"
+                                    VerticalOptions="Start">
+                                    <controls:ExtendedContentView
+                                        Padding="0,6"
+                                        BackgroundColor="{StaticResource Key=MainBackgroundColor}"
+                                        BorderColor="{StaticResource Key=GrayBorderColor}"
+                                        CornerRadius="3"
+                                        WidthRequest="70">
+                                        <controls:ExtendedContentView.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Path=BindingContext.EditGameEventCommand, Source={Reference Name=_gamesEvensListValues_StackList}}" CommandParameter="{Binding Path=ScheduledAction}" />
+                                        </controls:ExtendedContentView.GestureRecognizers>
+                                        <Label
+                                            FontFamily="{StaticResource Key=MontserratBold}"
+                                            FontSize="{StaticResource Key=MidMediumSize}"
+                                            HorizontalOptions="Center"
+                                            Text="EDIT"
+                                            TextColor="{StaticResource Key=GrayColor}"
+                                            VerticalOptions="Center" />
+                                    </controls:ExtendedContentView>
+
+                                    <!--<controls:ExtendedContentView
+                                        Margin="2"
+                                        BackgroundColor="{StaticResource Key=RedColor}"
+                                        BorderColor="{StaticResource Key=RedColor}"
+                                        CornerRadius="3"
+                                        WidthRequest="70">
+                                        <controls:ExtendedContentView.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Path=BindingContext.DeleteScheduledActionCommand, Source={Reference Name=_gamesEvensListValues_StackList}}" CommandParameter="{Binding Path=ScheduledAction}" />
+                                        </controls:ExtendedContentView.GestureRecognizers>
+                                        <Label
+                                            FontFamily="{StaticResource Key=MontserratBold}"
+                                            FontSize="{StaticResource Key=MidMediumSize}"
+                                            HorizontalOptions="Center"
+                                            Text="DELETE"
+                                            TextColor="{StaticResource Key=WhiteColor}"
+                                            VerticalOptions="Center" />
+                                    </controls:ExtendedContentView>-->
+                                </StackLayout>
+                            </Grid>
+
+                        </Grid>
+                    </stackList:CommonStackListItem>
+                </DataTemplate>
+            </stackList:StackList.ItemTemplate>
+        </stackList:StackList>
+    </Grid>
+</ContentView>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<?xml version="1.0" encoding="UTF-8" ?>
+<ContentView
+    x:Class="PeakMVP.Views.CompoundedViews.MainContent.Events.EventsAndGamesGridContentView"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:PeakMVP.Behaviors"
+    xmlns:controls="clr-namespace:PeakMVP.Controls"
+    xmlns:extensions="clr-namespace:PeakMVP.Extensions"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:stackList="clr-namespace:PeakMVP.Controls.Stacklist"
+    x:Name="_root_EventsAndGamesGridContentView">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <Style x:Key="grid_header_label" TargetType="Label">
+                <Setter Property="FontFamily" Value="{StaticResource Key=MontserratBold}" />
+                <Setter Property="FontSize" Value="{StaticResource LittleSize}" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="TextColor" Value="{StaticResource Key=GrayColor}" />
+                <Setter Property="VerticalOptions" Value="Center" />
+            </Style>
+
+            <Style x:Key="grid_value_common_label" TargetType="Label">
+                <Setter Property="FontFamily" Value="{StaticResource Key=MontserratRegular}" />
+                <Setter Property="FontSize" Value="{StaticResource LittleSize}" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="TextColor" Value="{StaticResource Key=MainBlackColor}" />
+                <Setter Property="LineBreakMode" Value="TailTruncation" />
+            </Style>
+
+            <Style x:Key="managing_button" TargetType="controls:ButtonControll">
+                <Setter Property="ButtonBorderThickness" Value="1" />
+                <Setter Property="ButtonCornerRadius" Value="3" />
+                <Setter Property="ButtonFontFamily" Value="{StaticResource Key=MontserratBold}" />
+                <Setter Property="ButtonFontSize" Value="{StaticResource Key=MidMediumSize}" />
+                <Setter Property="ButtonTextColor" Value="{StaticResource Key=WhiteColor}" />
+            </Style>
+
+            <x:String x:Key="FormattedDate">{0:MMM dd yyyy}</x:String>
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <Grid RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <BoxView Grid.Row="0" BackgroundColor="{StaticResource Key=GrayBorderColor}" />-->
+<!--  Column headers scope  -->
+<!--
+        <Grid Grid.Row="1" ColumnSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="60" />
+                <ColumnDefinition Width="60" />
+                <ColumnDefinition Width="1" />
+                <ColumnDefinition Width="75" />
+            </Grid.ColumnDefinitions>-->
+<!--  Name, details info  -->
+<!--
+            <Grid
+                Grid.Column="0"
+                ColumnSpacing="0"
+                HorizontalOptions="Center"
+                RowSpacing="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <ffimageloading:CachedImage
+                    Grid.Column="0"
+                    CacheType="All"
+                    HeightRequest="15"
+                    HorizontalOptions="Center"
+                    Source="{extensions:ImageResource Source=PeakMVP.Images.ic_flag.png}"
+                    VerticalOptions="Center"
+                    WidthRequest="15">
+                    <ffimageloading:CachedImage.Behaviors>
+                        <behaviors:FFColorScaleBehavior Brightness=".5" TargetColor="Gray" />
+                    </ffimageloading:CachedImage.Behaviors>
+                </ffimageloading:CachedImage>
+
+                <StackLayout
+                    Grid.Column="1"
+                    Orientation="Horizontal"
+                    Spacing="2"
+                    VerticalOptions="Center">
+                    <Label Style="{StaticResource grid_header_label}" Text="Game/" />
+                    <Label Style="{StaticResource grid_header_label}" Text="Event" />
+                </StackLayout>
+            </Grid>-->
+<!--  Time  -->
+<!--
+            <Label
+                Grid.Column="1"
+                Style="{StaticResource grid_header_label}"
+                Text="Time"
+                TranslationX="-5" />-->
+<!--  Date  -->
+<!--
+            <Label
+                Grid.Column="2"
+                Style="{StaticResource grid_header_label}"
+                Text="Date" />-->
+<!--  Separator  -->
+<!--
+            <BoxView
+                x:Name="_managingTitleSeparator_BoxView"
+                Grid.Column="3"
+                BackgroundColor="{StaticResource GrayBorderColor}" />-->
+<!--  Managing scope  -->
+<!--
+            <Label
+                x:Name="_managingTitle_Label"
+                Grid.Column="4"
+                Style="{StaticResource grid_header_label}"
+                Text="Manager" />
+        </Grid>-->
+<!--  Values  scope  -->
+<!--
+        <stackList:StackList x:Name="_gamesEvensListValues_StackList" Grid.Row="2">
+            <stackList:StackList.ItemTemplate>
+                <DataTemplate>
+                    <stackList:CommonStackListItem IsOnSelectionVisualChangesEnabled="False" IsSelectable="False">
+                        <Grid ColumnSpacing="0" RowSpacing="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="60" />
+                                <ColumnDefinition Width="60" />
+                                <ColumnDefinition Width="1" />
+                                <ColumnDefinition Width="75" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>-->
+<!--  Separator  -->
+<!--
+                            <BoxView
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="5"
+                                BackgroundColor="{StaticResource GrayBorderColor}" />-->
+<!--  Name, details info  -->
+<!--
+                            <ContentView Grid.Row="1" Grid.Column="0">
+                                <StackLayout Spacing="0">
+                                    <Grid
+                                        Margin="5,0,0,0"
+                                        RowSpacing="0"
+                                        VerticalOptions="Center">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                        </Grid.RowDefinitions>
+
+                                        <StackLayout
+                                            Grid.Row="0"
+                                            HorizontalOptions="Center"
+                                            Orientation="Horizontal"
+                                            Spacing="1"
+                                            TranslationY="2">
+                                            <ffimageloading:CachedImage
+                                                CacheType="All"
+                                                HeightRequest="10"
+                                                Source="{extensions:ImageResource Source=PeakMVP.Images.ic_flag.png}"
+                                                WidthRequest="10" />
+
+                                            <ffimageloading:CachedImage
+                                                CacheType="All"
+                                                HeightRequest="8"
+                                                IsVisible="{Binding IsRepeatable}"
+                                                Source="{extensions:ImageResource Source=PeakMVP.Images.ic_spinner_arrow.png}"
+                                                WidthRequest="8" />
+
+                                            <Label Style="{StaticResource grid_value_common_label}" Text="{Binding Path=Header}" />
+                                        </StackLayout>
+
+                                        <Label
+                                            Grid.Row="1"
+                                            FontSize="{StaticResource ExtraSmallSize}"
+                                            HorizontalOptions="Center"
+                                            LineBreakMode="NoWrap"
+                                            Style="{StaticResource grid_value_common_label}"
+                                            Text="{Binding ActionType, StringFormat='({0})'}"
+                                            TextColor="{StaticResource GrayColor}"
+                                            TranslationY="-2" />
+                                    </Grid>
+
+                                    <StackLayout
+                                        HorizontalOptions="Center"
+                                        Orientation="Horizontal"
+                                        Spacing="0">
+                                        <ffimageloading:CachedImage
+                                            CacheType="All"
+                                            HeightRequest="12"
+                                            Source="{extensions:ImageResource Source=PeakMVP.Images.ic_location.png}"
+                                            WidthRequest="12">
+                                            <ffimageloading:CachedImage.Behaviors>
+                                                <behaviors:FFColorScaleBehavior Brightness=".5" TargetColor="Gray" />
+                                            </ffimageloading:CachedImage.Behaviors>
+                                        </ffimageloading:CachedImage>
+
+                                        <Label
+                                            FontFamily="{StaticResource Key=MontserratBold}"
+                                            Style="{StaticResource Key=grid_value_common_label}"
+                                            Text="{Binding Path=ScheduledAction.Location.Name}"
+                                            TextColor="{StaticResource Key=BlueColor}" />
+                                    </StackLayout>
+
+                                    <Label
+                                        FontSize="{StaticResource ExtraSmallSize}"
+                                        HorizontalOptions="Center"
+                                        Style="{StaticResource grid_value_common_label}"
+                                        Text="{Binding ScheduledAction.LocationDetails}"
+                                        TextColor="{StaticResource GrayColor}"
+                                        TranslationY="-2" />
+                                </StackLayout>
+                            </ContentView>-->
+<!--  Time  -->
+<!--
+                            <ContentView Grid.Row="1" Grid.Column="1">
+                                <Label
+                                    FontSize="{StaticResource ExtraSmallSize}"
+                                    FormattedText="{Binding Time}"
+                                    HorizontalOptions="Center"
+                                    LineBreakMode="WordWrap"
+                                    Style="{StaticResource grid_value_common_label}"
+                                    TextColor="{StaticResource GrayColor}" />
+                            </ContentView>-->
+<!--  Date  -->
+<!--
+                            <ContentView Grid.Row="1" Grid.Column="2">
+                                <Label
+                                    FontSize="{StaticResource ExtraSmallSize}"
+                                    HorizontalOptions="Center"
+                                    Style="{StaticResource grid_value_common_label}"
+                                    Text="{Binding ScheduledAction.StartDate, StringFormat={StaticResource FormattedDate}}" />
+                            </ContentView>-->
+<!--  Separator  -->
+<!--
+                            <BoxView
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Grid.Column="3"
+                                BackgroundColor="{StaticResource GrayBorderColor}"
+                                IsVisible="{Binding Path=IsManagementAvailable, Source={Reference Name=_root_EventsAndGamesGridContentView}}"
+                                WidthRequest="1" />-->
+<!--  Managing scope  -->
+<!--
+                            <ContentView
+                                Grid.Row="1"
+                                Grid.Column="4"
+                                IsVisible="{Binding IsManagementAvailable, Source={Reference Name=_root_EventsAndGamesGridContentView}}">
+                                <Grid RowSpacing="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <controls:ExtendedContentView
+                                        Grid.Row="0"
+                                        Margin="2"
+                                        BackgroundColor="{StaticResource Key=MainBackgroundColor}"
+                                        BorderColor="{StaticResource Key=GrayBorderColor}"
+                                        CornerRadius="3"
+                                        WidthRequest="70">
+                                        <controls:ExtendedContentView.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Path=BindingContext.EditGameEventCommand, Source={Reference Name=_gamesEvensListValues_StackList}}" CommandParameter="{Binding Path=ScheduledAction}" />
+                                        </controls:ExtendedContentView.GestureRecognizers>
+                                        <Label
+                                            FontFamily="{StaticResource Key=MontserratBold}"
+                                            FontSize="{StaticResource Key=MidMediumSize}"
+                                            HorizontalOptions="Center"
+                                            Text="EDIT"
+                                            TextColor="{StaticResource Key=GrayColor}"
+                                            VerticalOptions="Center" />
+                                    </controls:ExtendedContentView>
+
+                                    <controls:ExtendedContentView
+                                        Grid.Row="1"
+                                        Margin="2"
+                                        BackgroundColor="{StaticResource Key=RedColor}"
+                                        BorderColor="{StaticResource Key=RedColor}"
+                                        CornerRadius="3"
+                                        WidthRequest="70">
+                                        <controls:ExtendedContentView.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Path=BindingContext.DeleteScheduledActionCommand, Source={Reference Name=_gamesEvensListValues_StackList}}" CommandParameter="{Binding Path=ScheduledAction}" />
+                                        </controls:ExtendedContentView.GestureRecognizers>
+                                        <Label
+                                            FontFamily="{StaticResource Key=MontserratBold}"
+                                            FontSize="{StaticResource Key=MidMediumSize}"
+                                            HorizontalOptions="Center"
+                                            Text="DELETE"
+                                            TextColor="{StaticResource Key=WhiteColor}"
+                                            VerticalOptions="Center" />
+                                    </controls:ExtendedContentView>
+                                </Grid>
+                            </ContentView>
+                        </Grid>
+                    </stackList:CommonStackListItem>
+                </DataTemplate>
+            </stackList:StackList.ItemTemplate>
+        </stackList:StackList>
+    </Grid>
+</ContentView>-->
